@@ -13,7 +13,15 @@ public class Bidding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="auction_id")
+    private Auction auctionId;
 
-    private UserAccount userAccount;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private UserAccount biddingUser;
+
+    @Column(name = "amount")
+    private Long amount;
 
 }

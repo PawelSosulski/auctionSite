@@ -1,5 +1,6 @@
 package com.auction.data.model;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,4 +30,5 @@ public class Auction {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
-}
+
+
