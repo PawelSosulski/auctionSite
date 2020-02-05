@@ -1,14 +1,16 @@
 package com.auction.data.model;
 
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "auctions")
-@Getter @Setter
+@Data
 public class Auction {
 
     @Id
@@ -24,7 +26,7 @@ public class Auction {
     @Column(name = "start_price", nullable = false)
     private Double startPrice;
 
-    @Column (name = "buy_now_price", nullable = false)
+    @Column(name = "buy_now_price", nullable = false)
     private Double buyNowPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -32,3 +34,5 @@ public class Auction {
     private Category category;
 
 
+
+}

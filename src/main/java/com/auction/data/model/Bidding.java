@@ -17,7 +17,7 @@ public class Bidding {
     @JoinColumn(name="auction_id")
     private Auction auctionId;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserAccount biddingUser;
 

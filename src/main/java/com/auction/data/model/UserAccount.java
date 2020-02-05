@@ -2,15 +2,19 @@ package com.auction.data.model;
 
 import com.auction.utils.enums.AccountStatus;
 import com.auction.utils.enums.AccountType;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Getter @Setter
+@Data
 public class UserAccount {
 
     @Id
@@ -46,5 +50,17 @@ public class UserAccount {
 
     @Column(nullable = false)
     private AccountType type;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "buyerUser")
+    private List<Purchase> purchases;
+
+    @ManyToMany
+    @JoinTable(name = "observe_auction", // Wskazujemy wprost nazwę tabeli mapująej
+            joinColumns = @JoinColumn(name = "user_id"), // nazwę pola referencji do encji UserAccount
+            inverseJoinColumns = @JoinColumn(name = "auction_id") // oraz nazwę pola referencji do encji Auction
+    )
+    private Set<Auction> observeAuction = new HashSet<>();
+
+
 
 }

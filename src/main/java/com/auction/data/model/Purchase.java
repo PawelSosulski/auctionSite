@@ -18,7 +18,7 @@ public class Purchase {
     private Auction auction;
 
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private UserAccount buyerUser;
 

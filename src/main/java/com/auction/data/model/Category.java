@@ -1,5 +1,6 @@
 package com.auction.data.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "categories")
-@Getter @Setter
+@Data
 public class Category {
 
     @Id
