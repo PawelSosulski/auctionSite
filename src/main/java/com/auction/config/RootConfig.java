@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
-@ComponentScan(basePackages = "com.auction.core",
+@ComponentScan(basePackages = "com.auction",
         excludeFilters = {
                 @ComponentScan.Filter(
                         type = FilterType.ANNOTATION,

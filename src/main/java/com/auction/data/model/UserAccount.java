@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -36,14 +37,23 @@ public class UserAccount {
     @Column(nullable = false)
     private String street;
 
+    @Column(nullable = false)
+    private Long streetNumber;
+
     @Column(name = "zip_code", nullable = false)
     private String zipCode;
 
     @Column(nullable = false)
     private String province;
 
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String lastName;
+
     @Column(name = "created_at", nullable = false)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     private AccountStatus status;
@@ -55,7 +65,7 @@ public class UserAccount {
     private List<Purchase> purchases;
 
     @ManyToMany
-    @JoinTable(name = "observe_auction", // Wskazujemy wprost nazwę tabeli mapująej
+    @JoinTable(name = "observe_auction", // Wskazujemy wprost nazwę tabeli mapującej
             joinColumns = @JoinColumn(name = "user_id"), // nazwę pola referencji do encji UserAccount
             inverseJoinColumns = @JoinColumn(name = "auction_id") // oraz nazwę pola referencji do encji Auction
     )
