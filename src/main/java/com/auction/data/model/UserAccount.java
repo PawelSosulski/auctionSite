@@ -65,11 +65,18 @@ public class UserAccount {
     private List<Purchase> purchases;
 
     @ManyToMany
-    @JoinTable(name = "observe_auction", // Wskazujemy wprost nazwę tabeli mapującej
+    @JoinTable(name = "observe_auctions", // Wskazujemy wprost nazwę tabeli mapującej
             joinColumns = @JoinColumn(name = "user_id"), // nazwę pola referencji do encji UserAccount
             inverseJoinColumns = @JoinColumn(name = "auction_id") // oraz nazwę pola referencji do encji Auction
     )
-    private Set<Auction> observeAuction = new HashSet<>();
+    private Set<Auction> observeAuctions = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "users_auctions", // Wskazujemy wprost nazwę tabeli mapującej
+            joinColumns = @JoinColumn(name = "user_id"), // nazwę pola referencji do encji UserAccount
+            inverseJoinColumns = @JoinColumn(name = "auction_id") // oraz nazwę pola referencji do encji Auction
+    )
+    private Set<Auction> myAuctions = new HashSet<>();
 
 
 

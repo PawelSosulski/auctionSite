@@ -1,8 +1,9 @@
 <div>
 <ul>
-    <li>Item 1</li>
-    <li>Item 2</li>
-    <li>Item 3</li>
-    <li>Item 4</li>
+    <li><a href="/">Main site</a></li>
+    <li><a href="/register">Register</a></li>
+    <li><a href="/login">Login</a> </li>
+    <li><a href="/logout">Logout</a></li>
+    <li><a href="/auction">Auctions</a></li>
 </ul>
 </div>

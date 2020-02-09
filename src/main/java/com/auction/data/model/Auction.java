@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigInteger;
 import java.util.Set;
 
 @Entity
@@ -24,14 +25,18 @@ public class Auction {
     private String description;
 
     @Column(name = "start_price", nullable = false)
-    private Double startPrice;
+    private BigInteger startPrice;
 
     @Column(name = "buy_now_price", nullable = false)
-    private Double buyNowPrice;
+    private BigInteger buyNowPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "seller_id")
+    private UserAccount seller;
 
 
 

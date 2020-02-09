@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/register")
-public class RegisterPage {
+public class RegisterPageController {
     private UserService userService;
     private UserValidator userValidator;
 
     @Autowired
-    public RegisterPage(UserService userService, UserValidator userValidator) {
+    public RegisterPageController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
         this.userValidator=userValidator;
     }
