@@ -7,6 +7,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import javax.sql.DataSource;
 
@@ -16,10 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    public DataSource dataSource() {
+    DataSource dataSource() {
         DriverManagerDataSource dm = new DriverManagerDataSource();
         dm.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dm.setUrl("jdbc:mysql://localhost:3306/auction_db?serverTimeZone=UTC");
+        dm.setUrl("jdbc:mysql://localhost:3306/auction_db?serverTimezone=UTC");
         dm.setUsername("root");
         dm.setPassword("root");
         return dm;
@@ -28,10 +32,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").permitAll();
+        http.authorizeRequests()
+                .antMatchers("/").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/logout").authenticated()
+                .antMatchers("/register").anonymous()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .and().csrf().disable();
     }
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication()
+                .dataSource(dataSource())
+                //TODO - Aktywność
+                .usersByUsernameQuery("Select login, password, true FROM users WHERE login=?")
+                //TODO  - ROLE !
+                .authoritiesByUsernameQuery("Select login, USER FROM users WHERE login=?");
 
     }
 }

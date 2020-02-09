@@ -4,13 +4,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
-@RequestMapping("/")
-public class initPage {
+@RequestMapping("/login")
+public class LoginPage {
 
     @GetMapping
-    public String start(){
-        return "start";
+    public String initLoginPage() {
+        return "login";
     }
 
 }
