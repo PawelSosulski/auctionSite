@@ -1,6 +1,7 @@
 package com.auction.config;
 
 import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -14,14 +15,14 @@ import java.util.List;
 public class BeansConfig {
 
     @Bean
-    public DozerBeanMapper dozerBean() {
+    public Mapper mapper() {
         List<String> mappingFiles = Arrays.asList(
                 "META-INF/dozer-configration-mapping.xml"
         );
 
-        DozerBeanMapper dozerBean = new DozerBeanMapper();
-        dozerBean.setMappingFiles(mappingFiles);
-        return dozerBean;
+        DozerBeanMapper mapper = new DozerBeanMapper();
+        mapper.setMappingFiles(mappingFiles);
+        return mapper;
     }
 
     @Bean(name="messageSource")

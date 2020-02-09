@@ -4,8 +4,8 @@ import com.auction.data.model.UserAccount;
 import com.auction.data.repositories.UserAccountRepository;
 import com.auction.dto.LoggedUserDTO;
 import com.auction.dto.NewUserDTO;
-import org.apache.catalina.mapper.Mapper;
-import org.dozer.DozerBeanMapper;
+
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,12 +18,12 @@ import java.util.List;
 public class UserService {
 
     private UserAccountRepository userAccountRepository;
-    private DozerBeanMapper mapper;
+    private Mapper mapper;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserAccountRepository userAccountRepository,
-                       DozerBeanMapper mapper, PasswordEncoder passwordEncoder) {
+                       Mapper mapper, PasswordEncoder passwordEncoder) {
         this.userAccountRepository = userAccountRepository;
         this.mapper = mapper;
         this.passwordEncoder = passwordEncoder;
