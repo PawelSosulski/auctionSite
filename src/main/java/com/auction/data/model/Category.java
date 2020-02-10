@@ -19,9 +19,12 @@ public class Category {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private List<Auction> auctions;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
     private String description;
+
+    @Column(name = "parent_id", nullable = false)
+    private Long parentId;
 }
