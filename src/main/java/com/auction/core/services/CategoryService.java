@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -53,5 +56,19 @@ public class CategoryService {
             categoryDTOList.add(categoryDTO);
         });
         return categoryDTOList;
+    }
+
+    public CategoryDTO findCategoryById(Long id) {
+        List<Category> allById = categoryRepository.findAllById(id);
+        if (allById.size()==1) {
+            return mapper.map(allById.get(0),CategoryDTO.class);
+        }
+        return new CategoryDTO();
+
+    }
+
+    public Map<Long, String> getCategoriesMap() {
+        List<Category> allMainCategories = categoryRepository.findAllByParentId(0L);
+        return allMainCategories.stream().collect(Collectors.toMap(Category::getId, Category::getName));
     }
 }

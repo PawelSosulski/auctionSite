@@ -5,6 +5,7 @@ import com.auction.data.repositories.UserAccountRepository;
 import com.auction.dto.LoggedUserDTO;
 import com.auction.dto.NewUserDTO;
 
+import com.auction.dto.SellerUserDTO;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,5 +51,14 @@ public class UserService {
             return new LoggedUserDTO();
 
 
+    }
+
+    public SellerUserDTO getUserDTOById(Long sellerId) {
+        List<UserAccount> allById = userAccountRepository.findAllById(sellerId);
+        if (allById.size() == 1) {
+            return mapper.map(allById.get(0), SellerUserDTO.class);
+        } else {
+            return new SellerUserDTO();
+        }
     }
 }
