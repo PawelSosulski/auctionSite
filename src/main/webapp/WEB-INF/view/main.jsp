@@ -10,6 +10,7 @@
 <body>
 <jsp:include page="fragments/header.jsp"/>
 <h1>Start</h1>
+<jsp:include page="fragments/category-list.jsp"/>
 <sec:authorize access="isAuthenticated()">
     Helloł ${user.username}
 </sec:authorize>
