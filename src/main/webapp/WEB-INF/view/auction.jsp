@@ -1,12 +1,5 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Auction Site</title>
-</head>
-<body>
-<jsp:include page="fragments/header.jsp"/>
 
 <h3>${auction.title}</h3>
 <div>
@@ -30,5 +23,3 @@
     ${category.name}
 </div>
 <jsp:include page="fragments/footer.jsp"/>
-</body>
-</html>

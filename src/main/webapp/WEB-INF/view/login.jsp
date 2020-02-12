@@ -3,13 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Auction site</title>
-</head>
-<body>
-<jsp:include page="fragments/header.jsp"/>
+
 <div class="container">
     <form action="/login" method='POST'>
         <table>
@@ -28,6 +22,4 @@
         <sec:csrfInput/>
     </form>
 </div>
-<jsp:include page="fragments/footer.jsp"/>
-</body>
-</html>
+

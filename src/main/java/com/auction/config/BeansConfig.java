@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +38,13 @@ public class BeansConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public TilesConfigurer tilesConfigurer(){
+        TilesConfigurer tiles = new TilesConfigurer();
+        tiles.setDefinitions("/WEB-INF/**/tiles.xml");
+        tiles.setCheckRefresh(true);
+        return tiles;
+    }
 
 
 }
