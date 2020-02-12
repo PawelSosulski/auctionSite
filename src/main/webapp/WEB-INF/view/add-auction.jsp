@@ -1,13 +1,7 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Auction site</title>
-</head>
-<body>
-<jsp:include page="fragments/header.jsp"/>
+
 
 <h3>Add new auction</h3>
 <sf:form method="post" action="/auction-add" modelAttribute="newAuction">
@@ -47,6 +41,3 @@
     <sf:button value="Add"/>
 </sf:form>
 
-<jsp:include page="fragments/footer.jsp"/>
-</body>
-</html>

@@ -2,13 +2,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Auction site</title>
-</head>
-<body>
-<jsp:include page="fragments/header.jsp"/>
+
 <div>
     <a href="/auction-add">Dodaj aukcje</a>
 </div>
@@ -32,6 +26,3 @@
         </tr>
     </c:forEach>
 </table>
-<jsp:include page="fragments/footer.jsp"/>
-</body>
-</html>

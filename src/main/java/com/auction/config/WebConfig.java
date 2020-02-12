@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 @Configuration
 @ComponentScan(basePackages = "com.auction.mvc")
@@ -16,10 +17,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Bean
     public ViewResolver viewResolver() {
-        InternalResourceViewResolver resolver = new InternalResourceViewResolver();
+   /*     InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/view/");
         resolver.setSuffix(".jsp");
-        return resolver;
+        return resolver;*/
+   return new TilesViewResolver();
     }
 
     @Override
