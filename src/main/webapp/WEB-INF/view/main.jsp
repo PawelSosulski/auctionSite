@@ -5,12 +5,6 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 
-    <!--    <link rel="stylesheet" href="${contextPath}/resources/css/style.css"> -->
-    <style>
-        <%@include file="/resources/css/style.css" %>
-    </style>
-
-
 <h1>Start</h1>
 <div>
     Kategorie

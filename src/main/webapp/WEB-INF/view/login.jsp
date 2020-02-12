@@ -9,11 +9,11 @@
         <table>
             <tr>
                 <td>Login:</td>
-                <td><input type='text' name='login' ></td>
+                <td><input type="text" name="username" ></td>
             </tr>
             <tr>
                 <td>Password:</td>
-                <td><input type='password' name='password' /></td>
+                <td><input type="password" name="password" /></td>
             </tr>
             <tr>
                 <td><input name="submit" type="submit" value="submit" /></td>
