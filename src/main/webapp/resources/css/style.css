@@ -1,0 +1,33 @@
+.category-menu {
+    background: #9d9d9d;
+    padding: 0px;
+    margin: 0px;
+    width: 180px;
+}
+
+.category-menu ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+.category-menu ul > li {
+    list-style-type: none;
+    display: block;
+    padding: 0px;
+}
+
+.category-menu ul > li > ol {
+    z-index: 1000;
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    display: none;
+    position: absolute;
+    text-align: left;
+}
+
+.category-menu ul > li:hover > ol {
+    display: inline-block;
+    background: #9d9d9d;
+    border: 1px solid #000000;
+}

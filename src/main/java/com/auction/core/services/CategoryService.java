@@ -28,16 +28,25 @@ public class CategoryService {
     }
 
 
+//    public List<CategoryDTO> findAllCategory() {
+//
+//        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+//
+//        categoryRepository.findAll().forEach(a -> {
+//            CategoryDTO categoryDTO = mapper.map(a, CategoryDTO.class);
+//            categoryDTO.setId(a.getId());
+//            categoryDTO.setName(a.getName());
+//            categoryDTO.setDescription(a.getDescription());
+//            categoryDTO.setParentId(a.getParentId());
+//            categoryDTOList.add(categoryDTO);
+//        });
+//        return categoryDTOList;
+//    }
+
     public List<CategoryDTO> findAllCategory() {
-
         List<CategoryDTO> categoryDTOList = new ArrayList<>();
-
         categoryRepository.findAll().forEach(a -> {
             CategoryDTO categoryDTO = mapper.map(a, CategoryDTO.class);
-            categoryDTO.setId(a.getId());
-            categoryDTO.setName(a.getName());
-            categoryDTO.setDescription(a.getDescription());
-            categoryDTO.setParentId(a.getParentId());
             categoryDTOList.add(categoryDTO);
         });
         return categoryDTOList;
@@ -49,10 +58,10 @@ public class CategoryService {
 
         categoryRepository.findAllByParentId(mainId).forEach(a -> {
             CategoryDTO categoryDTO = mapper.map(a, CategoryDTO.class);
-            categoryDTO.setId(a.getId());
-            categoryDTO.setName(a.getName());
-            categoryDTO.setDescription(a.getDescription());
-            categoryDTO.setParentId(a.getParentId());
+//            categoryDTO.setId(a.getId());
+//            categoryDTO.setName(a.getName());
+//            categoryDTO.setDescription(a.getDescription());
+//            categoryDTO.setParentId(a.getParentId());
             categoryDTOList.add(categoryDTO);
         });
         return categoryDTOList;
