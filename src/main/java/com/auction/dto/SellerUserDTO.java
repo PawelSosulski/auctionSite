@@ -1,7 +1,6 @@
 package com.auction.dto;
 
-import com.auction.utils.enums.AccountStatus;
-import com.auction.utils.enums.AccountType;
+
 import lombok.Data;
 
 
