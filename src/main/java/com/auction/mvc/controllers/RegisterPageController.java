@@ -1,6 +1,6 @@
 package com.auction.mvc.controllers;
 
-import com.auction.core.UserValidator;
+import com.auction.core.validators.UserValidator;
 import com.auction.core.services.UserService;
 import com.auction.dto.NewUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.awt.*;
 import java.time.LocalDateTime;
 
 

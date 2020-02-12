@@ -1,4 +1,4 @@
-package com.auction.core;
+package com.auction.core.validators;
 
 import com.auction.core.services.UserService;
 import com.auction.data.model.UserAccount;
