@@ -1,5 +1,6 @@
 package com.auction.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -10,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 import javax.sql.DataSource;
@@ -33,15 +36,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-              //  .antMatchers("/").permitAll()
-               // .antMatchers("/login").permitAll()
+                //  .antMatchers("/").permitAll()
+                // .antMatchers("/login").permitAll()
                 //.antMatchers("/logout").authenticated()
                 //.antMatchers("/register").anonymous()
                 //.antMatchers("/auction").anonymous()
                 //.antMatchers("/auction/**").anonymous()
                 //.antMatchers("/category-list").anonymous()
                 //.anyRequest().authenticated()
-                .anyRequest().anonymous()
+
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -53,14 +57,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
+
+
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//    }
+
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource())
+               // .passwordEncoder(passwordEncoder())
                 //TODO - Aktywność
-                .usersByUsernameQuery("Select login, password, true FROM users WHERE login=?")
+                .usersByUsernameQuery("Select login, password, 1 FROM users WHERE login = ?")
                 //TODO  - ROLE !
-                .authoritiesByUsernameQuery("Select login, USER FROM users WHERE login=?");
+                .authoritiesByUsernameQuery("Select login, 'ROLE_USER' FROM users WHERE login = ?");
+
 
     }
 }
