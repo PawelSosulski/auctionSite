@@ -46,7 +46,7 @@ public class AuctionDTO {
 
     private AuctionStatus status;
 
-
+    private BigInteger actualPrice;
 
 
 

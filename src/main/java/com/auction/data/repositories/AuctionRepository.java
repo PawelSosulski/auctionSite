@@ -3,6 +3,7 @@ package com.auction.data.repositories;
 import com.auction.data.model.Auction;
 import com.auction.data.model.UserAccount;
 import com.auction.dto.AuctionDTO;
+import com.auction.utils.enums.AuctionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,6 +19,7 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     List<Auction> findAllById(Long auctionId);
     List<Auction> findAllBySellerId(Long sellerId);
 
+    List<Auction> findAllByStatus(AuctionStatus status);
 
    /* @Query(value = "Select new com.auction.dto.AuctionDTO(a.id, a.title, a.description, "+
             "a.startPrice, a.buyNowPrice, c.id, u.id) "+

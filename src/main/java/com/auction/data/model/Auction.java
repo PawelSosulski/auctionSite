@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -42,6 +43,6 @@ public class Auction {
     @Column(name = "status")
     private AuctionStatus status;
 
-
-
+    @OneToMany(mappedBy = "auction")
+    List<Bidding> biddingList;
 }
