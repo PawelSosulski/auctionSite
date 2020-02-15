@@ -70,6 +70,7 @@ public class AuctionService {
     public Long addAuction(AuctionDTO auctionDTO) {
         Auction auction = mapper.map(auctionDTO, Auction.class);
         List<UserAccount> allUsersById = userAccountRepository.findAllById(auctionDTO.getSellerId());
+
         if (allUsersById.size() == 1) {
             auction.setSeller(allUsersById.get(0));
         } else {
