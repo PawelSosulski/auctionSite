@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // .antMatchers("/login").permitAll()
                 //.antMatchers("/logout").authenticated()
                 //.antMatchers("/register").anonymous()
-                //.antMatchers("/auction").anonymous()
+                .antMatchers("/auction").authenticated()
                 //.antMatchers("/auction/**").anonymous()
                 //.antMatchers("/category-list").anonymous()
                 //.anyRequest().authenticated()
@@ -59,17 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource())
-               // .passwordEncoder(passwordEncoder())
                 //TODO - Aktywność
                 .usersByUsernameQuery("Select login, password, 1 FROM users WHERE login = ?")
                 //TODO  - ROLE !
