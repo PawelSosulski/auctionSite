@@ -38,6 +38,6 @@
             </td>
         </tr>
     </table>
-    <sf:button value="Add"/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
 </sf:form>
 

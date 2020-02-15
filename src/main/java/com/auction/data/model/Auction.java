@@ -1,6 +1,7 @@
 package com.auction.data.model;
 
 
+import com.auction.utils.enums.AuctionStatus;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +38,9 @@ public class Auction {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "seller_id")
     private UserAccount seller;
+
+    @Column(name = "status")
+    private AuctionStatus status;
 
 
 
