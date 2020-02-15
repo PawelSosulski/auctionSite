@@ -4,12 +4,9 @@ import com.auction.core.services.AuctionService;
 import com.auction.core.services.CategoryService;
 import com.auction.core.services.UserService;
 import com.auction.core.validators.AuctionAddValidator;
-import com.auction.data.model.UserAccount;
 import com.auction.dto.AuctionDTO;
 import com.auction.dto.LoggedUserDTO;
-import com.auction.utils.bean.UserComponent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,9 +36,6 @@ public class AddAuctionController {
 
     }
 
-
-
-
     @GetMapping
     public ModelAndView addAuctionInitPage(Model model) {
 
@@ -51,15 +45,14 @@ public class AddAuctionController {
 
     @PostMapping
     public String addNewAuction(@Valid @ModelAttribute("newAuction") AuctionDTO auctionDTO,
-                                BindingResult result) {
+                                BindingResult result, Model model) {
         auctionValidator.validate(auctionDTO,result);
         if (result.hasErrors()) {
+            model.addAttribute("categories", categoryService.getCategoriesMap());
             return "add-auction";
         }
-        String sellerUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        LoggedUserDTO loggedUserDTO = userService.getUserByLogin(sellerUsername);
-        auctionDTO.setSellerId(loggedUserDTO.getId());
-        Long auctionId = auctionService.addAuction(auctionDTO);
+
+        String auctionId = auctionService.addAuction(auctionDTO);
         return "redirect:/auction/" + auctionId;
     }
 }

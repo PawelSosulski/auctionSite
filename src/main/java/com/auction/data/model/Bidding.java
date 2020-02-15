@@ -3,6 +3,7 @@ package com.auction.data.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name="biddings")
@@ -15,13 +16,13 @@ public class Bidding {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="auction_id")
-    private Auction auctionId;
+    private Auction auction;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserAccount biddingUser;
 
     @Column(name = "amount")
-    private Long amount;
+    private BigDecimal amount;
 
 }

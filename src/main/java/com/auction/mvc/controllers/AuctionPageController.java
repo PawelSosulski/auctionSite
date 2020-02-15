@@ -8,6 +8,7 @@ import com.auction.dto.AuctionDTO;
 import com.auction.dto.CategoryDTO;
 import com.auction.dto.NewUserDTO;
 import com.auction.dto.SellerUserDTO;
+import com.auction.utils.enums.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,7 +38,8 @@ public class AuctionPageController {
 
     @GetMapping
     public String auctionPageInit(Model model) {
-        List<AuctionDTO> allAuctions = auctionService.findAllAuctionsWithCategory();
+        List<AuctionDTO> allAuctions = auctionService
+                .findAllByStatusWithCategory(AuctionStatus.PENDING);
         model.addAttribute("auctions", allAuctions);
         return "auction-list";
     }

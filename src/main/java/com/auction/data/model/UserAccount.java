@@ -71,11 +71,7 @@ public class UserAccount {
     )
     private Set<Auction> observeAuctions = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(name = "users_auctions", // Wskazujemy wprost nazwę tabeli mapującej
-            joinColumns = @JoinColumn(name = "user_id"), // nazwę pola referencji do encji UserAccount
-            inverseJoinColumns = @JoinColumn(name = "auction_id") // oraz nazwę pola referencji do encji Auction
-    )
+    @OneToMany(mappedBy = "seller")
     private Set<Auction> myAuctions = new HashSet<>();
 
 
