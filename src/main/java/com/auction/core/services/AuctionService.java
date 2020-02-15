@@ -107,7 +107,7 @@ public class AuctionService {
         return myAuctions;
     }
 
-    public Long addAuction(AuctionDTO auctionDTO) {
+    public String addAuction(AuctionDTO auctionDTO) {
 
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setStatus(AuctionStatus.PENDING);
