@@ -94,7 +94,21 @@ public class AuctionService {
         return auctionDTOList;
     }
 
-    public String addAuction(AuctionDTO auctionDTO) {
+
+    public List<AuctionDTO> findAllBySellerId(Long id) {
+        List<AuctionDTO> myAuctions = new ArrayList<>();
+        auctionRepository.findAllBySellerId(id).forEach(a -> {
+            AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
+            auctionDTO.setCategoryId(a.getCategory().getId());
+            auctionDTO.setCategoryName(a.getCategory().getName());
+            myAuctions.add(auctionDTO);
+        });
+
+        return myAuctions;
+    }
+
+    public Long addAuction(AuctionDTO auctionDTO) {
+
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setStatus(AuctionStatus.PENDING);
 
