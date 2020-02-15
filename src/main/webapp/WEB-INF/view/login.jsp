@@ -9,7 +9,7 @@
         <table>
             <tr>
                 <td>Login:</td>
-                <td><input type="text" name="username" ></td>
+                <td><input type="text" name="username"></td>
             </tr>
             <tr>
                 <td>Password:</td>

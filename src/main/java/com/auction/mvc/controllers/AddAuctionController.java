@@ -7,7 +7,6 @@ import com.auction.core.validators.AuctionAddValidator;
 import com.auction.data.model.UserAccount;
 import com.auction.dto.AuctionDTO;
 import com.auction.dto.LoggedUserDTO;
-import com.auction.utils.bean.UserComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.core.context.SecurityContextHolder;

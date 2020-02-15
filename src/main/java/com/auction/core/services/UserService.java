@@ -37,6 +37,19 @@ public class UserService {
         return true;
     }
 
+    public Boolean editUser(LoggedUserDTO loggedUserDTO) {
+        UserAccount currentUser = userAccountRepository.findAllByLogin(loggedUserDTO.getLogin()).get(0);
+        currentUser.setName(loggedUserDTO.getName());
+        currentUser.setLastName(loggedUserDTO.getLastName());
+        currentUser.setStreet(loggedUserDTO.getStreet());
+        currentUser.setStreetNumber(loggedUserDTO.getStreetNumber());
+        currentUser.setCity(loggedUserDTO.getCity());
+        currentUser.setZipCode(loggedUserDTO.getZipCode());
+        currentUser.setProvince(loggedUserDTO.getProvince());
+        userAccountRepository.save(currentUser);
+        return true;
+    }
+
     public boolean checkIfAlreadyExists(NewUserDTO newUserDTO) {
         List<UserAccount> allByLogin = userAccountRepository.findAllByLogin(newUserDTO.getLogin());
         return allByLogin.size() > 0;

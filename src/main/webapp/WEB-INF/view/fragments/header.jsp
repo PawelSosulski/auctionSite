@@ -15,5 +15,6 @@
         <li><a href="/login">Login</a></li>
         <li><a href="/logout">Logout</a></li>
         <li><a href="/auction">Auctions</a></li>
+        <li><a href="/my-account">My account</a></li>
     </ul>
 </div>
