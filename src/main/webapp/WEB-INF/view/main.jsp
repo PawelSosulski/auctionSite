@@ -9,4 +9,5 @@
 <div>
     Kategorie
     <jsp:include page="fragments/category-list.jsp"/>
+
 </div>
