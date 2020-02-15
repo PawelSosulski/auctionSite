@@ -38,6 +38,14 @@
                 </sf:select>
             </td>
         </tr>
+        <tr>
+            <td>Days to end:</td>
+            <td>
+                <sf:select path="days">
+                    <sf:options items="${daysList}"/>
+                </sf:select>
+            </td>
+        </tr>
     </table>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
 </sf:form>

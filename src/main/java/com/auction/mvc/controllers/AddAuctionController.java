@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/auction-add")
@@ -40,6 +42,7 @@ public class AddAuctionController {
     public ModelAndView addAuctionInitPage(Model model) {
 
         model.addAttribute("categories", categoryService.getCategoriesMap());
+        model.addAttribute("daysList", getDaysList(7));
         return new ModelAndView("add-auction", "newAuction", new AuctionDTO());
     }
 
@@ -54,5 +57,13 @@ public class AddAuctionController {
 
         String auctionId = auctionService.addAuction(auctionDTO);
         return "redirect:/auction/" + auctionId;
+    }
+
+    private List<Integer> getDaysList(Integer days) {
+        List<Integer> daysList = new ArrayList<>();
+        for (Integer i = 1; i <= days; i++) {
+            daysList.add(i);
+        }
+        return daysList;
     }
 }
