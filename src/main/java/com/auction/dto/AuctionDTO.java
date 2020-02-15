@@ -2,6 +2,7 @@ package com.auction.dto;
 
 import com.auction.data.model.Category;
 import com.auction.data.model.UserAccount;
+import com.auction.utils.enums.AuctionStatus;
 import lombok.Data;
 
 import java.math.BigInteger;
@@ -42,6 +43,9 @@ public class AuctionDTO {
     private Long sellerId;
 
     private String categoryName;
+
+    private AuctionStatus status;
+
 
 
 

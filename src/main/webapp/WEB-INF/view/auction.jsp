@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -12,7 +13,10 @@
 </div>
 <div>
     Buy now:<br>
-    ${auction.buyNowPrice}
+    <form:form method="POST" action="/buyAuction" modelAttribute="auction">
+        <input type="submit" value="Buy now: ${auction.buyNowPrice}"/>
+        <input type="hidden" name="auctionId" value="${auction.id}"/>
+    </form:form>
 </div>
 <div>
     Seller:<br>

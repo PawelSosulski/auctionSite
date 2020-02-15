@@ -2,12 +2,15 @@ package com.auction.core.services;
 
 import com.auction.data.model.Auction;
 import com.auction.data.model.Category;
+import com.auction.data.model.Purchase;
 import com.auction.data.model.UserAccount;
 import com.auction.data.repositories.AuctionRepository;
 import com.auction.data.repositories.CategoryRepository;
+import com.auction.data.repositories.PurchaseRepository;
 import com.auction.data.repositories.UserAccountRepository;
 import com.auction.dto.AuctionDTO;
 import com.auction.dto.LoggedUserDTO;
+import com.auction.utils.enums.AuctionStatus;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +29,18 @@ public class AuctionService {
 
     private UserAccountRepository userAccountRepository;
     private AuctionRepository auctionRepository;
-    @Autowired
     private CategoryRepository categoryRepository;
     private Mapper mapper;
+    private PurchaseRepository purchaseRepository;
 
     @Autowired
-    public AuctionService(AuctionRepository auctionRepository, Mapper mapper, UserAccountRepository userAccountRepository) {
-        this.auctionRepository = auctionRepository;
-        this.mapper = mapper;
+    public AuctionService(UserAccountRepository userAccountRepository, AuctionRepository auctionRepository, CategoryRepository categoryRepository, Mapper mapper, PurchaseRepository purchaseRepository) {
         this.userAccountRepository = userAccountRepository;
+        this.auctionRepository = auctionRepository;
+        this.categoryRepository = categoryRepository;
+        this.mapper = mapper;
+        this.purchaseRepository = purchaseRepository;
     }
-
 
     public List<AuctionDTO> findAllAuctionsWithCategory() {
 
@@ -69,6 +73,7 @@ public class AuctionService {
 
     public Long addAuction(AuctionDTO auctionDTO) {
         Auction auction = mapper.map(auctionDTO, Auction.class);
+        auction.setStatus(AuctionStatus.PENDING);
         List<UserAccount> allUsersById = userAccountRepository.findAllById(auctionDTO.getSellerId());
 
         if (allUsersById.size() == 1) {
@@ -83,5 +88,23 @@ public class AuctionService {
             auction.setCategory(new Category());
         }
         return auctionRepository.save(auction).getId();
+    }
+
+    public void buyAuctionByUser(String auctionId) {
+        List<Auction> allById = auctionRepository.findAllById(Long.valueOf(auctionId));
+        if (allById.size()==1) {
+            Auction auction = allById.get(0);
+            auction.setStatus(AuctionStatus.SOLD);
+            UserAccount user = userAccountRepository.getOne(1L);
+            Purchase purchase = new Purchase();
+            purchase.setAuction(auction);
+            purchase.setBuyerUser(user);
+            purchase.setAmount(auction.getBuyNowPrice());
+            user.getPurchases().add(purchase);
+            userAccountRepository.save(user);
+            purchaseRepository.save(purchase);
+            auctionRepository.save(auction);
+        }
+
     }
 }
