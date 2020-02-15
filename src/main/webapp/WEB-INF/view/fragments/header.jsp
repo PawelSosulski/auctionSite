@@ -5,8 +5,7 @@
             <div style="margin-right: 20px"> Witaj, <strong>nieznajomy</strong></div>
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
-            <div style="margin-right: 20px"> Witaj,
-                <strong>${pageContext.request.userPrincipal.principal.username}</strong></div>
+            <div style="margin-right: 20px"> Witaj, <strong>${pageContext.request.userPrincipal.principal.username}</strong></div>
         </sec:authorize>
     </div>
 <br>

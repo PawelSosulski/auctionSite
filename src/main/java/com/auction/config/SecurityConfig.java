@@ -59,17 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource())
-               // .passwordEncoder(passwordEncoder())
                 //TODO - Aktywność
                 .usersByUsernameQuery("Select login, password, 1 FROM users WHERE login = ?")
                 //TODO  - ROLE !
