@@ -2,16 +2,19 @@ package com.auction.mvc.controllers;
 
 import com.auction.core.services.AuctionService;
 import com.auction.core.services.CategoryService;
+import com.auction.core.services.UserService;
 import com.auction.core.validators.AuctionAddValidator;
+import com.auction.data.model.UserAccount;
 import com.auction.dto.AuctionDTO;
+import com.auction.dto.LoggedUserDTO;
+import com.auction.utils.bean.UserComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -22,12 +25,18 @@ public class AddAuctionController {
     private CategoryService categoryService;
     private AuctionService auctionService;
     private AuctionAddValidator auctionValidator;
+    private UserService userService;
 
     @Autowired
-    public AddAuctionController(CategoryService categoryService, AuctionService auctionService, AuctionAddValidator auctionValidator) {
+    public AddAuctionController(CategoryService categoryService,
+                                AuctionService auctionService,
+                                AuctionAddValidator auctionValidator,
+                                UserService userService) {
         this.categoryService = categoryService;
         this.auctionService = auctionService;
         this.auctionValidator = auctionValidator;
+        this.userService = userService;
+
     }
 
 
@@ -47,7 +56,9 @@ public class AddAuctionController {
         if (result.hasErrors()) {
             return "add-auction";
         }
-        auctionDTO.setSellerId(1L);
+        String sellerUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+        LoggedUserDTO loggedUserDTO = userService.getUserByLogin(sellerUsername);
+        auctionDTO.setSellerId(loggedUserDTO.getId());
         Long auctionId = auctionService.addAuction(auctionDTO);
         return "redirect:/auction/" + auctionId;
     }

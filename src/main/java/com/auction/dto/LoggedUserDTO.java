@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class LoggedUserDTO {
 
+    private Long id;
+
     private String username;
 
     private String city;

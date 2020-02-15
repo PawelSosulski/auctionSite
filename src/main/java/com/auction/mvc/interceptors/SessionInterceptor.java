@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
+
 public class SessionInterceptor extends HandlerInterceptorAdapter {
 
     private UserService userService;
@@ -22,8 +23,8 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Principal principal = request.getUserPrincipal();
         if (principal != null) {
-            LoggedUserDTO loggerUserDTO = userService.getUserByLogin(principal.getName());
-            request.getSession().setAttribute("user", loggerUserDTO);
+            LoggedUserDTO loggedUserDTO = userService.getUserByLogin(principal.getName());
+            request.getSession().setAttribute("user", loggedUserDTO);
         }
         return true;
     }
