@@ -30,5 +30,8 @@
     <definition name="my-account" extends="base">
         <put-attribute name="body" value="/WEB-INF/view/my-account.jsp"/>
     </definition>
+    <definition name="my-auction" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/my-auction.jsp"/>
+    </definition>
 
 </tiles-definitions>

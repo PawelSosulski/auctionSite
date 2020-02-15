@@ -5,6 +5,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <div>
+    <a href="/my-account">My account</a>
+    <a href="my-auction">My auction</a>
+</div>
+
+<div>
     <h2>My account</h2>
     <sf:form method="post" action="/my-account" modelAttribute="myAccount">
 
