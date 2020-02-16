@@ -7,6 +7,7 @@ import com.auction.utils.enums.AuctionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -20,6 +21,8 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     List<Auction> findAllBySellerId(Long sellerId);
 
     List<Auction> findAllByStatus(AuctionStatus status);
+
+
 
    /* @Query(value = "Select new com.auction.dto.AuctionDTO(a.id, a.title, a.description, "+
             "a.startPrice, a.buyNowPrice, c.id, u.id) "+

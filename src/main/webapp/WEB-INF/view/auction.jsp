@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -9,19 +10,31 @@
     ${auction.description}<br>
 </div>
 <div>
+    <c:choose>
+        <c:when test="${auction.actualPrice == null}">
+            Start price:
+            ${auction.startPrice}<br>
+        </c:when>
+        <c:otherwise>
+            Acutal price:
+            ${auction.actualPrice}<br>
+        </c:otherwise>
+    </c:choose>
+</div>
+<div>
     Bid:<br>
-    <form:form method="POST" action="/bidAuction" modelAttribute="auction">
-        <%--<input type="number" name="value" value="${auction.startPrice}"/>--%>
+    <form:form method="POST" action="/bidAuction" modelAttribute="bid">
+        <div><form:errors path="value"/></div>
         <c:choose>
             <c:when test="${auction.actualPrice == null}">
-                <input type="number" name="value" value="${auction.startPrice}"/>
+                <form:input path="value" type="number" value="${auction.startPrice}"/>
             </c:when>
             <c:otherwise>
-                <input type="number" name="value" value="${auction.actualPrice}"/>
+                <form:input path="value" type="number" value="${auction.actualPrice+1}"/>
             </c:otherwise>
         </c:choose>
         <br>
-        <input type="hidden" name="auctionId" value="${auction.id}"/>
+        <form:hidden path="auctionId"/>
         <input type="submit" value="Bid"/>
     </form:form>
     <br>

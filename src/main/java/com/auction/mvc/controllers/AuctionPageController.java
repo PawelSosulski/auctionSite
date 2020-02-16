@@ -4,10 +4,7 @@ import com.auction.core.services.AuctionService;
 import com.auction.core.services.CategoryService;
 import com.auction.core.services.UserService;
 import com.auction.data.model.UserAccount;
-import com.auction.dto.AuctionDTO;
-import com.auction.dto.CategoryDTO;
-import com.auction.dto.NewUserDTO;
-import com.auction.dto.SellerUserDTO;
+import com.auction.dto.*;
 import com.auction.utils.enums.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,6 +59,9 @@ public class AuctionPageController {
             model.addAttribute("category", category);
             SellerUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
             model.addAttribute("seller", seller);
+            BidDTO bid = new BidDTO();
+            bid.setAuctionId(auctionDTO.getId());
+            model.addAttribute("bid", bid);
 
             return "auction";
         } else {
