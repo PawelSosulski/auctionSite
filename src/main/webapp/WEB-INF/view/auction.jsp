@@ -57,8 +57,7 @@
     ${category.name}<br>
 </div>
 <div>
-    Time to end: <p id="timer-${auction.id}"></p><br>
-
+    Time to end: <div id="timer-${auction.id}"></div><br>
 </div>
 <sec:authorize access="isAuthenticated()">
     <div>
@@ -79,7 +78,6 @@
 
 
 <script>
-
     function Run(div) {
         let countDown = new Date("${auction.dateEnded}").getTime();
         let x = setInterval(function () {

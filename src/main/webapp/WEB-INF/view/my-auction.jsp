@@ -20,9 +20,7 @@
             <td><a href="${auctionUrl}">${auction.description}</a></td>
             <td>${auction.categoryName}</td>
             <td>${auction.buyNowPrice}</td>
-            <td>
-                <div id="timer-${auction.id}"></div>
-            </td>
+            <td><div id="timer-${auction.id}"></div></td>
         </tr>
         <script>
             function Run(div) {
@@ -30,6 +28,7 @@
                 let x = setInterval(function () {
                     let now = new Date().getTime();
                     let distance = countDown - now;
+
 
                     let days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
