@@ -44,27 +44,29 @@
     ${category.name}<br>
 </div>
 <div>
-    Time to end: <p id="timer"></p><br>
-
+    Time to end: <p id="timer-${auction.id}"></p><br>
 </div>
 
 <script>
-    let countDownDate = new Date().setTime(${timer});
-    let x = setInterval(function() {
-        let now = new Date().getTime();
-        let distance = countDownDate - now;
+    function Run(div) {
+        let countDown = new Date("${auction.dateEnded}").getTime();
+        let x = setInterval(function () {
+            let now = new Date().getTime();
+            let distance = countDown - now;
 
-        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("timer").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
+            div.innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
 
-        if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("timer").innerHTML = "ENDED";
-        }
-    }, 1000);
+            if (distance < 0) {
+                clearInterval(x);
+                div.innerHTML = "ENDED";
+            }
+        }, 1000);
+    }
+    Run(document.getElementById("timer-${auction.id}"));
 </script>
