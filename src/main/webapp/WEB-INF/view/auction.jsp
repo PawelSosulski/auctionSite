@@ -1,6 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -58,14 +58,34 @@
 </div>
 <div>
     Time to end: <p id="timer-${auction.id}"></p><br>
+
 </div>
+<sec:authorize access="isAuthenticated()">
+    <div>
+        <form:form action="/auction/observe-auction" method="post" modelAttribute="observe">
+            <c:choose>
+                <c:when test="${observe.isObserved}">
+                    <input type="submit" value="Usuń z obserwowanych"/>
+                </c:when>
+                <c:otherwise>
+                    <input type="submit" value="Dodaj do obserwowanych"/>
+                </c:otherwise>
+            </c:choose>
+            <form:hidden path="isObserved"/>
+            <form:hidden path="auctionId"/>
+        </form:form>
+    </div>
+</sec:authorize>
+
 
 <script>
+
     function Run(div) {
         let countDown = new Date("${auction.dateEnded}").getTime();
         let x = setInterval(function () {
             let now = new Date().getTime();
             let distance = countDown - now;
+
 
             let days = Math.floor(distance / (1000 * 60 * 60 * 24));
             let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

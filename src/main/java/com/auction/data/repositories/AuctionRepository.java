@@ -18,18 +18,9 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
     List<Auction> findAllByJoinCategoryJoinUser();
 
     List<Auction> findAllById(Long auctionId);
+
     List<Auction> findAllBySellerId(Long sellerId);
 
     List<Auction> findAllByStatus(AuctionStatus status);
 
-
-
-   /* @Query(value = "Select new com.auction.dto.AuctionDTO(a.id, a.title, a.description, "+
-            "a.startPrice, a.buyNowPrice, c.id, u.id) "+
-            "FROM Auction a JOIN FETCH a.category c JOIN FETCH a.seller u")
-    List<AuctionDTO> findAllByJoinCategoryJoinUser2();*/
-
 }
-
-// new com.auction.dto.AuctionDTO(a.id, a.title, a.description, " +
-//            "a.startPrice, a.buyNowPrice, a.category, a.seller)

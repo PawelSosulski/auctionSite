@@ -8,6 +8,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.math.BigDecimal;
+
 @Component
 public class AuctionAddValidator implements Validator {
     @Override
@@ -30,6 +32,10 @@ public class AuctionAddValidator implements Validator {
             if (auction.getStartPrice().compareTo(auction.getBuyNowPrice()) > 0) {
                 errors.rejectValue("buyNowPrice", "Price.Auction.BuyNow");
             }
+            if (auction.getStartPrice().compareTo(BigDecimal.valueOf(0)) < 1) {
+                errors.rejectValue("startPrice", "Price.Auction.LessThen1");
+            }
+
         }
     }
 }

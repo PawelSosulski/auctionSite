@@ -2,11 +2,6 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div>
-    <a href="/my-account">My account</a>
-    <a href="my-auction">My auction</a>
-</div>
-
 <h2>My auctions:</h2>
 <table border=1px>
     <tr>
