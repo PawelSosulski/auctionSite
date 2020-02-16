@@ -18,7 +18,7 @@ public class TransactionAssessment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "purchase_id")
     private Purchase purchase;
 

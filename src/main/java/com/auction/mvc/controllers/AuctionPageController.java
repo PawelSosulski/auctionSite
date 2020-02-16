@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Controller
@@ -48,7 +47,7 @@ public class AuctionPageController {
             model.addAttribute("auction", auctionDTO);
             CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
             model.addAttribute("category", category);
-            SellerUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
+            TransactionUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
             model.addAttribute("seller", seller);
             BidDTO bid = new BidDTO();
             bid.setAuctionId(auctionDTO.getId());

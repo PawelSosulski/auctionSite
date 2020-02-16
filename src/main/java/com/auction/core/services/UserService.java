@@ -71,12 +71,12 @@ public class UserService {
 
     }
 
-    public SellerUserDTO getUserDTOById(Long sellerId) {
+    public TransactionUserDTO getUserDTOById(Long sellerId) {
         List<UserAccount> allById = userAccountRepository.findAllById(sellerId);
         if (allById.size() == 1) {
-            return mapper.map(allById.get(0), SellerUserDTO.class);
+            return mapper.map(allById.get(0), TransactionUserDTO.class);
         } else {
-            return new SellerUserDTO();
+            return new TransactionUserDTO();
         }
     }
 
