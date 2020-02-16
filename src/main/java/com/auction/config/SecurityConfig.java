@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // .antMatchers("/login").permitAll()
                 //.antMatchers("/logout").authenticated()
                 //.antMatchers("/register").anonymous()
-                .antMatchers("/auction").authenticated()
+                //.antMatchers("/auction").authenticated()
                 .antMatchers("/my-account").authenticated()
                 //.antMatchers("/auction/**").anonymous()
                 //.antMatchers("/category-list").anonymous()
