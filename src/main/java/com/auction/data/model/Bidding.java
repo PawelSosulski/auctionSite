@@ -1,13 +1,18 @@
 package com.auction.data.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name="biddings")
-@Data
+@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class Bidding {
 
     @Id

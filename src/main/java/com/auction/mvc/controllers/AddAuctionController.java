@@ -55,8 +55,7 @@ public class AddAuctionController {
             return "add-auction";
         }
 
-        String auctionId = auctionService.addAuction(auctionDTO);
-        return "redirect:/auction/" + auctionId;
+        return "redirect:/auction/" + auctionService.addAuction(auctionDTO);
     }
 
     private List<Integer> getDaysList(Integer days) {

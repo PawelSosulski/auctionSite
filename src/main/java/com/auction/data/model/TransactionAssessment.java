@@ -1,12 +1,17 @@
 package com.auction.data.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "transaction_assesment")
-@Data
+@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class TransactionAssessment {
 
     @Id

@@ -9,11 +9,11 @@
         <th>Title</th>
         <th>Description</th>
         <th>Category</th>
-        <th>Price buy now</th>
+        <th>Price</th>
         <th>Usuń</th>
     </tr>
     <c:forEach items="${observeAuctions}" var="auction" varStatus="stat">
-        <c:url value="auction/${auction.id}" var="auctionUrl"/>
+        <c:url value="/auction/${auction.id}" var="auctionUrl"/>
         <tr>
             <td>${stat.index+1}</td>
             <td><a href="${auctionUrl}">${auction.title}</a></td>

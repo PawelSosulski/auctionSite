@@ -3,6 +3,7 @@ package com.auction.data.model;
 import com.auction.utils.enums.AccountStatus;
 import com.auction.utils.enums.AccountType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@Data
+@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class UserAccount {
 
     @Id
@@ -73,6 +76,26 @@ public class UserAccount {
 
     @OneToMany(mappedBy = "seller")
     private Set<Auction> myAuctions = new HashSet<>();
+
+
+    @Override
+    public String toString() {
+        return "UserAccount{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", username='" + username + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", streetNumber=" + streetNumber +
+                ", zipCode='" + zipCode + '\'' +
+                ", province='" + province + '\'' +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", createdAt=" + createdAt +
+                ", status=" + status +
+                ", type=" + type +
+                '}';
+    }
 
 
 

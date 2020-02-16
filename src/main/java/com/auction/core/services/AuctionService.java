@@ -182,7 +182,7 @@ public class AuctionService {
 
     public List<AuctionDTO> findUserObserveList(String username) {
         List<AuctionDTO> observeAuctions = new ArrayList<>();
-        List<UserAccount> allByUsername = userAccountRepository.findAllByUsername(username);
+        List<UserAccount> allByUsername = userAccountRepository.findAllByLogin(username);
         if (allByUsername.size() == 1) {
             UserAccount user = allByUsername.get(0);
             user.getObserveAuctions().forEach(a -> {

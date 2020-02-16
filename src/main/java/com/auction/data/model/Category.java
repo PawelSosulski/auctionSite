@@ -1,6 +1,7 @@
 package com.auction.data.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "categories")
-@Data
+@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class Category {
 
     @Id

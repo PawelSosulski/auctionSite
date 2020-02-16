@@ -2,7 +2,7 @@ package com.auction.data.model;
 
 
 import com.auction.utils.enums.AuctionStatus;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,13 +10,15 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
+
 import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "auctions")
-@Data
+@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class Auction {
 
     @Id
@@ -41,11 +43,11 @@ public class Auction {
     @Column(name = "date_ended")
     private LocalDateTime dateEnded;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "seller_id")
     private UserAccount seller;
 
@@ -54,4 +56,18 @@ public class Auction {
 
     @OneToMany(mappedBy = "auction")
     List<Bidding> biddingList;
+
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startPrice=" + startPrice +
+                ", buyNowPrice=" + buyNowPrice +
+                ", dateCreated=" + dateCreated +
+                ", dateEnded=" + dateEnded +
+                '}';
+    }
 }
