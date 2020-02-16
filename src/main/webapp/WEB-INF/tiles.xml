@@ -56,4 +56,13 @@
         </put-attribute>
     </definition>
 
+    <definition name="my-transaction" extends="base">
+        <put-attribute name="body">
+            <definition template="/WEB-INF/view/fragments/page-my-account.jsp">
+                <put-attribute name="sub-menu" value="/WEB-INF/view/fragments/my-account-submenu.jsp"/>
+                <put-attribute name="body-main" value="/WEB-INF/view/my-transaction.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
 </tiles-definitions>

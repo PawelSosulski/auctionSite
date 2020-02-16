@@ -5,7 +5,7 @@ import lombok.Data;
 
 
 @Data
-public class SellerUserDTO {
+public class TransactionUserDTO {
 
     private String username;
 

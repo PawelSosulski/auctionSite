@@ -2,20 +2,17 @@ package com.auction.core.services;
 
 import com.auction.data.model.*;
 import com.auction.data.repositories.*;
-import com.auction.dto.AuctionDTO;
-import com.auction.dto.BidDTO;
-import com.auction.dto.LoggedUserDTO;
+import com.auction.dto.*;
 import com.auction.utils.enums.AuctionStatus;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -25,6 +22,8 @@ import static org.springframework.security.core.context.SecurityContextHolder.*;
 @Transactional
 public class AuctionService {
     private BiddingRepository biddingRepository;
+    @Autowired
+    private TransactionAssessmentRepository transactionAssessmentRepository;
     private UserAccountRepository userAccountRepository;
     private AuctionRepository auctionRepository;
     private CategoryRepository categoryRepository;
@@ -124,22 +123,31 @@ public class AuctionService {
         return "";
     }
 
-    public void buyAuctionByUser(String auctionId) {
-        List<Auction> allById = auctionRepository.findAllById(Long.valueOf(auctionId));
-        if (allById.size() == 1) {
-            Auction auction = allById.get(0);
+    public void buyAuctionByUser(Long auctionId) {
+        Optional<Auction> auctionOpt = auctionRepository.getOneById(auctionId);
+        Optional<UserAccount> userOpt = userAccountRepository
+                .getOneByLogin(getContext().getAuthentication().getName());
+        if (auctionOpt.isPresent() && userOpt.isPresent()) {
+            Auction auction = auctionOpt.get();
+            UserAccount user = userOpt.get();
+
             auction.setStatus(AuctionStatus.SOLD);
-            UserAccount user = userAccountRepository.getOne(1L);
+            auction.setDateEnded(LocalDateTime.now());
             Purchase purchase = new Purchase();
             purchase.setAuction(auction);
             purchase.setBuyerUser(user);
             purchase.setAmount(auction.getBuyNowPrice());
-            user.getPurchases().add(purchase);
-            userAccountRepository.save(user);
-            purchaseRepository.save(purchase);
-            auctionRepository.save(auction);
-        }
+            TransactionAssessment transactionAssessment = new TransactionAssessment();
 
+            user.getPurchases().add(purchase);
+
+            userAccountRepository.save(user);
+
+            auctionRepository.save(auction);
+            transactionAssessment.setPurchase(purchaseRepository.save(purchase));
+
+            transactionAssessmentRepository.save(transactionAssessment);
+        }
     }
 
     public boolean makeBid(BidDTO bid) {
@@ -194,5 +202,26 @@ public class AuctionService {
         }
 
         return observeAuctions;
+    }
+
+    public List<TransactionDTO> findUserTransaction() {
+        String login = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<TransactionDTO> transactionsDTO = new ArrayList<>();
+        List<UserAccount> allByUsername = userAccountRepository.findAllByLogin(login);
+        if (allByUsername.size() == 1) {
+            UserAccount user = allByUsername.get(0);
+            user.getPurchases().forEach(a -> {
+                TransactionDTO purchase = new TransactionDTO();
+                purchase.setAmount(a.getAmount());
+                purchase.setTransactionAssessment(
+                        mapper.map(a.getTransactionAssessment(), TransactionAssessmentDTO.class));
+                purchase.setAuction(mapper.map(a.getAuction(), AuctionDTO.class));
+                purchase.setSellerUser(mapper.map(a.getAuction().getSeller(), TransactionUserDTO.class));
+                purchase.setBuyerUser(mapper.map(a.getBuyerUser(), TransactionUserDTO.class));
+                transactionsDTO.add(purchase);
+            });
+        }
+
+        return transactionsDTO;
     }
 }

@@ -32,7 +32,6 @@ public class Purchase {
     @Column(name = "amount")
     private BigDecimal amount;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase")
-    @JoinColumn(name ="transaction_id")
+    @OneToOne(mappedBy = "purchase")
     private TransactionAssessment transactionAssessment;
 }

@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
@@ -23,4 +24,5 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     List<Auction> findAllByStatus(AuctionStatus status);
 
+    Optional<Auction> getOneById(Long auctionId);
 }

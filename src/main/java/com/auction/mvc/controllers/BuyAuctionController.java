@@ -16,9 +16,9 @@ public class BuyAuctionController {
     }
 
     @PostMapping("/buyAuction")
-    public String buyNowAuction(String auctionId) {
+    public String buyNowAuction(Long auctionId) {
         auctionService.buyAuctionByUser(auctionId);
-        return "redirect:/";
+        return "redirect:/my-transaction";
     }
 
 }
