@@ -41,7 +41,7 @@ public class BidAuctionController {
             auctionService.makeBid(bid);
             return "redirect:auction/" + bid.getAuctionId();
         } else {
-            List<AuctionDTO> auctionList = auctionService.findAllById(String.valueOf(bid.getAuctionId()));
+            List<AuctionDTO> auctionList = auctionService.findAllById(bid.getAuctionId());
             AuctionDTO auctionDTO = auctionList.get(0);
             model.addAttribute("auction", auctionDTO);
             CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());

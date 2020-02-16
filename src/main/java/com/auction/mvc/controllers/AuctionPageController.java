@@ -3,7 +3,6 @@ package com.auction.mvc.controllers;
 import com.auction.core.services.AuctionService;
 import com.auction.core.services.CategoryService;
 import com.auction.core.services.UserService;
-import com.auction.data.model.UserAccount;
 import com.auction.dto.*;
 import com.auction.utils.enums.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.text.DateFormat;
-import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 @Controller
@@ -48,7 +42,7 @@ public class AuctionPageController {
 
     @GetMapping
     @RequestMapping("/{auctionId}")
-    public String prepareAuctionPage(@PathVariable("auctionId") String auctionId, Model model) {
+    public String prepareAuctionPage(@PathVariable("auctionId") Long auctionId, Model model) {
         List<AuctionDTO> auctionList = auctionService.findAllById(auctionId);
         if (auctionList.size() == 1) {
             AuctionDTO auctionDTO = auctionList.get(0);
@@ -62,7 +56,10 @@ public class AuctionPageController {
             BidDTO bid = new BidDTO();
             bid.setAuctionId(auctionDTO.getId());
             model.addAttribute("bid", bid);
-
+            ObserveDTO observeDTO = new ObserveDTO();
+            observeDTO.setAuctionId(auctionId);
+            observeDTO.setIsObserved(userService.checkIfAuctionObserve(auctionId));
+            model.addAttribute("observe", observeDTO);
             return "auction";
         } else {
             return "redirect:auction";
@@ -70,5 +67,10 @@ public class AuctionPageController {
     }
 
 
+    @PostMapping("/observe-auction")
+    public String addOrRemoveAuctionToObserve(ObserveDTO observe) {
+        userService.removeOrAddObserveAuction(observe);
+        return "redirect:/auction/" + observe.getAuctionId();
+    }
 
 }

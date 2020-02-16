@@ -4,10 +4,6 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<div>
-    <a href="/my-account">My account</a>
-    <a href="my-auction">My auction</a>
-</div>
 
 <div>
     <h2>My account</h2>
