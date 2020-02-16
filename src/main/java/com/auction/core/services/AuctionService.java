@@ -9,11 +9,14 @@ import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
+import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -102,8 +105,13 @@ public class AuctionService {
     }
 
     public String addAuction(AuctionDTO auctionDTO) {
+        LocalDateTime dateNow = LocalDateTime.now();
+        Integer auctionDays = auctionDTO.getDays();
+
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setStatus(AuctionStatus.PENDING);
+        auction.setDateCreated(dateNow);
+        auction.setDateEnded(dateNow.plusDays(auctionDays));
 
         String sellerLogin =
                 getContext().getAuthentication().getName();
@@ -113,8 +121,9 @@ public class AuctionService {
             auction.setCategory(allCategoryById.get(0));
         }
 
-        List<UserAccount> allUsersByUsername = userAccountRepository
-                .findAllByLogin(sellerLogin);
+
+
+        List<UserAccount> allUsersByUsername = userAccountRepository.findAllByLogin(sellerLogin);
         UserAccount user;
         if (allUsersByUsername.size() == 1) {
             user = allUsersByUsername.get(0);

@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -32,6 +34,12 @@ public class Auction {
 
     @Column(name = "buy_now_price", nullable = false)
     private BigDecimal buyNowPrice;
+
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
+
+    @Column(name = "date_ended")
+    private LocalDateTime dateEnded;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")

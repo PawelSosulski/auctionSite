@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -37,6 +41,7 @@ public class AuctionPageController {
     public String auctionPageInit(Model model) {
         List<AuctionDTO> allAuctions = auctionService
                 .findAllByStatusWithCategory(AuctionStatus.PENDING);
+
         model.addAttribute("auctions", allAuctions);
         return "auction-list";
     }
@@ -48,6 +53,8 @@ public class AuctionPageController {
         if (auctionList.size() == 1) {
             AuctionDTO auctionDTO = auctionList.get(0);
             model.addAttribute("auction", auctionDTO);
+            Long date = auctionDTO.getDateEnded().toInstant(ZoneOffset.of("+01:00")).toEpochMilli();
+            model.addAttribute("timer", date);
             CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
             model.addAttribute("category", category);
             SellerUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
@@ -55,6 +62,7 @@ public class AuctionPageController {
             BidDTO bid = new BidDTO();
             bid.setAuctionId(auctionDTO.getId());
             model.addAttribute("bid", bid);
+
             return "auction";
         } else {
             return "redirect:auction";

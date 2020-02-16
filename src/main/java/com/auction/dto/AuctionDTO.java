@@ -6,6 +6,8 @@ import com.auction.utils.enums.AuctionStatus;
 import lombok.Data;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
@@ -16,12 +18,15 @@ public class AuctionDTO {
 
     public AuctionDTO(Long id, String title,
                       String description, BigInteger startPrice,
-                      BigInteger buyNowPrice, Long categoryId, Long sellerId) {
+                      BigInteger buyNowPrice, LocalDateTime dateCreated,
+                      LocalDateTime dateEnded, Long categoryId, Long sellerId) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.startPrice = startPrice;
         this.buyNowPrice = buyNowPrice;
+        this.dateCreated = dateCreated;
+        this.dateEnded = dateEnded;
         this.sellerId=sellerId;
         this.categoryId=categoryId;
     }
@@ -38,6 +43,10 @@ public class AuctionDTO {
 
     private BigInteger buyNowPrice;
 
+    private LocalDateTime dateCreated;
+
+    private LocalDateTime dateEnded;
+
     private Long categoryId;
 
     private Long sellerId;
@@ -48,7 +57,5 @@ public class AuctionDTO {
 
     private BigInteger actualPrice;
 
-
-
-
+    private Integer days;
 }
