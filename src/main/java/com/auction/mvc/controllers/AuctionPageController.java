@@ -41,7 +41,6 @@ public class AuctionPageController {
     public String auctionPageInit(Model model) {
         List<AuctionDTO> allAuctions = auctionService
                 .findAllByStatusWithCategory(AuctionStatus.PENDING);
-
         model.addAttribute("auctions", allAuctions);
         return "auction-list";
     }
@@ -53,8 +52,6 @@ public class AuctionPageController {
         if (auctionList.size() == 1) {
             AuctionDTO auctionDTO = auctionList.get(0);
             model.addAttribute("auction", auctionDTO);
-            Long date = auctionDTO.getDateEnded().toInstant(ZoneOffset.of("+01:00")).toEpochMilli();
-            model.addAttribute("timer", date);
             CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
             model.addAttribute("category", category);
             SellerUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
