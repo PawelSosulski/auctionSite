@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
@@ -27,10 +28,10 @@ public class Auction {
     private String description;
 
     @Column(name = "start_price", nullable = false)
-    private BigInteger startPrice;
+    private BigDecimal startPrice;
 
     @Column(name = "buy_now_price", nullable = false)
-    private BigInteger buyNowPrice;
+    private BigDecimal buyNowPrice;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")

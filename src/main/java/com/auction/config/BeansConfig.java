@@ -20,7 +20,6 @@ public class BeansConfig {
         List<String> mappingFiles = Arrays.asList(
                 "META-INF/dozer-configration-mapping.xml"
         );
-
         DozerBeanMapper mapper = new DozerBeanMapper();
         mapper.setMappingFiles(mappingFiles);
         return mapper;

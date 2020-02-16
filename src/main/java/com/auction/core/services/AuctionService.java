@@ -3,24 +3,19 @@ package com.auction.core.services;
 import com.auction.data.model.*;
 import com.auction.data.repositories.*;
 import com.auction.dto.AuctionDTO;
-import com.auction.dto.LoggedUserDTO;
+import com.auction.dto.BidDTO;
 import com.auction.utils.enums.AuctionStatus;
-import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.springframework.security.core.context.SecurityContextHolder.*;
 
@@ -86,7 +81,6 @@ public class AuctionService {
             List<BigInteger> biggestValue = biddingRepository.findBiggestValue(a.getId());
             if (biggestValue.size()>0) {
                 auctionDTO.setActualPrice(biggestValue.get(0));
-                System.out.println("\n\n\nvalue: "+biggestValue.get(0));
             }
             auctionDTOList.add(auctionDTO);
         });
@@ -107,8 +101,7 @@ public class AuctionService {
         return myAuctions;
     }
 
-    public Long addAuction(AuctionDTO auctionDTO) {
-
+    public String addAuction(AuctionDTO auctionDTO) {
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setStatus(AuctionStatus.PENDING);
 
@@ -125,7 +118,6 @@ public class AuctionService {
         UserAccount user;
         if (allUsersByUsername.size() == 1) {
             user = allUsersByUsername.get(0);
-
             auction.setSeller(user);
             return String.valueOf(auctionRepository.save(auction).getId());
 
@@ -151,23 +143,41 @@ public class AuctionService {
 
     }
 
-    public boolean makeBid(String auctionId, String value) {
+    public boolean makeBid(BidDTO bid) {
         String name = getContext().getAuthentication().getName();
 
         List<UserAccount> allUsersByLogin = userAccountRepository
                 .findAllByLogin(name);
         UserAccount user = allUsersByLogin.get(0);
 
-        Optional<Auction> auctionOptional = auctionRepository.findById(Long.valueOf(auctionId));
+        Optional<Auction> auctionOptional = auctionRepository.findById(bid.getAuctionId());
         if (auctionOptional.isPresent()) {
             Auction auction = auctionOptional.get();
-            Bidding bid = new Bidding();
-            bid.setAmount(BigDecimal.valueOf(Long.valueOf(value)));
-            bid.setBiddingUser(user);
-            bid.setAuction(auction);
-            biddingRepository.save(bid);
+            Bidding newBid = new Bidding();
+            newBid.setAmount(bid.getValue());
+            newBid.setBiddingUser(user);
+            newBid.setAuction(auction);
+            biddingRepository.save(newBid);
             return true;
         }
         return false;
+    }
+
+    public boolean isAnyBids(Long auctionId) {
+        Optional<Auction> auction = auctionRepository.findById(auctionId);
+        return auction.filter(value -> value.getBiddingList().size() > 0).isPresent();
+    }
+
+    public BigDecimal getBiggestBid(Long auctionId) {
+        return biddingRepository.findBiggestBid(auctionId, PageRequest.of(0,1)).get(0);
+
+    }
+
+    public BigDecimal getStartBid(Long auctionId) {
+        Optional<Auction> auction = auctionRepository.findById(auctionId);
+        if (auction.isPresent())
+        return auction.get().getStartPrice();
+        else
+            return BigDecimal.valueOf(0L);
     }
 }

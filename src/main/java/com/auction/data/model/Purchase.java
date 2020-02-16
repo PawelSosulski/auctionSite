@@ -3,6 +3,7 @@ package com.auction.data.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 @Entity
@@ -24,7 +25,7 @@ public class Purchase {
     private UserAccount buyerUser;
 
     @Column(name = "amount")
-    private BigInteger amount;
+    private BigDecimal amount;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "purchase")
     @JoinColumn(name ="transaction_id")
