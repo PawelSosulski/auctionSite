@@ -15,8 +15,12 @@ import java.util.List;
 @RequestMapping("/my-observe-auctions")
 public class MyObservePageController {
 
-    @Autowired
     private AuctionService auctionService;
+
+    @Autowired
+    public MyObservePageController(AuctionService auctionService) {
+        this.auctionService = auctionService;
+    }
 
     @GetMapping
     public String initMyObserveListPage(Model model) {

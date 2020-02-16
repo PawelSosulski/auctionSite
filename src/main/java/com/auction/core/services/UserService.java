@@ -82,7 +82,7 @@ public class UserService {
 
     public void removeOrAddObserveAuction(ObserveDTO observe) {
         String name = getContext().getAuthentication().getName();
-        List<UserAccount> allByUsername = userAccountRepository.findAllByUsername(name);
+        List<UserAccount> allByUsername = userAccountRepository.findAllByLogin(name);
         if (allByUsername.size() == 1) {
             UserAccount user = allByUsername.get(0);
             Optional<Auction> auction = auctionRepository.findById(observe.getAuctionId());
@@ -93,14 +93,13 @@ public class UserService {
                 auction.ifPresent(value -> user.getObserveAuctions().add(value));
                 System.out.println("\n\n DODAJE");
             }
-            userAccountRepository.save(user);
         }
     }
 
 
     public Boolean checkIfAuctionObserve(Long auctionId) {
-        String name = getContext().getAuthentication().getName();
-        List<UserAccount> allByUsername = userAccountRepository.findAllByUsername(name);
+        String login = getContext().getAuthentication().getName();
+        List<UserAccount> allByUsername = userAccountRepository.findAllByLogin(login);
         if (allByUsername.size() == 1) {
             UserAccount user = allByUsername.get(0);
             List<Long> collect = user.getObserveAuctions().stream()

@@ -1,6 +1,9 @@
 package com.auction.data.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -8,7 +11,9 @@ import java.math.BigInteger;
 
 @Entity
 @Table(name = "purchases")
-@Data
+@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class Purchase {
 
     @Id
