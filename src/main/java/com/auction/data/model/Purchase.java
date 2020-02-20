@@ -7,27 +7,31 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 @Entity
-@Table(name="biddings")
+@Table(name = "purchases")
 @EqualsAndHashCode(of = "id")
 @Getter
 @Setter
-public class Bidding {
+public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="auction_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "auction_id")
     private Auction auction;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserAccount biddingUser;
+    private UserAccount buyerUser;
 
     @Column(name = "amount")
     private BigDecimal amount;
 
+    @OneToOne(mappedBy = "purchase")
+    private TransactionAssessment transactionAssessment;
 }

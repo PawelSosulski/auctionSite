@@ -1,13 +1,24 @@
 package com.auction.data.model;
 
+
+import com.auction.utils.enums.AuctionStatus;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+
+import java.util.List;
+
 
 @Entity
 @Table(name = "auctions")
-@Getter @Setter
+@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
 public class Auction {
 
     @Id
@@ -21,12 +32,45 @@ public class Auction {
     private String description;
 
     @Column(name = "start_price", nullable = false)
-    private Double startPrice;
+    private BigDecimal startPrice;
 
-    @Column (name = "buy_now_price", nullable = false)
-    private Double buyNowPrice;
+    @Column(name = "actual_price", nullable = false)
+    private BigDecimal actualPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "buy_now_price", nullable = false)
+    private BigDecimal buyNowPrice;
+
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
+
+    @Column(name = "date_ended")
+    private LocalDateTime dateEnded;
+
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    private UserAccount seller;
+
+    @Column(name = "status")
+    private AuctionStatus status;
+
+    @OneToMany(mappedBy = "auction")
+    List<Bidding> biddingList;
+
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startPrice=" + startPrice +
+                ", buyNowPrice=" + buyNowPrice +
+                ", dateCreated=" + dateCreated +
+                ", dateEnded=" + dateEnded +
+                '}';
+    }
 }

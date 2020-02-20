@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <definition name="base"
+                template="/WEB-INF/view/fragments/page.jsp">
+        <put-attribute name="header" value="/WEB-INF/view/fragments/header.jsp"/>
+        <put-attribute name="body" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/view/fragments/footer.jsp"/>
+    </definition>
+
+    <definition name="main" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/main.jsp"/>
+    </definition>
+    <definition name="register" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/register.jsp"/>
+    </definition>
+    <definition name="login" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/login.jsp"/>
+    </definition>
+    <definition name="auction-list" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/auction-list.jsp"/>
+    </definition>
+    <definition name="auction" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/auction.jsp"/>
+    </definition>
+    <definition name="add-auction" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/add-auction.jsp"/>
+    </definition>
+
+    <definition name="my-account" extends="base">
+        <put-attribute name="body">
+            <definition template="/WEB-INF/view/fragments/page-my-account.jsp">
+                <put-attribute name="sub-menu" value="/WEB-INF/view/fragments/my-account-submenu.jsp"/>
+                <put-attribute name="body-main" value="/WEB-INF/view/my-account.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="my-auction" extends="base">
+        <put-attribute name="body">
+            <definition template="/WEB-INF/view/fragments/page-my-account.jsp">
+                <put-attribute name="sub-menu" value="/WEB-INF/view/fragments/my-account-submenu.jsp"/>
+                <put-attribute name="body-main" value="/WEB-INF/view/my-auction.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="my-observe" extends="base">
+        <put-attribute name="body">
+            <definition template="/WEB-INF/view/fragments/page-my-account.jsp">
+                <put-attribute name="sub-menu" value="/WEB-INF/view/fragments/my-account-submenu.jsp"/>
+                <put-attribute name="body-main" value="/WEB-INF/view/my-observe.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="my-transaction" extends="base">
+        <put-attribute name="body">
+            <definition template="/WEB-INF/view/fragments/page-my-account.jsp">
+                <put-attribute name="sub-menu" value="/WEB-INF/view/fragments/my-account-submenu.jsp"/>
+                <put-attribute name="body-main" value="/WEB-INF/view/my-transaction.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+    <definition name="my-biddings" extends="base">
+        <put-attribute name="body">
+            <definition template="/WEB-INF/view/fragments/page-my-account.jsp">
+                <put-attribute name="sub-menu" value="/WEB-INF/view/fragments/my-account-submenu.jsp"/>
+                <put-attribute name="body-main" value="/WEB-INF/view/my-biddings.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+</tiles-definitions>
