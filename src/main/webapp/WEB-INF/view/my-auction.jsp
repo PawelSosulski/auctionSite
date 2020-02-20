@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.auction.utils.enums.AuctionStatus" %>
@@ -12,9 +14,10 @@
                 <th>Lp.</th>
                 <th>Title</th>
                 <th>Category</th>
-                <th>Actual prize</th>
+                <th>Actual price</th>
                 <th>Bid number</th>
                 <th>Time to end</th>
+                <th>Actions</th>
             </tr>
             <c:forEach items="${ongoing}" var="auction" varStatus="stat">
                 <c:url value="auction/${auction.id}" var="auctionUrl"/>
@@ -24,8 +27,13 @@
                     <td>${auction.categoryName}</td>
                     <td>${auction.actualPrice}</td>
                     <td>${auction.bidsNumber}</td>
+                    <td><div id="timer-${auction.id}"></div></td>
                     <td>
-                        <div id="timer-${auction.id}"></div>
+                        <form:form action="/my-auction" method="post" modelAttribute="endAuction">
+                            <input type="hidden" name="id" value="${auction.id}">
+                            <input type="submit" value="Zakończ"/>
+
+                        </form:form>
                     </td>
                 </tr>
                 <script>
