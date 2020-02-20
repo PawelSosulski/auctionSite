@@ -6,9 +6,7 @@ import com.auction.utils.enums.AuctionStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 
 @Data
