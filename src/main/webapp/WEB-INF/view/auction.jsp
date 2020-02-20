@@ -25,17 +25,40 @@
     Bid:<br>
     <form:form method="POST" action="/bidAuction" modelAttribute="bid">
         <div><form:errors path="value"/></div>
+
         <c:choose>
             <c:when test="${auction.bidsNumber==0}">
-                <form:input path="value" type="number" value="${auction.actualPrice}"/>
+                <c:choose>
+                    <c:when test="${user.username != seller.username}">
+                        <form:input path="value" type="number" value="${auction.actualPrice}" />
+                    </c:when>
+                    <c:otherwise>
+                        <form:input path="value" type="number" value="${auction.actualPrice}" readonly="true" style="color: Grey; opacity: 1;"/>
+                    </c:otherwise>
+                </c:choose>
             </c:when>
             <c:otherwise>
-                <form:input path="value" type="number" value="${auction.actualPrice+1}"/>
+                <c:choose>
+                    <c:when test="${user.username != seller.username}">
+                        <form:input path="value" type="number" value="${auction.actualPrice+1}"/>
+                    </c:when>
+                    <c:otherwise>
+                        <form:input path="value" type="number" value="${auction.actualPrice+1}" readonly="true" style="color: Grey; opacity: 1;"/>
+                    </c:otherwise>
+                </c:choose>
             </c:otherwise>
         </c:choose>
         <br>
         <form:hidden path="auctionId"/>
-        <input type="submit" value="Bid"/>
+        <c:choose>
+            <c:when test="${user.username != seller.username}">
+                <input type="submit" value="Bid"/>
+            </c:when>
+            <c:otherwise>
+                <input type="submit" value="Bid" disabled/>
+                <p style="color: red; font-weight: bold">You can't bid your auction</p>
+            </c:otherwise>
+        </c:choose>
     </form:form>
     <br>
 </div>
@@ -43,7 +66,15 @@
     <div>
         Buy now:<br>
         <form:form method="POST" action="/buyAuction" modelAttribute="auction">
-            <input type="submit" value="${auction.buyNowPrice}"/>
+            <c:choose>
+                <c:when test="${user.username != seller.username}">
+                    <input type="submit" value="${auction.buyNowPrice}"/>
+                </c:when>
+                <c:otherwise>
+                    <input type="submit" value="${auction.buyNowPrice}" disabled/>
+                    <p style="color: red; font-weight: bold">You can't buy your auction</p>
+                </c:otherwise>
+            </c:choose>
             <input type="hidden" name="auctionId" value="${auction.id}"/>
         </form:form>
     </div>
@@ -57,7 +88,9 @@
     ${category.name}<br>
 </div>
 <div>
-    Time to end: <div id="timer-${auction.id}"></div><br>
+    Time to end:
+    <div id="timer-${auction.id}"></div>
+    <br>
 </div>
 <sec:authorize access="isAuthenticated()">
     <div>
@@ -99,5 +132,6 @@
             }
         }, 1000);
     }
+
     Run(document.getElementById("timer-${auction.id}"));
 </script>
