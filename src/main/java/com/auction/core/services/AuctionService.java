@@ -9,8 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -302,6 +304,13 @@ public class AuctionService {
             auction.setStatus(AuctionStatus.CLOSE);
         }
         auctionRepository.save(auction);
+    }
+
+    public void finishedAuctionDTO(AuctionDTO auctionDTO) {
+        Long id = auctionDTO.getId();
+        Auction auction = auctionRepository.findAllById(id).get(0);
+        int bidingSize = auction.getBiddingList().size();
+        finishedAuction(auction);
     }
 
 }
