@@ -2,8 +2,10 @@ package com.auction.mvc.controllers;
 
 import com.auction.core.services.AuctionService;
 import com.auction.core.services.UserService;
+import com.auction.data.model.Auction;
 import com.auction.dto.AuctionDTO;
 import com.auction.dto.LoggedUserDTO;
+import com.auction.utils.enums.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,8 +28,13 @@ public class MyAuctionPageController {
     @GetMapping
     public String MyAuctionPageInit(Model model) {
         String myUsername = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<AuctionDTO> myAuctions = auctionService.findAllByUserLogin(myUsername);
-        model.addAttribute("myAuctions", myAuctions);
+        List<AuctionDTO> auctionsOngoing = auctionService
+                .findAllByUserLoginAndStatus(myUsername, AuctionStatus.PENDING);
+        model.addAttribute("ongoing", auctionsOngoing);
+        List<AuctionDTO> auctionsFinished = auctionService
+                .findAllByUserLoginAndStatus(myUsername,
+                        new AuctionStatus[]{AuctionStatus.SOLD,AuctionStatus.CLOSE});
+        model.addAttribute("finished", auctionsFinished);
         return "my-auction";
     }
 }
