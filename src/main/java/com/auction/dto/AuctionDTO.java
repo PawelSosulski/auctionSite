@@ -39,7 +39,9 @@ public class AuctionDTO {
 
     private AuctionStatus status;
 
-    private BigInteger actualPrice;
+    private BigDecimal actualPrice;
 
     private Integer days;
+
+    private Integer bidsNumber;
 }

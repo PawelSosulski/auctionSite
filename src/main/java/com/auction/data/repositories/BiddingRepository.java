@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface BiddingRepository extends JpaRepository<Bidding, Long> {
     @Query(value = "Select b.amount FROM Bidding b WHERE b.auction.id = ?1 ORDER BY b.amount DESC")
-    List<BigInteger> findBiggestValue(Long id);
+    List<BigDecimal> findBiggestValue(Long id);
 
     @Query(value="Select b.amount FROM Bidding b WHERE b.auction.id = ?1 ORDER BY b.amount DESC")
     List<BigDecimal> findBiggestBid(Long auctionId, Pageable pageable);

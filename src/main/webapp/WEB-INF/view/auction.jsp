@@ -26,8 +26,8 @@
     <form:form method="POST" action="/bidAuction" modelAttribute="bid">
         <div><form:errors path="value"/></div>
         <c:choose>
-            <c:when test="${auction.actualPrice == null}">
-                <form:input path="value" type="number" value="${auction.startPrice}"/>
+            <c:when test="${auction.bidsNumber==0}">
+                <form:input path="value" type="number" value="${auction.actualPrice}"/>
             </c:when>
             <c:otherwise>
                 <form:input path="value" type="number" value="${auction.actualPrice+1}"/>
@@ -39,7 +39,7 @@
     </form:form>
     <br>
 </div>
-<c:if test="${auction.actualPrice==null}">
+<c:if test="${auction.bidsNumber==0}">
     <div>
         Buy now:<br>
         <form:form method="POST" action="/buyAuction" modelAttribute="auction">

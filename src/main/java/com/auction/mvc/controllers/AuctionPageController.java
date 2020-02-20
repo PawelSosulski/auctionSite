@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/auction")
@@ -35,32 +38,52 @@ public class AuctionPageController {
         List<AuctionDTO> allAuctions = auctionService
                 .findAllByStatusWithCategory(AuctionStatus.PENDING);
         model.addAttribute("auctions", allAuctions);
+        Map<Long, String> categories = new HashMap<>();
+        categories.put(0L, "All");
+        categories.putAll(categoryService.getCategoriesMap());
+        model.addAttribute("categories", categories);
+        model.addAttribute("filter", new FilterAuctionDTO());
+        return "auction-list";
+    }
+
+
+    @PostMapping
+    public String auctionFilter(FilterAuctionDTO filter, Model model) {
+        List<AuctionDTO> filteredAuction = auctionService.doPendingAuctionFilter(filter);
+        model.addAttribute("auctions", filteredAuction);
+        Map<Long, String> categories = new HashMap<>();
+        categories.put(0L, "All");
+        categories.putAll(categoryService.getCategoriesMap());
+        model.addAttribute("categories", categories);
+        model.addAttribute("filter", filter);
         return "auction-list";
     }
 
     @GetMapping
     @RequestMapping("/{auctionId}")
     public String prepareAuctionPage(@PathVariable("auctionId") Long auctionId, Model model) {
-        List<AuctionDTO> auctionList = auctionService.findAllById(auctionId);
-        if (auctionList.size() == 1) {
-            AuctionDTO auctionDTO = auctionList.get(0);
-            model.addAttribute("auction", auctionDTO);
-            CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
-            model.addAttribute("category", category);
-            TransactionUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
-            model.addAttribute("seller", seller);
-            BidDTO bid = new BidDTO();
-            bid.setAuctionId(auctionDTO.getId());
-            model.addAttribute("bid", bid);
-            ObserveDTO observeDTO = new ObserveDTO();
-            observeDTO.setAuctionId(auctionId);
-            observeDTO.setIsObserved(userService.checkIfAuctionObserve(auctionId));
-            model.addAttribute("observe", observeDTO);
-            return "auction";
-        } else {
-            return "redirect:auction";
+        if (auctionService.getAllAuctionsId().contains(auctionId)) {
+            List<AuctionDTO> auctionList = auctionService.findAllById(auctionId);
+            if (auctionList.size() == 1) {
+                AuctionDTO auctionDTO = auctionList.get(0);
+                model.addAttribute("auction", auctionDTO);
+                CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
+                model.addAttribute("category", category);
+                TransactionUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
+                model.addAttribute("seller", seller);
+                BidDTO bid = new BidDTO();
+                bid.setAuctionId(auctionDTO.getId());
+                model.addAttribute("bid", bid);
+                ObserveDTO observeDTO = new ObserveDTO();
+                observeDTO.setAuctionId(auctionId);
+                observeDTO.setIsObserved(userService.checkIfAuctionObserve(auctionId));
+                model.addAttribute("observe", observeDTO);
+                return "auction";
+            }
         }
+        return "redirect:auction";
     }
+
 
 
     @PostMapping("/observe-auction")
