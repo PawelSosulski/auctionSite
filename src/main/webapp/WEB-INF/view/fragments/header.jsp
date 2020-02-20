@@ -16,7 +16,7 @@
         </sec:authorize>
         <sec:authorize access="isAuthenticated()">
             <li><a href="/logout">Logout</a></li>
-            <li><a href="/my-account">My account</a></li>
+            <li><a href="/my-biddings">My panel</a></li>
         </sec:authorize>
     </ul>
 </div>

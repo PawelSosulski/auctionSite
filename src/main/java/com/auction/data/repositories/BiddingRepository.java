@@ -15,8 +15,8 @@ public interface BiddingRepository extends JpaRepository<Bidding, Long> {
     @Query(value = "Select b.amount FROM Bidding b WHERE b.auction.id = ?1 ORDER BY b.amount DESC")
     List<BigDecimal> findBiggestValue(Long id);
 
-    @Query(value="Select b.amount FROM Bidding b WHERE b.auction.id = ?1 ORDER BY b.amount DESC")
-    List<BigDecimal> findBiggestBid(Long auctionId, Pageable pageable);
+    @Query(value="Select b FROM Bidding b WHERE b.auction.id = ?1 ORDER BY b.amount DESC")
+    List<Bidding> findBiggestBid(Long auctionId, Pageable pageable);
 
 
 }
