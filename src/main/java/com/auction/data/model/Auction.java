@@ -34,7 +34,7 @@ public class Auction {
     @Column(name = "start_price", nullable = false)
     private BigDecimal startPrice;
 
-    @Column(name = "acutal_price", nullable = false)
+    @Column(name = "actual_price", nullable = false)
     private BigDecimal actualPrice;
 
     @Column(name = "buy_now_price", nullable = false)

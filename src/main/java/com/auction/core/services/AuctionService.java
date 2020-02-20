@@ -5,17 +5,13 @@ import com.auction.data.repositories.*;
 import com.auction.dto.*;
 import com.auction.utils.enums.AuctionStatus;
 import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QSort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -108,17 +104,21 @@ public class AuctionService {
             UserAccount user = userOpt.get();
             auction.setStatus(AuctionStatus.SOLD);
             auction.setDateEnded(LocalDateTime.now());
-            Purchase purchase = new Purchase();
-            purchase.setAuction(auction);
-            purchase.setBuyerUser(user);
-            purchase.setAmount(auction.getBuyNowPrice());
-            TransactionAssessment transactionAssessment = new TransactionAssessment();
-            user.getPurchases().add(purchase);
-            userAccountRepository.save(user);
-            auctionRepository.save(auction);
-            transactionAssessment.setPurchase(purchaseRepository.save(purchase));
-            transactionAssessmentRepository.save(transactionAssessment);
+            createPurchase(auction, user, auction.getBuyNowPrice());
         }
+    }
+
+    private void createPurchase(Auction auction, UserAccount user, BigDecimal value) {
+        Purchase purchase = new Purchase();
+        purchase.setAuction(auction);
+        purchase.setBuyerUser(user);
+        purchase.setAmount(value);
+        TransactionAssessment transactionAssessment = new TransactionAssessment();
+        user.getPurchases().add(purchase);
+        userAccountRepository.save(user);
+        auctionRepository.save(auction);
+        transactionAssessment.setPurchase(purchaseRepository.save(purchase));
+        transactionAssessmentRepository.save(transactionAssessment);
     }
 
     public boolean makeBid(BidDTO bid) {
@@ -149,7 +149,7 @@ public class AuctionService {
     }
 
     public BigDecimal getBiggestBid(Long auctionId) {
-        return biddingRepository.findBiggestBid(auctionId, PageRequest.of(0, 1)).get(0);
+        return biddingRepository.findBiggestBid(auctionId, PageRequest.of(0, 1)).get(0).getAmount();
 
     }
 
@@ -285,4 +285,25 @@ public class AuctionService {
     public List<Long> getAllAuctionsId() {
         return auctionRepository.findAll().stream().map(Auction::getId).collect(Collectors.toList());
     }
+
+    public void finishedAuctions() {
+        List<Auction> finishedAuction = auctionRepository.findAllFinishedAuction(LocalDateTime.now(), AuctionStatus.PENDING);
+        finishedAuction.forEach(this::finishedAuction);
+
+    }
+
+    private void finishedAuction(Auction auction) {
+        int bidingSize = auction.getBiddingList().size();
+        if (bidingSize > 0) {
+            auction.setStatus(AuctionStatus.SOLD);
+            Bidding bidding = biddingRepository.findBiggestBid(auction.getId(), PageRequest.of(0, 1)).get(0);
+            createPurchase(auction,bidding.getBiddingUser(),bidding.getAmount());
+
+        } else {
+            auction.setStatus(AuctionStatus.CLOSE);
+        }
+        auctionRepository.save(auction);
+    }
+
 }
+

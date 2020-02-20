@@ -2,7 +2,7 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<h2>Observe auctions:</h2>
+<h2>Observe auctions</h2>
 <table border=1px>
     <tr>
         <th>Lp.</th>

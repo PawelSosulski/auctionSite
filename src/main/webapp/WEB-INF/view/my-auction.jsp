@@ -39,14 +39,14 @@
                             let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                             let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                             if (days !== 0 ) {
+                            if (days !== 0) {
 
-                                 div.innerHTML = days + "d " + hours + "h "
-                                     + minutes + "m " + seconds + "s ";
-                             } else {
-                                 div.innerHTML = hours + "h "
-                                     + minutes + "m " + seconds + "s ";
-                             }
+                                div.innerHTML = days + "d " + hours + "h "
+                                    + minutes + "m " + seconds + "s ";
+                            } else {
+                                div.innerHTML = hours + "h "
+                                    + minutes + "m " + seconds + "s ";
+                            }
                             if (distance < 0) {
                                 clearInterval(x);
                                 div.innerHTML = "ENDED";
@@ -87,7 +87,7 @@
                         <c:if test="${auction.status==AuctionStatus.SOLD}">
                             <c:choose>
                                 <c:when test="${auction.bidsNumber > 0}">
-                                    ${auction.actualPrize}
+                                    ${auction.actualPrice}
                                 </c:when>
                                 <c:otherwise>
                                     ${auction.buyNowPrice}
@@ -96,7 +96,16 @@
                         </c:if>
                     </td>
                     <td>
-                        ${auction.bidsNumber}
+                        <c:if test="${auction.status==AuctionStatus.SOLD}">
+                            <c:choose>
+                                <c:when test="${auction.bidsNumber == 0}">
+                                    1
+                                </c:when>
+                                <c:otherwise>
+                                    ${auction.bidsNumber}
+                                </c:otherwise>
+                            </c:choose>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>

@@ -2,7 +2,7 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<h2>Transactions:</h2>
+<h2>Transactions</h2>
 
 <c:forEach items="${transactions}" var="transaction" varStatus="stat">
     <c:url value="/auction/${transaction.auction.id}" var="auctionUrl"/>

@@ -33,7 +33,7 @@ public class MyAuctionPageController {
         model.addAttribute("ongoing", auctionsOngoing);
         List<AuctionDTO> auctionsFinished = auctionService
                 .findAllByUserLoginAndStatus(myUsername,
-                        new AuctionStatus[]{AuctionStatus.SOLD,AuctionStatus.CLOSE});
+                        AuctionStatus.SOLD,AuctionStatus.CLOSE);
         model.addAttribute("finished", auctionsFinished);
         return "my-auction";
     }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-@RequestMapping("/my-observe-auctions")
+@RequestMapping("/observe-auctions")
 public class MyObservePageController {
 
     private AuctionService auctionService;

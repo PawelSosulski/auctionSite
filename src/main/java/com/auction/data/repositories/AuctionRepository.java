@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,4 +32,8 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     @Query(value = "SELECT a FROM Auction a WHERE a.status = ?1 AND a.category.id in ?2")
     List<Auction> findAllByStatusAndCategory(AuctionStatus pending, List<Long> categoryId, Sort sort);
+
+    @Query(value = "SELECT a FROM Auction a WHERE a.dateEnded < ?1 AND a.status = ?2")
+    List<Auction> findAllFinishedAuction(LocalDateTime currTime, AuctionStatus status);
+
 }
