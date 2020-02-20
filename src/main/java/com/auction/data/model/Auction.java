@@ -65,7 +65,7 @@ public class Auction {
     public String toString() {
         return "Auction{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
+                ", auctionTitle='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", startPrice=" + startPrice +
                 ", buyNowPrice=" + buyNowPrice +

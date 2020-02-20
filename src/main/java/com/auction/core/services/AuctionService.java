@@ -198,8 +198,7 @@ public class AuctionService {
         return transactionsDTO;
     }
 
-    public List<AuctionDTO> findAllByUserLoginAndStatus(String login,
-                                                        AuctionStatus... auctionStatus) {
+    public List<AuctionDTO> findAllByUserLoginAndStatus(String login, AuctionStatus... auctionStatus) {
         List<AuctionDTO> myAuctions = new ArrayList<>();
         for (AuctionStatus status : auctionStatus) {
             auctionRepository.findAllByLoginAndAuctionStatus(login, status).forEach(a -> {
