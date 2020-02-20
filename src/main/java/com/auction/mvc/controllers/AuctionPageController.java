@@ -6,6 +6,7 @@ import com.auction.core.services.UserService;
 import com.auction.dto.*;
 import com.auction.utils.enums.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,8 @@ public class AuctionPageController {
             if (auctionList.size() == 1) {
                 AuctionDTO auctionDTO = auctionList.get(0);
                 model.addAttribute("auction", auctionDTO);
+                LoggedUserDTO loggedUser = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
+                model.addAttribute("user", loggedUser);
                 CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
                 model.addAttribute("category", category);
                 TransactionUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());

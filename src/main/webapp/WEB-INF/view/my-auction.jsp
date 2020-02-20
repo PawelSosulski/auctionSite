@@ -31,7 +31,7 @@
                     <td>
                         <form:form action="/my-auction" method="post" modelAttribute="endAuction">
                             <input type="hidden" name="id" value="${auction.id}">
-                            <input type="submit" value="Zakończ"/>
+                            <input type="submit" value="END"/>
 
                         </form:form>
                     </td>
