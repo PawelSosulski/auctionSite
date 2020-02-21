@@ -68,7 +68,15 @@ public class AuctionService {
             auctionDTO.setBidsNumber(a.getBiddingList().size());
             auctionDTOList.add(auctionDTO);
         });
+        return auctionDTOList;
+    }
 
+    public List<AuctionDTO> findLastAddedAuctions() {
+        List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        auctionRepository.findTop10ByStatusOrderByDateCreatedDesc(AuctionStatus.PENDING).forEach(a -> {
+            AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
+            auctionDTOList.add(auctionDTO);
+        });
         return auctionDTOList;
     }
 
@@ -298,7 +306,7 @@ public class AuctionService {
         if (bidingSize > 0) {
             auction.setStatus(AuctionStatus.SOLD);
             Bidding bidding = biddingRepository.findBiggestBid(auction.getId(), PageRequest.of(0, 1)).get(0);
-            createPurchase(auction,bidding.getBiddingUser(),bidding.getAmount());
+            createPurchase(auction, bidding.getBiddingUser(), bidding.getAmount());
 
         } else {
             auction.setStatus(AuctionStatus.CLOSE);

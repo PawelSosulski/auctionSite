@@ -23,6 +23,8 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     List<Auction> findAllByStatus(AuctionStatus status);
 
+    List<Auction> findTop10ByStatusOrderByDateCreatedDesc(AuctionStatus status);
+
     Optional<Auction> getOneById(Long auctionId);
 
     @Query(value = "SELECT a FROM Auction a WHERE a.seller.login = ?1 AND a.status=?2")
@@ -35,5 +37,7 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     @Query(value = "SELECT a FROM Auction a WHERE a.dateEnded < ?1 AND a.status = ?2")
     List<Auction> findAllFinishedAuction(LocalDateTime currTime, AuctionStatus status);
+
+
 
 }
