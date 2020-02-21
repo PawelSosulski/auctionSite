@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -73,11 +75,33 @@ public class AuctionService {
 
     public List<AuctionDTO> findLastAddedAuctions() {
         List<AuctionDTO> auctionDTOList = new ArrayList<>();
-        auctionRepository.findTop10ByStatusOrderByDateCreatedDesc(AuctionStatus.PENDING).forEach(a -> {
+        auctionRepository.findTop5ByStatusOrderByDateCreatedDesc(AuctionStatus.PENDING).forEach(a -> {
             AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
             auctionDTOList.add(auctionDTO);
         });
         return auctionDTOList;
+    }
+
+    public List<AuctionDTO> findEndingAuctions() {
+        List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        List<AuctionDTO> auctionDTOListLimit = new ArrayList<>();
+        auctionRepository.findAllByStatus(AuctionStatus.PENDING).forEach(a -> {
+            AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
+            Long dateEnd = Timestamp.valueOf(a.getDateEnded()).getTime();
+            Long dateNow = Timestamp.valueOf(LocalDateTime.now()).getTime();
+            auctionDTO.setTimeToEndMills(dateEnd - dateNow);
+            auctionDTOList.add(auctionDTO);
+        });
+        Collections.sort(auctionDTOList, new Comparator<AuctionDTO>() {
+            @Override
+            public int compare(AuctionDTO o1, AuctionDTO o2) {
+                return (int) (o1.getTimeToEndMills() - o2.getTimeToEndMills());
+            }
+        });
+        for (int i = 0; i < 5; i++) {
+            auctionDTOListLimit.add(auctionDTOList.get(i));
+        }
+        return auctionDTOListLimit;
     }
 
 

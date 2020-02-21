@@ -30,9 +30,11 @@ public class MainPageController {
         List<CategoryDTO> allCategories = categoryService.findAllCategory();
         List<CategoryDTO> mainCategories = categoryService.findMainCategories();
         List<AuctionDTO> lastAuctions = auctionService.findLastAddedAuctions();
+        List<AuctionDTO> endingAuctions = auctionService.findEndingAuctions();
         model.addAttribute("categories", allCategories);
         model.addAttribute("mainCategories", mainCategories);
         model.addAttribute("lastAuctions", lastAuctions);
+        model.addAttribute("endingAuctions", endingAuctions);
         return "main";
     }
 
