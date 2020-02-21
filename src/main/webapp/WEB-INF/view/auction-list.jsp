@@ -27,7 +27,7 @@
                 </tr>
                 <tr>
                     <td><form:radiobutton value="${SortOptions.timeASC}" path="sort"/> Newest</td>
-                    <td><form:radiobutton value="${SortOptions.priceDES}" path="sort"/> Time to end</td>
+                    <td><form:radiobutton value="${SortOptions.timeDES}" path="sort"/> Time to end</td>
                 </tr>
             </table>
             <form:checkbox path="onlyBuyNow"/>Only buy now
