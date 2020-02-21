@@ -42,6 +42,4 @@ public class AuctionDTO {
     private Integer days;
 
     private Integer bidsNumber;
-
-    private Long timeToEndMills;
 }

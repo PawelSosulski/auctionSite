@@ -25,6 +25,8 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     List<Auction> findTop5ByStatusOrderByDateCreatedDesc(AuctionStatus status);
 
+    List<Auction> findTop5ByStatusOrderByDateEndedAsc(AuctionStatus status);
+
     Optional<Auction> getOneById(Long auctionId);
 
     @Query(value = "SELECT a FROM Auction a WHERE a.seller.login = ?1 AND a.status=?2")
