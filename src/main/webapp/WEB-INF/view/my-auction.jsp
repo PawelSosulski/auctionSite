@@ -61,7 +61,6 @@
                             }
                         }, 1000);
                     }
-
                     Run(document.getElementById("timer-${auction.id}"));
                 </script>
             </c:forEach>
