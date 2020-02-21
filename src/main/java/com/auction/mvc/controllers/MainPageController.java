@@ -4,6 +4,7 @@ import com.auction.core.services.AuctionService;
 import com.auction.core.services.CategoryService;
 import com.auction.dto.AuctionDTO;
 import com.auction.dto.CategoryDTO;
+import com.auction.dto.FilterAuctionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,7 @@ public class MainPageController {
         model.addAttribute("mainCategories", mainCategories);
         model.addAttribute("lastAuctions", lastAuctions);
         model.addAttribute("endingAuctions", endingAuctions);
+        model.addAttribute("filter", new FilterAuctionDTO());
         return "main";
     }
 

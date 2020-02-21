@@ -1,4 +1,5 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -55,12 +56,19 @@
                             }
                         }, 1000);
                     }
+
                     Run(document.getElementById("timer-${lastAuction.id}"));
                 </script>
 
             </tr>
         </c:forEach>
     </table>
+    <sf:form method="post" action="/auction" modelAttribute="filter">
+        <input type="hidden" name="categoryId" value="0">
+        <input type="hidden" name="sort" value="timeASC">
+        <input type="hidden" name="onlyBuyNow" value=false>
+        <input type="submit" class="view-more-button" value="View more >>"/>
+    </sf:form>
 </div>
 
 <div>
@@ -78,7 +86,9 @@
                 <td>${stat.count}</td>
                 <td><a href="${auctionUrl}">${endingAuction.title}</a></td>
                 <td>${endingAuction.actualPrice}</td>
-                <td><div id="timer-end-${endingAuction.id}"></div></td>
+                <td>
+                    <div id="timer-end-${endingAuction.id}"></div>
+                </td>
             </tr>
 
             <script>
@@ -106,9 +116,16 @@
                         }
                     }, 1000);
                 }
+
                 Run(document.getElementById("timer-end-${endingAuction.id}"));
             </script>
 
         </c:forEach>
     </table>
+    <sf:form method="post" action="/auction" modelAttribute="filter">
+        <input type="hidden" name="categoryId" value="0">
+        <input type="hidden" name="sort" value="timeDES">
+        <input type="hidden" name="onlyBuyNow" value=false>
+        <input type="submit" class="view-more-button" value="View more >>"/>
+    </sf:form>
 </div>

@@ -258,7 +258,7 @@ public class AuctionService {
                     sort = Sort.by(Sort.Direction.DESC, "dateCreated");
                     break;
                 case timeDES:
-                    sort = Sort.by(Sort.Direction.DESC, "dateEnded");
+                    sort = Sort.by(Sort.Direction.ASC, "dateEnded");
                     break;
                 default:
                     sort = Sort.unsorted();
