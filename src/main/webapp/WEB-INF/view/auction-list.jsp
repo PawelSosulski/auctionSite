@@ -62,7 +62,7 @@
                 <th>Lp.</th>
                 <th>Title</th>
                 <th>Category</th>
-                <th></th>
+                <th>Price</th>
                 <th>Time to end</th>
             </tr>
             <c:forEach items="${auctions}" var="auction" varStatus="stat">
