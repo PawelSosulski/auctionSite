@@ -37,8 +37,14 @@ public class AuctionPageController {
         FilterAuctionDTO filterAuctionDTO = new FilterAuctionDTO();
 
         if (id != null) {
+            List<CategoryDTO> subCategories = categoryService.findCategoryByParentId(Long.valueOf(id));
             List<Long> categoryId = new ArrayList<>();
             categoryId.add(Long.valueOf(id));
+            if (subCategories.size() != 0) {
+                for (int i = 0; i < subCategories.size(); i++) {
+                    categoryId.add(subCategories.get(i).getId());
+                }
+            }
             filterAuctionDTO.setSort(SortOptions.timeASC);
             filterAuctionDTO.setOnlyBuyNow(false);
             filterAuctionDTO.setCategoryId(categoryId);

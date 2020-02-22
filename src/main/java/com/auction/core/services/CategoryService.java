@@ -55,6 +55,16 @@ public class CategoryService {
         return new CategoryDTO();
     }
 
+    public List<CategoryDTO> findCategoryByParentId(Long id) {
+        List<CategoryDTO> allByParentId = new ArrayList<>();
+        categoryRepository.findAllByParentId(id).forEach(a -> {
+            CategoryDTO categoryDTO = mapper.map(a, CategoryDTO.class);
+            allByParentId.add(categoryDTO);
+        });
+
+        return allByParentId;
+    }
+
     public CategoryDTO findCategoryWithParentName(Long id) {
         List<Category> allById = categoryRepository.findAllById(id);
         if (allById.size()==1) {
