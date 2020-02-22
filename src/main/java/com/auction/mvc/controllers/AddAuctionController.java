@@ -41,7 +41,8 @@ public class AddAuctionController {
     @GetMapping
     public ModelAndView addAuctionInitPage(Model model) {
 
-        model.addAttribute("categories", categoryService.getCategoriesMap());
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("mainCategories", categoryService.findMainCategories());
         model.addAttribute("daysList", getDaysList(7));
         return new ModelAndView("add-auction", "newAuction", new AuctionDTO());
     }

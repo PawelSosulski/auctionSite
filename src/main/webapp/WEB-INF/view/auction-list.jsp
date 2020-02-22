@@ -17,9 +17,22 @@
     <h3>Filter</h3>
     <form:form method="post" action="/auction" modelAttribute="filter">
         <fieldset>
-            <form:select multiple="true" path="categoryId">
-                <form:options items="${categories}"/>
-            </form:select>
+
+            <div>
+                <select name="categoryId" onmousedown="if(this.options.length>8){this.size=8;}"  onchange='this.size=0;' onblur="this.size=0;">
+                    <option hidden>-- Select categories --</option>
+                    <option value="0">-- All categories --</option>
+                    <c:forEach items="${mainCategories}" var="category">
+                        <optgroup label="${category.name}">
+                            <c:forEach items="${categories}" var="subCategory">
+                                <c:if test="${category.id == subCategory.parentId}">
+                                    <option value="${subCategory.id}">${subCategory.name}</option>
+                                </c:if>
+                            </c:forEach>
+                        </optgroup>
+                    </c:forEach>
+                </select>
+            </div>
             <table>
                 <tr>
                     <td><form:radiobutton value="${SortOptions.priceASC}" path="sort"/> Cheapest</td>
@@ -49,7 +62,7 @@
                 <th>Lp.</th>
                 <th>Title</th>
                 <th>Category</th>
-                <th></th>
+                <th>Price</th>
                 <th>Time to end</th>
             </tr>
             <c:forEach items="${auctions}" var="auction" varStatus="stat">

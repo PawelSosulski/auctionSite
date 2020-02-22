@@ -5,11 +5,11 @@
 <div class="category-menu">
     <ul>
         <c:forEach items="${mainCategories}" var="category">
-            <li><span>${category.name}</span>
+            <li><span><a href="/auction?id=${category.id}">${category.name}</a></span>
                 <ol>
                     <c:forEach items="${categories}" var="subCategory">
                         <c:if test="${category.id == subCategory.parentId}">
-                            <li><span>${subCategory.name}</span></li>
+                            <li><span><a href="/auction?id=${subCategory.id}">${subCategory.name}</a></span></li>
                         </c:if>
                     </c:forEach>
                 </ol>

@@ -114,7 +114,7 @@
 </div>
 <div>
     Category:<br>
-    ${category.name}<br>
+    ${category.parentName} > ${category.name}<br>
 </div>
 <c:choose>
     <c:when test="${auction.status == 'PENDING'}">
