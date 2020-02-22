@@ -74,4 +74,22 @@
         </put-attribute>
     </definition>
 
+    <definition name="rate" extends="base">
+        <put-attribute name="body">
+            <definition template="/WEB-INF/view/fragments/page-my-account.jsp">
+                <put-attribute name="body-main" value="/WEB-INF/view/rate.jsp"/>
+                <put-attribute name="sub-menu" value="/WEB-INF/view/fragments/my-account-submenu.jsp"/>
+            </definition>
+        </put-attribute>
+    </definition>
+
+
+    <definition name="404" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/404.jsp"/>
+    </definition>
+
+    <definition name="error" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/error.jsp"/>
+    </definition>
+
 </tiles-definitions>

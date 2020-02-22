@@ -4,19 +4,18 @@ import com.auction.data.model.*;
 import com.auction.data.repositories.*;
 import com.auction.dto.*;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.TransactionRole;
 import org.dozer.Mapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 
 import javax.transaction.Transactional;
-import javax.validation.Valid;
+
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -199,26 +198,6 @@ public class AuctionService {
         return observeAuctions;
     }
 
-    public List<TransactionDTO> findUserTransaction() {
-        String login = SecurityContextHolder.getContext().getAuthentication().getName();
-        List<TransactionDTO> transactionsDTO = new ArrayList<>();
-        List<UserAccount> allByUsername = userAccountRepository.findAllByLogin(login);
-        if (allByUsername.size() == 1) {
-            UserAccount user = allByUsername.get(0);
-            user.getPurchases().forEach(a -> {
-                TransactionDTO purchase = new TransactionDTO();
-                purchase.setAmount(a.getAmount());
-                purchase.setTransactionAssessment(
-                        mapper.map(a.getTransactionAssessment(), TransactionAssessmentDTO.class));
-                purchase.setAuction(mapper.map(a.getAuction(), AuctionDTO.class));
-                purchase.setSellerUser(mapper.map(a.getAuction().getSeller(), TransactionUserDTO.class));
-                purchase.setBuyerUser(mapper.map(a.getBuyerUser(), TransactionUserDTO.class));
-                transactionsDTO.add(purchase);
-            });
-        }
-
-        return transactionsDTO;
-    }
 
     public List<AuctionDTO> findAllByUserLoginAndStatus(String login, AuctionStatus... auctionStatus) {
         List<AuctionDTO> myAuctions = new ArrayList<>();
@@ -270,7 +249,8 @@ public class AuctionService {
         if (filter.getCategoryId().contains(0L) || filter.getCategoryId().size() == 0) {
             sorted = auctionRepository.findAllByStatus(AuctionStatus.PENDING, sort);
         } else {
-            sorted = auctionRepository.findAllByStatusAndCategory(AuctionStatus.PENDING, filter.getCategoryId(), sort);
+            sorted = auctionRepository.findAllByStatusAndCategory(AuctionStatus.PENDING,
+                    filter.getCategoryId(), sort);
         }
 
         if (filter.getOnlyBuyNow()) {
@@ -308,7 +288,8 @@ public class AuctionService {
     }
 
     public void finishedAuctions() {
-        List<Auction> finishedAuction = auctionRepository.findAllFinishedAuction(LocalDateTime.now(), AuctionStatus.PENDING);
+        List<Auction> finishedAuction = auctionRepository.findAllFinishedAuction(LocalDateTime.now(),
+                AuctionStatus.PENDING);
         finishedAuction.forEach(this::finishedAuction);
 
     }
@@ -317,7 +298,8 @@ public class AuctionService {
         int bidingSize = auction.getBiddingList().size();
         if (bidingSize > 0) {
             auction.setStatus(AuctionStatus.SOLD);
-            Bidding bidding = biddingRepository.findBiggestBid(auction.getId(), PageRequest.of(0, 1)).get(0);
+            Bidding bidding = biddingRepository.findBiggestBid(auction.getId(),
+                    PageRequest.of(0, 1)).get(0);
             createPurchase(auction, bidding.getBiddingUser(), bidding.getAmount());
 
         } else {
@@ -327,11 +309,13 @@ public class AuctionService {
     }
 
     public void finishedAuctionDTO(AuctionDTO auctionDTO) {
-        Long id = auctionDTO.getId();
-        Auction auction = auctionRepository.findAllById(id).get(0);
-        int bidingSize = auction.getBiddingList().size();
-        finishedAuction(auction);
+        Optional<Auction> auctionOpt = auctionRepository.getOneById(auctionDTO.getId());
+        auctionOpt.ifPresent(this::finishedAuction);
     }
 
+
+    public String getAuctionTitleFromPurchase(Long purchaseId) {
+        return purchaseRepository.getOne(purchaseId).getAuction().getTitle();
+    }
 }
 
