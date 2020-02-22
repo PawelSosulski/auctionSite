@@ -59,8 +59,10 @@ public class CategoryService {
         List<Category> allById = categoryRepository.findAllById(id);
         if (allById.size()==1) {
             CategoryDTO categoryDTO = mapper.map(allById.get(0),CategoryDTO.class);
-            categoryDTO.setParentName(getParentName(categoryDTO.getParentId()));
-            return categoryDTO;
+            if (categoryDTO.getParentId() != 0) {
+                categoryDTO.setParentName(getParentName(categoryDTO.getParentId()));
+                return categoryDTO;
+            }
         }
         return new CategoryDTO();
     }
