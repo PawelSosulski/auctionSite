@@ -8,23 +8,34 @@
 <form:form method="post" action="/auction-add" modelAttribute="newAuction">
 
     <table>
-        <tr><td></td><td></td></tr>
-        <tr><td><form:errors path="title"/></td></tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><form:errors path="title"/></td>
+        </tr>
         <tr>
             <td>Title:</td>
             <td><form:input path="title"/></td>
         </tr>
-        <tr><td><form:errors path="description"/></td></tr>
+        <tr>
+            <td><form:errors path="description"/></td>
+        </tr>
         <tr>
             <td>Description:</td>
             <td><form:textarea cols="70" rows="15" path="description"/></td>
         </tr>
-        <tr><td><form:errors path="startPrice"/></td></tr>
+        <tr>
+            <td><form:errors path="startPrice"/></td>
+        </tr>
         <tr>
             <td>Start price:</td>
             <td><form:input path="startPrice"/></td>
         </tr>
-        <tr><td><form:errors path="buyNowPrice"/></td></tr>
+        <tr>
+            <td><form:errors path="buyNowPrice"/></td>
+        </tr>
         <tr>
             <td>Buy now price:</td>
             <td><form:input path="buyNowPrice"/></td>
@@ -33,11 +44,23 @@
         <tr>
             <td>Category:</td>
             <td>
-                <form:select path="categoryId">
-                    <form:options items="${categories}"/>
-                </form:select>
+                <div>
+                    <select name="categoryId">
+                        <option hidden>-- Select categories --</option>
+                        <c:forEach items="${mainCategories}" var="category">
+                        <optgroup label="${category.name}">
+                            <c:forEach items="${categories}" var="subCategory">
+                                <c:if test="${category.id == subCategory.parentId}">
+                                    <option value="${subCategory.id}">${subCategory.name}</option>
+                                </c:if>
+                            </c:forEach>
+                        </optgroup>
+                        </c:forEach>
+                    </select>
+                </div>
             </td>
         </tr>
+        
         <tr>
             <td>Days to end:</td>
             <td>
