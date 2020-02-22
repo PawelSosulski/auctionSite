@@ -39,8 +39,8 @@ public class AuctionPageController {
         List<AuctionDTO> allAuctions = auctionService
                 .findAllByStatusWithCategory(AuctionStatus.PENDING);
         model.addAttribute("auctions", allAuctions);
-        List<CategoryDTO> categories = categoryService.findAllCategory();
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("mainCategories", categoryService.findMainCategories());
         model.addAttribute("filter", new FilterAuctionDTO());
         return "auction-list";
     }
@@ -50,10 +50,8 @@ public class AuctionPageController {
     public String auctionFilter(FilterAuctionDTO filter, Model model) {
         List<AuctionDTO> filteredAuction = auctionService.doPendingAuctionFilter(filter);
         model.addAttribute("auctions", filteredAuction);
-        Map<Long, String> categories = new HashMap<>();
-        categories.put(0L, "All");
-        categories.putAll(categoryService.getCategoriesMap());
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("mainCategories", categoryService.findMainCategories());
         model.addAttribute("filter", filter);
         return "auction-list";
     }
