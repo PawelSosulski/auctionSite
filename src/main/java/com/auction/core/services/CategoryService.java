@@ -53,7 +53,16 @@ public class CategoryService {
             return mapper.map(allById.get(0),CategoryDTO.class);
         }
         return new CategoryDTO();
+    }
 
+    public CategoryDTO findCategoryWithParentName(Long id) {
+        List<Category> allById = categoryRepository.findAllById(id);
+        if (allById.size()==1) {
+            CategoryDTO categoryDTO = mapper.map(allById.get(0),CategoryDTO.class);
+            categoryDTO.setParentName(getParentName(categoryDTO.getParentId()));
+            return categoryDTO;
+        }
+        return new CategoryDTO();
     }
 
     public Map<Long, String> getCategoriesMap() {
@@ -68,5 +77,13 @@ public class CategoryService {
             categoryDTOList.add(categoryDTO);
         });
         return categoryDTOList;
+    }
+
+
+    private String getParentName(Long parentId) {
+        List<Category> categoryList= categoryRepository.findAllById(parentId);
+        Category category = categoryList.get(0);
+        String parentName = category.getName();
+        return parentName;
     }
 }

@@ -45,7 +45,7 @@
             <td>Category:</td>
             <td>
                 <div>
-                    <select name="categoryId">
+                    <select name="categoryId" onmousedown="if(this.options.length>8){this.size=8;}"  onchange='this.size=0;' onblur="this.size=0;">
                         <option hidden>-- Select categories --</option>
                         <c:forEach items="${mainCategories}" var="category">
                         <optgroup label="${category.name}">
@@ -60,7 +60,7 @@
                 </div>
             </td>
         </tr>
-        
+
         <tr>
             <td>Days to end:</td>
             <td>

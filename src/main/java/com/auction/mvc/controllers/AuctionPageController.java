@@ -39,9 +39,7 @@ public class AuctionPageController {
         List<AuctionDTO> allAuctions = auctionService
                 .findAllByStatusWithCategory(AuctionStatus.PENDING);
         model.addAttribute("auctions", allAuctions);
-        Map<Long, String> categories = new HashMap<>();
-        categories.put(0L, "All");
-        categories.putAll(categoryService.getCategoriesMap());
+        List<CategoryDTO> categories = categoryService.findAllCategory();
         model.addAttribute("categories", categories);
         model.addAttribute("filter", new FilterAuctionDTO());
         return "auction-list";
@@ -70,8 +68,12 @@ public class AuctionPageController {
                 model.addAttribute("auction", auctionDTO);
                 LoggedUserDTO loggedUser = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
                 model.addAttribute("user", loggedUser);
-                CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
-                model.addAttribute("category", category);
+//                CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
+//                model.addAttribute("category", category);
+
+                CategoryDTO categories = categoryService.findCategoryWithParentName(auctionDTO.getCategoryId());
+                model.addAttribute("category", categories);
+
                 TransactionUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
                 model.addAttribute("seller", seller);
                 BidDTO bid = new BidDTO();
