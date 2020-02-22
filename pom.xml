@@ -108,6 +108,21 @@
 			<artifactId>tiles-el</artifactId>
 			<version>3.0.5</version>
 		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>webjars-locator</artifactId>
+			<version>0.30</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>bulma</artifactId>
+			<version>0.8.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>5.12.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -1,4 +1,4 @@
-package com.auction.mvc.controllers;
+package com.auction.mvc.controllers.my;
 
 import com.auction.core.services.AuctionService;
 import com.auction.data.model.Auction;

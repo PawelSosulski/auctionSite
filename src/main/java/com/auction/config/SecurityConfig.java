@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
@@ -37,21 +38,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/").permitAll()
-                 .antMatchers("/login").permitAll()
+                .antMatchers("/login").permitAll()
                 .antMatchers("/logout").authenticated()
                 .antMatchers("/register").anonymous()
-                //.antMatchers("/auction").authenticated()
                 .antMatchers("/my-account").authenticated()
                 .antMatchers("/my-auction").authenticated()
                 .antMatchers("/my-transaction").authenticated()
                 .antMatchers("/my-observe-auctions").authenticated()
                 .antMatchers("/my-biddings").authenticated()
-                //.antMatchers("/auction/**").anonymous()
-                //.antMatchers("/category-list").anonymous()
-                //.anyRequest().authenticated()
                 .antMatchers("/bidAuction").authenticated()
                 .antMatchers("/buyAuction").authenticated()
                 .antMatchers("/auction-add").authenticated()
+                .antMatchers("/rate").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -74,7 +72,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .usersByUsernameQuery("Select login, password, 1 FROM users WHERE login = ?")
                 //TODO  - ROLE !
                 .authoritiesByUsernameQuery("Select login, 'ROLE_USER' FROM users WHERE login = ?");
+    }
 
-
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .antMatchers("/webjars/","/webjars/**");
     }
 }
