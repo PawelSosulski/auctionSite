@@ -4,6 +4,7 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<section class="section">
 <div class="container">
     <form action="/login" method='POST'>
 
@@ -28,7 +29,7 @@
         </div>
         <div class="field">
             <p class="control">
-                <button class="button is-success">
+                <button class="button is-primary">
                     Login
                 </button>
             </p>
@@ -36,4 +37,4 @@
         <sec:csrfInput/>
     </form>
 </div>
-
+</section>

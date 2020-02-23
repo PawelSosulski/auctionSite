@@ -83,12 +83,7 @@
         </put-attribute>
     </definition>
 
-
-    <definition name="404" extends="base">
-        <put-attribute name="body" value="/WEB-INF/view/404.jsp"/>
-    </definition>
-
-    <definition name="error" extends="base">
+    <definition name="errorPage" extends="base">
         <put-attribute name="body" value="/WEB-INF/view/error.jsp"/>
     </definition>
 
