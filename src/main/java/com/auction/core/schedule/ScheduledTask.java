@@ -20,7 +20,8 @@ public class ScheduledTask {
     private AuctionService auctionService;
 
 
-    @Scheduled(fixedDelay = 1000)
+    //@Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 1000000000)
     public void scheduleCheckAuctionsEnds(){
         //log.info("Working- " + System.currentTimeMillis() / 1000);
         auctionService.finishedAuctions();

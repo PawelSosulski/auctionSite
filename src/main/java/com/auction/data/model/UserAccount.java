@@ -77,6 +77,8 @@ public class UserAccount {
     @OneToMany(mappedBy = "seller")
     private Set<Auction> myAuctions = new HashSet<>();
 
+    @OneToOne
+    private FileEntity avatar;
 
     @Override
     public String toString() {

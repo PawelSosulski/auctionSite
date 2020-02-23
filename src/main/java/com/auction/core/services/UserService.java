@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,9 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 @Service
 @Transactional
 public class UserService {
+
+
+    private static String uploadFolder = "D:\\auction\\";
 
     @Autowired
     private AuctionRepository auctionRepository;
@@ -108,5 +112,15 @@ public class UserService {
             return collect.contains(auctionId);
         }
         return false;
+    }
+
+    public Long getAvatarId() {
+        String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount user = oneByLogin.get();
+            return user.getAvatar().getId();
+        }
+        return 0L;
     }
 }
