@@ -13,5 +13,6 @@ public interface UserAccountRepository extends JpaRepository<UserAccount, Long> 
     List<UserAccount> findAllByUsername(String userName);
 
     Optional<UserAccount> getOneByLogin(String name);
+
     // UserAccount findAllByLogin(String login);
 }
