@@ -27,16 +27,16 @@
                         <sec:authorize access="isAnonymous()">
                         <span class="navbar-item">
                             <a class="button is-primary is-inverted" href="/login">
-                                <span class="icon">
-                                    <i class="fab fa-lock"></i>
-                                </span>
                                 <span>Login</span>
+                                <span class="icon is-right">
+                                    <i class="fa fa-lock-open"></i>
+                                </span>
                             </a>
                             <a class="button is-primary is-inverted" href="/register">
-                                <span class="icon">
-                                    <i class="fab fa-cash-register"></i>
-                                </span>
                             <span>Register</span>
+                                <span class="icon">
+                                    <i class="fa fa-user-edit"></i>
+                                </span>
                             </a>
                         </span>
                         </sec:authorize>
@@ -44,15 +44,15 @@
                           <span class="navbar-item">
                             <a class="button is-primary is-inverted" href="/my-biddings">
                                 <span class="icon">
-                                    <i class="fab fa-bacon"></i>
+                                    <i class="fa fa-user"></i>
                                 </span>
-                                <span>My account</span>
+                                <span>My profile</span>
                             </a>
                             <a class="button is-primary is-inverted" href="/logout">
                                 <span class="icon">
-                                    <i class="fab fa-sign-out"></i>
+                                    <i class="fa fa-lock"></i>
                                 </span>
-                            <span>Logout</span>
+                                <span>Logout</span>
                             </a>
                         </span>
                         </sec:authorize>

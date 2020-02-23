@@ -9,27 +9,27 @@
         <div class="panel-title">Auction: ${rate.auctionTitle}</div>
 
         <form:form action="/rate-add" method="post" modelAttribute="rate">
-            <spring:bind path="rateValue">
-                <div class="field">
-                    <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <label for="rateValue">Rate</label><br>
-                        <div class="select is-medium is-rounded has-icons-left">
-                            <form:select cssClass="is-focused" path="rateValue">
-                                <form:options items="${count}"/>
-                            </form:select><br>
-                            <div class="icon is-small is-left">
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                        <form:errors id="rateValue" path="rateValue"/>
-                    </div>
+            <div class="field">
+                <div class="control has-icons-left">
+                    <span class="select is-focused">
+                        <label class="label" for="rateValue">Rate</label>
+                        <select id="rateValue" name="rateValue">
+                            <c:forEach items="${count}" var="value">
+                                <option value="${value}">${value}</option>
+                            </c:forEach>
+                        </select>
+                    </span>
+                    <span class="icon is is-small is-left">
+                        <i class="fa fa-star"></i>
+                    </span>
                 </div>
-            </spring:bind>
+            </div>
 
             <spring:bind path="rate.rateDescription">
                 <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label for="desc">Description:</label><br>
-                    <form:textarea cssClass="textarea is-medium is-hovered has-fixed-size" id="desc" cols="70" rows="5" path="rateDescription"/><br>
+                    <label class="label" for="desc">Description:</label><br>
+                    <form:textarea cssClass="textarea is-medium is-hovered has-fixed-size" id="desc" cols="70" rows="5"
+                                   path="rateDescription"/><br>
                     <form:errors path="rateDescription"/>
                 </div>
             </spring:bind>
