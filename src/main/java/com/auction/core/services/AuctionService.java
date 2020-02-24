@@ -3,7 +3,9 @@ package com.auction.core.services;
 import com.auction.data.model.*;
 import com.auction.data.repositories.*;
 import com.auction.dto.*;
+import com.auction.utils.enums.AccountType;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.AuctionType;
 import com.auction.utils.enums.TransactionRole;
 import org.dozer.Mapper;
 import org.springframework.data.domain.PageRequest;
@@ -98,6 +100,7 @@ public class AuctionService {
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setActualPrice(auctionDTO.getStartPrice());
         auction.setStatus(AuctionStatus.PENDING);
+        auction.setAuctionType(AuctionType.NORMAL);
         auction.setDateCreated(dateNow);
         auction.setDateEnded(dateNow.plusDays(auctionDays));
         String sellerLogin =
@@ -313,6 +316,12 @@ public class AuctionService {
         auctionOpt.ifPresent(this::finishedAuction);
     }
 
+    public void promoteAuction(AuctionDTO auctionDTO) {
+        Long auctionId = auctionDTO.getId();
+        Auction auction = auctionRepository.findAllById(auctionId).get(0);
+        auction.setAuctionType(AuctionType.PROMOTED);
+        auctionRepository.save(auction);
+    }
 
     public String getAuctionTitleFromPurchase(Long purchaseId) {
         return purchaseRepository.getOne(purchaseId).getAuction().getTitle();

@@ -45,13 +45,17 @@ public class UserService {
 
     public void editUser(LoggedUserDTO loggedUserDTO) {
         UserAccount currentUser = userAccountRepository.findAllByLogin(loggedUserDTO.getLogin()).get(0);
-        currentUser.setName(loggedUserDTO.getName());
-        currentUser.setLastName(loggedUserDTO.getLastName());
-        currentUser.setStreet(loggedUserDTO.getStreet());
-        currentUser.setStreetNumber(loggedUserDTO.getStreetNumber());
-        currentUser.setCity(loggedUserDTO.getCity());
-        currentUser.setZipCode(loggedUserDTO.getZipCode());
-        currentUser.setProvince(loggedUserDTO.getProvince());
+        if (loggedUserDTO.getName() != null) {
+            currentUser.setName(loggedUserDTO.getName());
+            currentUser.setLastName(loggedUserDTO.getLastName());
+            currentUser.setStreet(loggedUserDTO.getStreet());
+            currentUser.setStreetNumber(loggedUserDTO.getStreetNumber());
+            currentUser.setCity(loggedUserDTO.getCity());
+            currentUser.setZipCode(loggedUserDTO.getZipCode());
+            currentUser.setProvince(loggedUserDTO.getProvince());
+        } else {
+            currentUser.setType((loggedUserDTO.getType()));
+        }
         userAccountRepository.save(currentUser);
     }
 

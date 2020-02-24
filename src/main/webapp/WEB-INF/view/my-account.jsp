@@ -8,7 +8,7 @@
 <div>
     <h2>My account</h2>
     <sf:form method="post" action="/my-account" modelAttribute="myAccount">
-
+        Account type: <b>${myAccount.type}</b><br>
         Username: <sf:input path="username" readonly="true" style="color: Grey; opacity: 1;"/><br>
         Login: <sf:input path="login" readonly="true" style="color: Grey; opacity: 1;"/><br>
         Name: <sf:input path="name"/><br>
@@ -21,5 +21,16 @@
         <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
 
     </sf:form>
+
+
+        <c:if test="${myAccount.type == 'NORMAL'}">
+            <sf:form method="post" action="/my-account" modelAttribute="myAccount">
+                <input hidden name="login" value="${myAccount.login}">
+                <input hidden name="type" value="PREMIUM">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Get Premium</button>
+            </sf:form>
+        </c:if>
+
+
 
 </div>

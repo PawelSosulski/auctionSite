@@ -3,6 +3,7 @@ package com.auction.dto;
 import com.auction.data.model.Category;
 import com.auction.data.model.UserAccount;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.AuctionType;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -42,4 +43,6 @@ public class AuctionDTO {
     private Integer days;
 
     private Integer bidsNumber;
+
+    private AuctionType auctionType;
 }
