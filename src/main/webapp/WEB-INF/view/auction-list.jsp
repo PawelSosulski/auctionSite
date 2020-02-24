@@ -67,7 +67,15 @@
                     <c:when test="${auctions.size()>0}">
                         <c:forEach items="${auctions}" var="auction" varStatus="stat">
                             <c:url value="auction/${auction.id}" var="auctionUrl"/>
-                            <tr>
+                            <c:choose>
+                                <c:when test="${auction.auctionType == 'NORMAL'}">
+                                    <tr>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr style="background-color: aquamarine">
+                                </c:otherwise>
+                            </c:choose>
+
                                 <td>${stat.index+1}</td>
                                 <td><a href="${auctionUrl}">${auction.title}</a></td>
                                 <td>${auction.categoryName}</td>
