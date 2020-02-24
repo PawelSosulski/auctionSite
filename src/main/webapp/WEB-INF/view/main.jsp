@@ -11,6 +11,61 @@
         <div class="column is-one-fifth-desktop">
             <jsp:include page="fragments/category-list2.jsp"/>
         </div>
+
+        <div class="column is-four-fifths-desktop">
+            <div>
+                <h2 class="title panel is-primary">Promoted auctions</h2>
+                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Time left</th>
+                    </tr>
+                    <c:forEach items="${promotedAuctions}" var="promotedAuction" varStatus="stat">
+                        <c:url value="auction/${promotedAuction.id}" var="auctionUrl"/>
+                        <tr>
+                            <td>${stat.count}</td>
+                            <td><a href="${auctionUrl}">${promotedAuction.title}</a></td>
+                            <td>${promotedAuction.actualPrice}</td>
+                            <td>
+                                <div id="timer-promoted-${promotedAuction.id}"></div>
+                            </td>
+
+                            <script>
+                                function Run(div) {
+                                    let countDown = new Date("${promotedAuction.dateEnded}").getTime();
+                                    let x = setInterval(function () {
+                                        let now = new Date().getTime();
+                                        let distance = countDown - now;
+                                        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                                        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                                        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                                        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                                        if (days !== 0) {
+
+                                            div.innerHTML = days + "d " + hours + "h "
+                                                + minutes + "m " + seconds + "s ";
+                                        } else {
+                                            div.innerHTML = hours + "h "
+                                                + minutes + "m " + seconds + "s ";
+                                        }
+                                        if (distance < 0) {
+                                            clearInterval(x);
+                                            div.innerHTML = "ENDED";
+                                        }
+                                    }, 1000);
+                                }
+
+                                Run(document.getElementById("timer-promoted-${promotedAuction.id}"));
+                            </script>
+
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+
         <div class="column is-four-fifths-desktop">
             <div>
                 <h2 class="title panel is-primary">Last added auctions</h2>
@@ -28,7 +83,7 @@
                             <td><a href="${auctionUrl}">${lastAuction.title}</a></td>
                             <td>${lastAuction.actualPrice}</td>
                             <td>
-                                <div id="timer-${lastAuction.id}"></div>
+                                <div id="timer-last-${lastAuction.id}"></div>
                             </td>
 
                             <script>
@@ -57,7 +112,7 @@
                                     }, 1000);
                                 }
 
-                                Run(document.getElementById("timer-${lastAuction.id}"));
+                                Run(document.getElementById("timer-last-${lastAuction.id}"));
                             </script>
 
                         </tr>

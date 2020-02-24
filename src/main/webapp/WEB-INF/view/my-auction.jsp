@@ -17,7 +17,8 @@
                 <th>Actual price</th>
                 <th>Bid number</th>
                 <th>Time to end</th>
-                <th>Actions</th>
+                <th>Auction type</th>
+                <th colspan="2">Actions</th>
             </tr>
             <c:forEach items="${ongoing}" var="auction" varStatus="stat">
                 <c:url value="auction/${auction.id}" var="auctionUrl"/>
@@ -27,13 +28,23 @@
                     <td>${auction.categoryName}</td>
                     <td>${auction.actualPrice}</td>
                     <td>${auction.bidsNumber}</td>
-                    <td><div id="timer-${auction.id}"></div></td>
                     <td>
-                        <form:form action="/my-auction" method="post" modelAttribute="endAuction">
+                        <div id="timer-${auction.id}"></div>
+                    </td>
+                    <td>${auction.auctionType}</td>
+                    <td>
+                        <form:form action="/my-auction" method="post" modelAttribute="auctionActions">
                             <input type="hidden" name="id" value="${auction.id}">
                             <input type="submit" value="END"/>
-
                         </form:form>
+                    </td>
+                    <td>
+                        <c:if test="${auction.auctionType == 'NORMAL'}">
+                            <form:form action="/promote-auction" method="post" modelAttribute="auctionActions">
+                                <input type="hidden" name="id" value="${auction.id}">
+                                <input type="submit" value="PROMOTE">
+                            </form:form>
+                        </c:if>
                     </td>
                 </tr>
                 <script>
@@ -61,6 +72,7 @@
                             }
                         }, 1000);
                     }
+
                     Run(document.getElementById("timer-${auction.id}"));
                 </script>
             </c:forEach>

@@ -24,6 +24,15 @@
                         name="uploadData" type="submit">Save
                 </button>
             </form:form>
+          
+          <c:if test="${myAccount.type == 'NORMAL'}">
+            <sf:form method="post" action="/my-account" modelAttribute="myAccount">
+                <input hidden name="login" value="${myAccount.login}">
+                <input hidden name="type" value="PREMIUM">
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Get Premium</button>
+            </sf:form>
+        </c:if>
+          
             <div>
                 <c:if test="${error!=null}">
                     ${error}

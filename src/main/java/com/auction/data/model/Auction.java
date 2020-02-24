@@ -1,7 +1,9 @@
 package com.auction.data.model;
 
 
+import com.auction.utils.enums.AccountType;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.AuctionType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,6 +47,9 @@ public class Auction {
 
     @Column(name = "date_ended")
     private LocalDateTime dateEnded;
+
+    @Column(nullable = false)
+    private AuctionType auctionType;
 
     @ManyToOne
     @JoinColumn(name = "category_id")

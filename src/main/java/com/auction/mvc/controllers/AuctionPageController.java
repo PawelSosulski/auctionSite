@@ -51,7 +51,7 @@ public class AuctionPageController {
             List<AuctionDTO> filteredAuction = auctionService.doPendingAuctionFilter(filterAuctionDTO);
             model.addAttribute("auctions", filteredAuction);
         } else {
-            List<AuctionDTO> allAuctions = auctionService.findAllByStatusWithCategory(AuctionStatus.PENDING);
+            List<AuctionDTO> allAuctions = auctionService.findAllByStatusWithCategorySortedByPromote(AuctionStatus.PENDING);
             model.addAttribute("auctions", allAuctions);
         }
 

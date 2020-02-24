@@ -3,7 +3,9 @@ package com.auction.core.services;
 import com.auction.data.model.*;
 import com.auction.data.repositories.*;
 import com.auction.dto.*;
+import com.auction.utils.enums.AccountType;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.AuctionType;
 import com.auction.utils.enums.TransactionRole;
 import org.dozer.Mapper;
 import org.springframework.data.domain.PageRequest;
@@ -58,6 +60,20 @@ public class AuctionService {
         return auctionDTOList;
     }
 
+    public List<AuctionDTO> findAllByStatusWithCategorySortedByPromote(AuctionStatus status) {
+        List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        auctionRepository.findAllByStatusOrderByAuctionTypeDesc(status).forEach(a -> {
+            AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
+            auctionDTO.setCategoryId(a.getCategory().getId());
+            auctionDTO.setSellerId(a.getSeller().getId());
+            auctionDTO.setCategoryName(a.getCategory().getName());
+            auctionDTO.setBidsNumber(a.getBiddingList().size());
+            auctionDTOList.add(auctionDTO);
+        });
+
+        return auctionDTOList;
+    }
+
 
     public List<AuctionDTO> findAllById(Long auctionId) {
         List<AuctionDTO> auctionDTOList = new ArrayList<>();
@@ -74,7 +90,7 @@ public class AuctionService {
 
     public List<AuctionDTO> findLastAddedAuctions() {
         List<AuctionDTO> auctionDTOList = new ArrayList<>();
-        auctionRepository.findTop5ByStatusOrderByDateCreatedDesc(AuctionStatus.PENDING).forEach(a -> {
+        auctionRepository.findTop3ByStatusOrderByDateCreatedDesc(AuctionStatus.PENDING).forEach(a -> {
             AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
             auctionDTOList.add(auctionDTO);
         });
@@ -83,8 +99,16 @@ public class AuctionService {
 
     public List<AuctionDTO> findEndingAuctions() {
         List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        auctionRepository.findTop3ByStatusOrderByDateEndedAsc(AuctionStatus.PENDING).forEach(a -> {
+            AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
+            auctionDTOList.add(auctionDTO);
+        });
+        return auctionDTOList;
+    }
 
-        auctionRepository.findTop5ByStatusOrderByDateEndedAsc(AuctionStatus.PENDING).forEach(a -> {
+    public List<AuctionDTO> findPromotedAuctions() {
+        List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        auctionRepository.findTop5ByAuctionTypeAndStatusOrderByDateEndedAsc(AuctionType.PROMOTED, AuctionStatus.PENDING).forEach(a -> {
             AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
             auctionDTOList.add(auctionDTO);
         });
@@ -98,6 +122,7 @@ public class AuctionService {
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setActualPrice(auctionDTO.getStartPrice());
         auction.setStatus(AuctionStatus.PENDING);
+        auction.setAuctionType(AuctionType.NORMAL);
         auction.setDateCreated(dateNow);
         auction.setDateEnded(dateNow.plusDays(auctionDays));
         String sellerLogin =
@@ -313,6 +338,12 @@ public class AuctionService {
         auctionOpt.ifPresent(this::finishedAuction);
     }
 
+    public void promoteAuction(AuctionDTO auctionDTO) {
+        Long auctionId = auctionDTO.getId();
+        Auction auction = auctionRepository.findAllById(auctionId).get(0);
+        auction.setAuctionType(AuctionType.PROMOTED);
+        auctionRepository.save(auction);
+    }
 
     public String getAuctionTitleFromPurchase(Long purchaseId) {
         return purchaseRepository.getOne(purchaseId).getAuction().getTitle();
