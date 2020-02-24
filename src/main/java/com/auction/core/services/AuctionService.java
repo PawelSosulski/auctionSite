@@ -90,7 +90,7 @@ public class AuctionService {
 
     public List<AuctionDTO> findLastAddedAuctions() {
         List<AuctionDTO> auctionDTOList = new ArrayList<>();
-        auctionRepository.findTop5ByStatusOrderByDateCreatedDesc(AuctionStatus.PENDING).forEach(a -> {
+        auctionRepository.findTop3ByStatusOrderByDateCreatedDesc(AuctionStatus.PENDING).forEach(a -> {
             AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
             auctionDTOList.add(auctionDTO);
         });
@@ -99,8 +99,16 @@ public class AuctionService {
 
     public List<AuctionDTO> findEndingAuctions() {
         List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        auctionRepository.findTop3ByStatusOrderByDateEndedAsc(AuctionStatus.PENDING).forEach(a -> {
+            AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
+            auctionDTOList.add(auctionDTO);
+        });
+        return auctionDTOList;
+    }
 
-        auctionRepository.findTop5ByStatusOrderByDateEndedAsc(AuctionStatus.PENDING).forEach(a -> {
+    public List<AuctionDTO> findPromotedAuctions() {
+        List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        auctionRepository.findTop5ByAuctionTypeAndStatusOrderByDateEndedAsc(AuctionType.PROMOTED, AuctionStatus.PENDING).forEach(a -> {
             AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
             auctionDTOList.add(auctionDTO);
         });

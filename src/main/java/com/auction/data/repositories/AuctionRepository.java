@@ -4,6 +4,7 @@ import com.auction.data.model.Auction;
 import com.auction.data.model.UserAccount;
 import com.auction.dto.AuctionDTO;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.AuctionType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -25,9 +26,11 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     List<Auction> findAllByStatusOrderByAuctionTypeDesc(AuctionStatus status);
 
-    List<Auction> findTop5ByStatusOrderByDateCreatedDesc(AuctionStatus status);
+    List<Auction> findTop3ByStatusOrderByDateCreatedDesc(AuctionStatus status);
 
-    List<Auction> findTop5ByStatusOrderByDateEndedAsc(AuctionStatus status);
+    List<Auction> findTop3ByStatusOrderByDateEndedAsc(AuctionStatus status);
+
+    List<Auction> findTop5ByAuctionTypeAndStatusOrderByDateEndedAsc(AuctionType auctionType, AuctionStatus status);
 
     Optional<Auction> getOneById(Long auctionId);
 
