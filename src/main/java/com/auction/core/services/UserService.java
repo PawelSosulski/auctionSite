@@ -119,7 +119,9 @@ public class UserService {
         Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
         if (oneByLogin.isPresent()) {
             UserAccount user = oneByLogin.get();
-            return user.getAvatar().getId();
+            if (user.getAvatar()!=null) {
+                return user.getAvatar().getId();
+            }
         }
         return 0L;
     }

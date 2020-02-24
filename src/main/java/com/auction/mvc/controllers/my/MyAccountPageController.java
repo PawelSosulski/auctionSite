@@ -39,8 +39,7 @@ public class MyAccountPageController {
         String myUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         LoggedUserDTO loggedUserDTO = userService.getUserByLogin(myUsername);
         model.addAttribute("myAccount", loggedUserDTO);
-        Long avatarId = userService.getAvatarId();
-        model.addAttribute("avatarId", avatarId);
+        model.addAttribute("avatarId", userService.getAvatarId());
         return "my-account";
     }
 

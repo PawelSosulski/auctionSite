@@ -31,7 +31,7 @@
             </div>
             <form enctype="multipart/form-data" method="post">
                 <div class="field">
-                    <div class="label" for="file">Change picture</div>
+                    <div class="label" for="file">Change avatar</div>
                     <div class="file has-name">
                         <label class="file-label">
                             <input class="file-input" type="file" name="file" id="file" accept="image/*">
