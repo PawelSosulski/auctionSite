@@ -19,7 +19,7 @@
                     <select name="categoryId" onmousedown="if(this.options.length>8){this.size=8;}"
                             onchange='this.size=0;'
                             onblur="this.size=0;">
-                        <option hidden>-- Select categories --</option>
+                        <option hidden value="0">-- Select categories --</option>
                         <option value="0">-- All categories --</option>
                         <c:forEach items="${mainCategories}" var="category">
                             <optgroup label="${category.name}">
