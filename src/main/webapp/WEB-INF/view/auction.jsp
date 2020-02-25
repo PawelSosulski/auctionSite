@@ -122,7 +122,7 @@
         <div>
             Time to end:
             <div id="timer-${auction.id}"></div>
-            
+
             <script>
                 Run(document.getElementById("timer-${auction.id}"), new Date("${auction.dateEnded}"));
             </script>
