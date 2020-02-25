@@ -96,7 +96,7 @@ public class AuctionPageController {
                 return "auction";
             }
         }
-        return "redirect:auction";
+        return "redirect:../auction";
     }
 
 

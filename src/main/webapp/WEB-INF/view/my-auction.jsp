@@ -4,6 +4,7 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.auction.utils.enums.AuctionStatus" %>
+<script src="/resources/js/timer.js"></script>
 
 <h2>My auctions</h2>
 <h3>Ongoing</h3>
@@ -48,32 +49,7 @@
                     </td>
                 </tr>
                 <script>
-                    function Run(div) {
-                        let countDown = new Date("${auction.dateEnded}").getTime();
-                        let x = setInterval(function () {
-                            let now = new Date().getTime();
-                            let distance = countDown - now;
-                            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                            if (days !== 0) {
-
-                                div.innerHTML = days + "d " + hours + "h "
-                                    + minutes + "m " + seconds + "s ";
-                            } else {
-                                div.innerHTML = hours + "h "
-                                    + minutes + "m " + seconds + "s ";
-                            }
-                            if (distance < 0) {
-                                clearInterval(x);
-                                div.innerHTML = "ENDED";
-                            }
-                        }, 1000);
-                    }
-
-                    Run(document.getElementById("timer-${auction.id}"));
+                    Run(document.getElementById("timer-${auction.id}"), new Date("${auction.dateEnded}"));
                 </script>
             </c:forEach>
         </table>

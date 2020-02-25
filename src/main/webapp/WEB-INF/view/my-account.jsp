@@ -31,6 +31,7 @@
                 <input hidden name="type" value="PREMIUM">
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Get Premium</button>
             </sf:form>
+
         </c:if>
           
             <div>

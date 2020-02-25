@@ -4,7 +4,7 @@
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
-
+<script src="/resources/js/timer.js"></script>
 
 <section class="section">
     <div class="columns is-desktop">
@@ -15,7 +15,7 @@
         <div class="column is-four-fifths-desktop">
             <div>
                 <h2 class="title panel is-primary">Promoted auctions</h2>
-                <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                <table class="table is-bordered is-striped is-narrow is-hoverable">
                     <tr>
                         <th>#</th>
                         <th>Title</th>
@@ -28,39 +28,11 @@
                             <td>${stat.count}</td>
                             <td><a href="${auctionUrl}">${promotedAuction.title}</a></td>
                             <td>${promotedAuction.actualPrice}</td>
-                            <td>
-                                <div id="timer-promoted-${promotedAuction.id}"></div>
-                            </td>
+                            <td><div id="timer-promoted-${promotedAuction.id}"></div></td>
 
                             <script>
-                                function Run(div) {
-                                    let countDown = new Date("${promotedAuction.dateEnded}").getTime();
-                                    let x = setInterval(function () {
-                                        let now = new Date().getTime();
-                                        let distance = countDown - now;
-                                        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                                        if (days !== 0) {
-
-                                            div.innerHTML = days + "d " + hours + "h "
-                                                + minutes + "m " + seconds + "s ";
-                                        } else {
-                                            div.innerHTML = hours + "h "
-                                                + minutes + "m " + seconds + "s ";
-                                        }
-                                        if (distance < 0) {
-                                            clearInterval(x);
-                                            div.innerHTML = "ENDED";
-                                        }
-                                    }, 1000);
-                                }
-
-                                Run(document.getElementById("timer-promoted-${promotedAuction.id}"));
+                                Run(document.getElementById("timer-promoted-${promotedAuction.id}"), new Date("${promotedAuction.dateEnded}"));
                             </script>
-
                         </tr>
                     </c:forEach>
                 </table>
@@ -82,39 +54,11 @@
                             <td>${stat.count}</td>
                             <td><a href="${auctionUrl}">${lastAuction.title}</a></td>
                             <td>${lastAuction.actualPrice}</td>
-                            <td>
-                                <div id="timer-last-${lastAuction.id}"></div>
-                            </td>
+                            <td><div id="timer-last-${lastAuction.id}"></div></td>
 
                             <script>
-                                function Run(div) {
-                                    let countDown = new Date("${lastAuction.dateEnded}").getTime();
-                                    let x = setInterval(function () {
-                                        let now = new Date().getTime();
-                                        let distance = countDown - now;
-                                        let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                        let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                                        if (days !== 0) {
-
-                                            div.innerHTML = days + "d " + hours + "h "
-                                                + minutes + "m " + seconds + "s ";
-                                        } else {
-                                            div.innerHTML = hours + "h "
-                                                + minutes + "m " + seconds + "s ";
-                                        }
-                                        if (distance < 0) {
-                                            clearInterval(x);
-                                            div.innerHTML = "ENDED";
-                                        }
-                                    }, 1000);
-                                }
-
-                                Run(document.getElementById("timer-last-${lastAuction.id}"));
+                                Run(document.getElementById("timer-last-${lastAuction.id}"), new Date("${lastAuction.dateEnded}"));
                             </script>
-
                         </tr>
                     </c:forEach>
                 </table>
@@ -148,39 +92,13 @@
                             <td>${stat.count}</td>
                             <td><a href="${auctionUrl}">${endingAuction.title}</a></td>
                             <td>${endingAuction.actualPrice}</td>
-                            <td>
-                                <div id="timer-end-${endingAuction.id}"></div>
-                            </td>
+                            <td><div id="timer-end-${endingAuction.id}"></div></td>
+
+                            <script>
+                                Run(document.getElementById("timer-end-${endingAuction.id}"), new Date("${endingAuction.dateEnded}"));
+                            </script>
                         </tr>
                         </div>
-                        <script>
-                            function Run(div) {
-                                let countDown = new Date("${endingAuction.dateEnded}").getTime();
-                                let x = setInterval(function () {
-                                    let now = new Date().getTime();
-                                    let distance = countDown - now;
-                                    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                                    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                                    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                                    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                                    if (days !== 0) {
-
-                                        div.innerHTML = days + "d " + hours + "h "
-                                            + minutes + "m " + seconds + "s ";
-                                    } else {
-                                        div.innerHTML = hours + "h "
-                                            + minutes + "m " + seconds + "s ";
-                                    }
-                                    if (distance < 0) {
-                                        clearInterval(x);
-                                        div.innerHTML = "ENDED";
-                                    }
-                                }, 1000);
-                            }
-
-                            Run(document.getElementById("timer-end-${endingAuction.id}"));
-                        </script>
                     </c:forEach>
                 </table>
                 <div class="buttons is-right">

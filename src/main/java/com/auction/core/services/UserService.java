@@ -75,8 +75,14 @@ public class UserService {
             return mapper.map(allByLogin.get(0), LoggedUserDTO.class);
         else
             return new LoggedUserDTO();
+    }
 
-
+    public LoggedUserDTO getUserByUsername(String username) {
+        List<UserAccount> allByUsername = userAccountRepository.findAllByUsername(username);
+        if (allByUsername.size() == 1)
+            return mapper.map(allByUsername.get(0), LoggedUserDTO.class);
+        else
+            return new LoggedUserDTO();
     }
 
     public TransactionUserDTO getUserDTOById(Long sellerId) {
@@ -128,5 +134,9 @@ public class UserService {
             }
         }
         return 0L;
+    }
+
+    public List<String> getAllUsernames() {
+        return userAccountRepository.findAll().stream().map(UserAccount::getUsername).collect(Collectors.toList());
     }
 }
