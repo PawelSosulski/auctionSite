@@ -1,10 +1,13 @@
 package com.auction.mvc.controllers;
 
 import com.auction.core.services.AuctionService;
+import com.auction.core.services.TransactionService;
 import com.auction.core.services.UserService;
 import com.auction.dto.AuctionDTO;
 import com.auction.dto.LoggedUserDTO;
+import com.auction.dto.TransactionDTO;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.TransactionRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +21,13 @@ import java.util.List;
 public class UserViewController {
     private UserService userService;
     private AuctionService auctionService;
+    private TransactionService transactionService;
 
     @Autowired
-    public UserViewController(UserService userService, AuctionService auctionService) {
+    public UserViewController(UserService userService, AuctionService auctionService, TransactionService transactionService) {
         this.userService = userService;
         this.auctionService = auctionService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping
@@ -32,8 +37,11 @@ public class UserViewController {
             LoggedUserDTO user = userService.getUserByUsername(username);
             model.addAttribute("user", user);
             List<AuctionDTO> userAuctions = auctionService.findAllByUsernameAndStatusWithCategorySortedByPromote(user.getId(), AuctionStatus.PENDING);
-
             model.addAttribute("userAuctions", userAuctions);
+            List<TransactionDTO> purchases = transactionService.findUserTransactionsByLogin(TransactionRole.Buyer, user.getLogin());
+            model.addAttribute("purchases", purchases);
+            List<TransactionDTO> sales = transactionService.findUserTransactionsByLogin(TransactionRole.Seller, user.getLogin());
+            model.addAttribute("sales", sales);
             return "user";
         }
         return "redirect:../";

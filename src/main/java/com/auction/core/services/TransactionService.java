@@ -87,6 +87,39 @@ public class TransactionService {
         return transactionsDTO;
     }
 
+    public List<TransactionDTO> findUserTransactionsByLogin(TransactionRole role, String login) {
+        List<TransactionDTO> transactionsDTO = new ArrayList<>();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount user = oneByLogin.get();
+            List<Purchase> transactions;
+            if (role == TransactionRole.Buyer) {
+                transactions = user.getPurchases().stream()
+                        .filter(a -> a.getBuyerUser().getLogin().equalsIgnoreCase(login))
+                        .sorted(Comparator.comparing((Purchase f) -> f.getAuction().getDateEnded()).reversed())
+                        .collect(Collectors.toList());
+            } else {
+                List<Long> auctionIdList = user.getMyAuctions().stream()
+                        .map(Auction::getId)
+                        .collect(Collectors.toList());
+                transactions = purchaseRepository.findAllByAuctionIds(auctionIdList);
+            }
+            transactions.forEach(a -> {
+                TransactionDTO transaction = new TransactionDTO();
+                transaction.setPurchaseId(a.getId());
+                transaction.setAmount(a.getAmount());
+                transaction.setTransactionAssessment(
+                        mapper.map(a.getTransactionAssessment(), TransactionAssessmentDTO.class));
+                transaction.setAuction(mapper.map(a.getAuction(), AuctionDTO.class));
+                transaction.setSellerUser(mapper.map(a.getAuction().getSeller(), TransactionUserDTO.class));
+                transaction.setBuyerUser(mapper.map(a.getBuyerUser(), TransactionUserDTO.class));
+                transactionsDTO.add(transaction);
+            });
+        }
+        return transactionsDTO;
+    }
+
+
     public void fillTransaction(RateDTO rate) {
         TransactionAssessment transactionAssessment = purchaseRepository.getOne(rate.getPurchaseId()).getTransactionAssessment();
         if (rate.getRole()==TransactionRole.Buyer) {
