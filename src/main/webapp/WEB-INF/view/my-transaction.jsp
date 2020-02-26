@@ -14,12 +14,10 @@
             <table border="yes">
                 <tr>
                     <th>Seller:</th>
-                    <th>
-                        Your rate:
-                    </th>
-                    <th>
-                        Your opinion:
-                    </th>
+                    <th>Your rate:</th>
+                    <th>Your opinion:</th>
+                    <th>Seller rate:</th>
+                    <th>Seller opinion:</th>
                 </tr>
                 <tr>
                     <td>
@@ -30,7 +28,7 @@
                             ${purchase.sellerUser.province}
                     </td>
                     <td>
-                        ${purchase.transactionAssessment.buyerRating}
+                        ${purchase.transactionAssessment.sellerRating}
                     </td>
                     <td>
                         <c:choose>
@@ -42,9 +40,15 @@
                                 </form>
                             </c:when>
                             <c:otherwise>
-                                ${purchase.transactionAssessment.sellerRating}
+                                ${purchase.transactionAssessment.sellerNote}
                             </c:otherwise>
                         </c:choose>
+                    </td>
+                    <td>
+                        ${purchase.transactionAssessment.buyerRating}
+                    </td>
+                    <td>
+                        ${purchase.transactionAssessment.buyerNote}
                     </td>
                 </tr>
             </table>
@@ -66,12 +70,10 @@
             <table border="yes">
                 <tr>
                     <th>Buyer:</th>
-                    <th>
-                        Your rate:
-                    </th>
-                    <th>
-                        Your opinion:
-                    </th>
+                    <th>Your rate:</th>
+                    <th>Your opinion:</th>
+                    <th>Buyer rate:</th>
+                    <th>Buyer opinion:</th>
                 </tr>
                 <tr>
                     <td>
@@ -82,7 +84,7 @@
                             ${sale.buyerUser.province}
                     </td>
                     <td>
-                            ${sale.transactionAssessment.sellerRating}
+                            ${sale.transactionAssessment.buyerRating}
                     </td>
                     <td>
                         <c:choose>
@@ -94,9 +96,15 @@
                                 </form>
                             </c:when>
                             <c:otherwise>
-                                ${sale.transactionAssessment.buyerRating}
+                                ${sale.transactionAssessment.buyerNote}
                             </c:otherwise>
                         </c:choose>
+                    </td>
+                    <td>
+                        ${sale.transactionAssessment.sellerRating}
+                    </td>
+                    <td>
+                        ${sale.transactionAssessment.sellerNote}
                     </td>
                 </tr>
             </table>

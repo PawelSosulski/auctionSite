@@ -74,6 +74,20 @@ public class AuctionService {
         return auctionDTOList;
     }
 
+    public List<AuctionDTO> findAllByUsernameAndStatusWithCategorySortedByPromote(Long userId, AuctionStatus status) {
+        List<AuctionDTO> auctionDTOList = new ArrayList<>();
+        auctionRepository.findAllBySellerIdAndStatusOrderByAuctionTypeDesc(userId, status).forEach(a -> {
+            AuctionDTO auctionDTO = mapper.map(a, AuctionDTO.class);
+            auctionDTO.setCategoryId(a.getCategory().getId());
+            auctionDTO.setSellerId(a.getSeller().getId());
+            auctionDTO.setCategoryName(a.getCategory().getName());
+            auctionDTO.setBidsNumber(a.getBiddingList().size());
+            auctionDTOList.add(auctionDTO);
+        });
+
+        return auctionDTOList;
+    }
+
 
     public List<AuctionDTO> findAllById(Long auctionId) {
         List<AuctionDTO> auctionDTOList = new ArrayList<>();
