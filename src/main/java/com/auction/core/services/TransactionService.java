@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import org.dozer.Mapper;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -48,7 +51,7 @@ public class TransactionService {
         transaction.setAmount(purchase.getAmount());
         transaction.setAuction(mapper.map(purchase.getAuction(), AuctionDTO.class));
         transaction.setBuyerUser(mapper.map(purchase.getBuyerUser(), TransactionUserDTO.class));
-        transaction.setSellerUser(mapper.map(purchase.getAuction().getSeller(),TransactionUserDTO.class));
+        transaction.setSellerUser(mapper.map(purchase.getAuction().getSeller(), TransactionUserDTO.class));
         transaction.setTransactionAssessment(mapper.map(purchase.getTransactionAssessment(), TransactionAssessmentDTO.class));
 
         return transaction;
@@ -87,6 +90,7 @@ public class TransactionService {
         return transactionsDTO;
     }
 
+
     public List<TransactionDTO> findUserTransactionsByLogin(TransactionRole role, String login) {
         List<TransactionDTO> transactionsDTO = new ArrayList<>();
         Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
@@ -119,10 +123,34 @@ public class TransactionService {
         return transactionsDTO;
     }
 
+    public AverageRateDTO getAverageRates(List<TransactionDTO> purchases, List<TransactionDTO> sales) {
+        AverageRateDTO averageRateDTO = new AverageRateDTO();
+        averageRateDTO.setNumberOfRates(0L);
+        averageRateDTO.setSumOfRates(0L);
+        purchases.forEach(a -> {
+            if (a.getTransactionAssessment().getBuyerRating() != null) {
+                averageRateDTO.setNumberOfRates(averageRateDTO.getNumberOfRates() + 1L);
+                averageRateDTO.setSumOfRates(averageRateDTO.getSumOfRates() + a.getTransactionAssessment().getBuyerRating());
+            }
+        });
+
+        sales.forEach(a -> {
+            if (a.getTransactionAssessment().getBuyerRating() != null) {
+                averageRateDTO.setNumberOfRates(averageRateDTO.getNumberOfRates() + 1L);
+                averageRateDTO.setSumOfRates(averageRateDTO.getSumOfRates() + a.getTransactionAssessment().getSellerRating());
+            }
+        });
+        Double average = ((double) averageRateDTO.getSumOfRates() / averageRateDTO.getNumberOfRates());
+        BigDecimal bd = new BigDecimal(average).setScale(2, RoundingMode.UP);
+        averageRateDTO.setAverageRate(bd);
+
+        return averageRateDTO;
+    }
+
 
     public void fillTransaction(RateDTO rate) {
         TransactionAssessment transactionAssessment = purchaseRepository.getOne(rate.getPurchaseId()).getTransactionAssessment();
-        if (rate.getRole()==TransactionRole.Buyer) {
+        if (rate.getRole() == TransactionRole.Buyer) {
             transactionAssessment.setSellerNote(rate.getRateDescription());
             transactionAssessment.setSellerRating(rate.getRateValue());
         } else {

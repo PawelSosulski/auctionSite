@@ -4,6 +4,7 @@ import com.auction.core.services.AuctionService;
 import com.auction.core.services.TransactionService;
 import com.auction.core.services.UserService;
 import com.auction.dto.AuctionDTO;
+import com.auction.dto.AverageRateDTO;
 import com.auction.dto.LoggedUserDTO;
 import com.auction.dto.TransactionDTO;
 import com.auction.utils.enums.AuctionStatus;
@@ -42,6 +43,8 @@ public class UserViewController {
             model.addAttribute("purchases", purchases);
             List<TransactionDTO> sales = transactionService.findUserTransactionsByLogin(TransactionRole.Seller, user.getLogin());
             model.addAttribute("sales", sales);
+            AverageRateDTO averageRates = transactionService.getAverageRates(purchases, sales);
+            model.addAttribute("averageRates", averageRates);
             return "user";
         }
         return "redirect:../";

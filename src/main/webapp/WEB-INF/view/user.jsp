@@ -7,7 +7,7 @@
 
 <h1><b>${user.username}</b></h1>
 <br><br>
-<h2>Rating: </h2>
+<h2>Rating: ${averageRates.averageRate} from ${averageRates.numberOfRates} opinions</h2>
 <br><br>
 <h2 class="title panel is-primary">User auctions</h2>
 
