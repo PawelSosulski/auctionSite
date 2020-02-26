@@ -49,6 +49,12 @@ public class MyAccountPageController {
         return "redirect:/my-account";
     }
 
+    @PostMapping(params = {"getPremium"})
+    public String getPremiumAccount() {
+        userService.premiumUser();
+        return "redirect:/my-account";
+    }
+
     @PostMapping(params = {"uploadPhoto"})
     public RedirectView uploadProfileFile(@RequestParam MultipartFile file, RedirectAttributes redir) throws IOException {
         RedirectView redirectView = new RedirectView("/my-account", true);

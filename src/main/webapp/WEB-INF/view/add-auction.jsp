@@ -44,7 +44,8 @@
             <optgroup label="${category.name}">
                 <c:forEach items="${categories}" var="subCategory">
                     <c:if test="${category.id == subCategory.parentId}">
-                        <option value="${subCategory.id}">${subCategory.name}</option>
+                        <option <c:if test="${subCategory.id==newAuction.categoryId}">selected</c:if>
+                                value="${subCategory.id}">${subCategory.name}</option>
                     </c:if>
                 </c:forEach>
             </optgroup>
@@ -56,7 +57,14 @@
         <form:options items="${daysList}"/>
     </form:select><br><br>
 
-    <button class="button is-primary" type="submit">Next</button>
+    <button name="next" class="button is-primary is-right" type="submit">
+        <span>Next</span>
+        <span class="icon is-right" aria-hidden="true">
+            <i class="fa fa-arrow-alt-circle-right" aria-hidden="true"></i>
+        </span>
+    </button>
+    <form:hidden path="auctionType"/>
+    <%--<form:hidden path="photo"/>--%>
 </form:form>
 
 

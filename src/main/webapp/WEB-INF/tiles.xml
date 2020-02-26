@@ -28,6 +28,9 @@
     <definition name="add-auction" extends="base">
         <put-attribute name="body" value="/WEB-INF/view/add-auction.jsp"/>
     </definition>
+    <definition name="add-auction-photos" extends="base">
+        <put-attribute name="body" value="/WEB-INF/view/add-auction-photos.jsp"/>
+    </definition>
     <definition name="user" extends="base">
         <put-attribute name="body" value="/WEB-INF/view/user.jsp"/>
     </definition>

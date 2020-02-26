@@ -347,13 +347,12 @@ public class AuctionService {
         auctionRepository.save(auction);
     }
 
-    public void finishedAuctionDTO(AuctionDTO auctionDTO) {
-        Optional<Auction> auctionOpt = auctionRepository.getOneById(auctionDTO.getId());
+    public void finishedAuction(Long auctionId) {
+        Optional<Auction> auctionOpt = auctionRepository.getOneById(auctionId);
         auctionOpt.ifPresent(this::finishedAuction);
     }
 
-    public void promoteAuction(AuctionDTO auctionDTO) {
-        Long auctionId = auctionDTO.getId();
+    public void promoteAuction(Long auctionId) {
         Auction auction = auctionRepository.findAllById(auctionId).get(0);
         auction.setAuctionType(AuctionType.PROMOTED);
         auctionRepository.save(auction);
