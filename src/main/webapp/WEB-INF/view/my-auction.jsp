@@ -24,7 +24,7 @@
             <c:forEach items="${ongoing}" var="auction" varStatus="stat">
                 <c:url value="auction/${auction.id}" var="auctionUrl"/>
                 <tr>
-                    <td>${stat.count}</td>
+                    <td>${stat.count} : ${auction.id}</td>
                     <td><a href="${auctionUrl}">${auction.title}</a></td>
                     <td>${auction.categoryName}</td>
                     <td>${auction.actualPrice}</td>
@@ -34,17 +34,17 @@
                     </td>
                     <td>${auction.auctionType}</td>
                     <td>
-                        <form:form action="/my-auction" method="post" modelAttribute="auctionActions">
-                            <input type="hidden" name="id" value="${auction.id}">
-                            <input type="submit" value="END"/>
-                        </form:form>
+                        <form method="post">
+                            <input type="hidden" name="auctionId" value="${auction.id}">
+                            <input name="end" type="submit" value="END"/>
+                        </form>
                     </td>
                     <td>
-                        <c:if test="${auction.auctionType == 'NORMAL'}">
-                            <form:form action="/promote-auction" method="post" modelAttribute="auctionActions">
-                                <input type="hidden" name="id" value="${auction.id}">
-                                <input type="submit" value="PROMOTE">
-                            </form:form>
+                        <c:if test="${auction.auctionType == 'NORMAL' && isPremiumUser}">
+                            <form method="post">
+                                <input type="hidden" name="auctionId" value="${auction.id}">
+                                <input name="promote" type="submit" value="PROMOTE">
+                            </form>
                         </c:if>
                     </td>
                 </tr>

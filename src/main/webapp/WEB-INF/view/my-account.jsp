@@ -26,11 +26,9 @@
             </form:form>
           
           <c:if test="${myAccount.type == 'NORMAL'}">
-            <sf:form method="post" action="/my-account" modelAttribute="myAccount">
-                <input hidden name="login" value="${myAccount.login}">
-                <input hidden name="type" value="PREMIUM">
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Get Premium</button>
-            </sf:form>
+            <form:form method="post">
+                <button name="getPremium" class="button is-primary" type="submit">Get Premium</button>
+            </form:form>
 
         </c:if>
           

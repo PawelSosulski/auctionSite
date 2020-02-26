@@ -1,16 +1,16 @@
 package com.auction.mvc.controllers.my;
 
 import com.auction.core.services.AuctionService;
-import com.auction.data.model.Auction;
+import com.auction.core.services.UserService;
 import com.auction.dto.AuctionDTO;
 import com.auction.utils.enums.AuctionStatus;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -18,9 +18,12 @@ import java.util.List;
 public class MyAuctionPageController {
 
     private AuctionService auctionService;
+    private UserService userService;
 
-    public MyAuctionPageController(AuctionService auctionService) {
+    @Autowired
+    public MyAuctionPageController(AuctionService auctionService, UserService userService) {
         this.auctionService = auctionService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -34,20 +37,20 @@ public class MyAuctionPageController {
                         AuctionStatus.SOLD,AuctionStatus.CLOSE);
         model.addAttribute("finished", auctionsFinished);
         model.addAttribute("auctionActions", new AuctionDTO());
+        model.addAttribute("isPremiumUser",userService.isUserPromo());
         return "my-auction";
     }
 
-    @PostMapping
-    public String AuctionsButton(@Valid @ModelAttribute("auctionActions") AuctionDTO auctionDTO) {
-        auctionService.finishedAuctionDTO(auctionDTO);
+    @PostMapping(params = {"end"})
+    public String AuctionsButton(Long auctionId) {
+        auctionService.finishedAuction(auctionId);
         return "redirect:/my-auction";
     }
 
-//    @PostMapping
-//    @RequestMapping("/promote-auction")
-//    public String promoteAuctionButton(@Valid @ModelAttribute("auctionActions") AuctionDTO auctionDTO) {
-//        auctionService.promoteAuction(auctionDTO);
-//        return "redirect:/my-auction";
-//    }
+    @PostMapping(params = {"promote"})
+    public String promoteAuctionButton(Long auctionId) {
+        auctionService.promoteAuction(auctionId);
+        return "redirect:/my-auction";
+    }
 
 }

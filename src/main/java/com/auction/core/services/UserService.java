@@ -6,6 +6,8 @@ import com.auction.data.repositories.AuctionRepository;
 import com.auction.data.repositories.UserAccountRepository;
 import com.auction.dto.*;
 
+import com.auction.utils.enums.AccountType;
+import com.auction.utils.enums.AuctionType;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -138,5 +140,24 @@ public class UserService {
 
     public List<String> getAllUsernames() {
         return userAccountRepository.findAll().stream().map(UserAccount::getUsername).collect(Collectors.toList());
+    }
+
+    public Boolean isUserPromo() {
+        String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount userAccount = oneByLogin.get();
+            return userAccount.getType()== AccountType.PREMIUM;
+        }
+        return false;
+    }
+
+    public void premiumUser() {
+        String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        oneByLogin.ifPresent(user -> {
+            user.setType(AccountType.PREMIUM);
+            userAccountRepository.save(user);
+        });
     }
 }
