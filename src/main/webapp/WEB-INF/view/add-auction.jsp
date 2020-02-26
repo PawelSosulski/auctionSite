@@ -10,30 +10,30 @@
 <form:form method="post" enctype="multipart/form-data" modelAttribute="newAuction">
     <spring:bind path="title">
         <div>
-            <label for="title">Title:</label>
-            <form:errors/>
-            <form:input id="title" path="title"/>
+            <label for="title">Title:</label><br>
+            <form:input id="title" path="title"/><br>
+            <form:errors path="title"/><br>
         </div>
     </spring:bind>
     <spring:bind path="description">
         <div>
-            <label for="description">Description:</label>
-            <form:errors/>
-            <form:textarea id="desciption" cols="70" rows="15" path="description"/>
+            <label for="description">Description:</label><br>
+            <form:textarea id="desciption" cols="60" rows="8" cssStyle="resize: none" path="description"/><br>
+            <form:errors path="description"/><br>
         </div>
     </spring:bind>
     <spring:bind path="startPrice">
         <div>
-            <label for="startPrice">Start price:</label>
-            <form:errors/>
-            <form:input in="startPrice" path="startPrice"/>
+            <label for="startPrice">Start price:</label><br>
+            <form:input in="startPrice" path="startPrice"/><br>
+            <form:errors path="startPrice"/><br>
         </div>
     </spring:bind>
     <spring:bind path="buyNowPrice">
         <div>
-            <label for="buyNowPrice">Buy now price:</label>
-            <form:errors/>
-            <form:input in="buyNowPrice" path="buyNowPrice"/>
+            <label for="buyNowPrice">Buy now price:</label><br>
+            <form:input in="buyNowPrice" path="buyNowPrice"/><br>
+            <form:errors path="buyNowPrice"/><br>
         </div>
     </spring:bind>
 
@@ -49,13 +49,14 @@
                 </c:forEach>
             </optgroup>
         </c:forEach>
-    </select>
+    </select><br>
 
-    <form:select path="days">
+    <label for="days">Number od days:</label><br>
+    <form:select id="days" path="days">
         <form:options items="${daysList}"/>
-    </form:select>
+    </form:select><br><br>
 
-    <button class="button is-primary" type="submit">Add</button>
+    <button class="button is-primary" type="submit">Next</button>
 </form:form>
 
 

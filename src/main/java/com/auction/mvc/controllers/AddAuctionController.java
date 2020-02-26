@@ -41,9 +41,7 @@ public class AddAuctionController {
     @GetMapping
     public ModelAndView addAuctionInitPage(Model model) {
 
-        model.addAttribute("categories", categoryService.findAllCategory());
-        model.addAttribute("mainCategories", categoryService.findMainCategories());
-        model.addAttribute("daysList", getDaysList(7));
+        prepareModel(model);
         return new ModelAndView("add-auction", "newAuction", new AuctionDTO());
     }
 
@@ -52,11 +50,17 @@ public class AddAuctionController {
                                 BindingResult result, Model model) {
         auctionValidator.validate(auctionDTO,result);
         if (result.hasErrors()) {
-            model.addAttribute("categories", categoryService.getCategoriesMap());
+            prepareModel(model);
             return "add-auction";
         }
 
         return "redirect:/auction/" + auctionService.addAuction(auctionDTO);
+    }
+
+    private void prepareModel(Model model) {
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("mainCategories", categoryService.findMainCategories());
+        model.addAttribute("daysList", getDaysList(7));
     }
 
     private List<Integer> getDaysList(Integer days) {
