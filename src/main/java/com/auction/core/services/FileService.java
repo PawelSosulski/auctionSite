@@ -27,7 +27,7 @@ public class FileService {
     @Autowired
     private UserAccountRepository userAccountRepository;
 
-    private static String uploadFolder = "D:\\auction\\";
+    private static String uploadFolder = "C:\\auction\\";
 
     public boolean saveFileToUser(FileDTO fileDTO) throws IOException {
         Random random = new Random();

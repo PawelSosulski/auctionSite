@@ -1,38 +1,35 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<section class="hero is-primary is-medium">
+<section class="hero is-success is-medium">
     <!-- Hero head: will stick at the top -->
     <div class="hero-head">
         <nav class="navbar">
             <div class="container">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="/">
-                        <img src="https://assets.allegrostatic.com/metrum/brand/allegro-347440b030.svg" alt="Logo">
+                        <p>Auction Site</p>
                     </a>
                     <span class="navbar-burger burger" data-target="navbarMenuHeroA">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+                         <span></span>
+                         <span></span>
+                         <span></span>
+                    </span>
                 </div>
                 <div id="navbarMenuHeroA" class="navbar-menu">
                     <div class="navbar-end">
-                        <a class="navbar-item is-active" href="/">
-                            Home
-                        </a>
-                        <a class="navbar-item" href="/auction">
-                            Auctions
-                        </a>
+                        <a class="navbar-item header-item" href="/">Home</a>
+                        <a class="navbar-item header-item" href="/auction">Auctions</a>
                         <sec:authorize access="isAnonymous()">
                         <span class="navbar-item">
-                            <a class="button is-primary is-inverted" href="/login">
+                            <a class="button is-success is-inverted header-button" href="/login">
                                 <span>Login</span>
                                 <span class="icon is-right">
                                     <i class="fa fa-lock-open"></i>
                                 </span>
                             </a>
-                            <a class="button is-primary is-inverted" href="/register">
+                            <a class="button is-success is-inverted header-button" href="/register">
                             <span>Register</span>
                                 <span class="icon">
                                     <i class="fa fa-user-edit"></i>
@@ -42,13 +39,13 @@
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
                           <span class="navbar-item">
-                            <a class="button is-primary is-inverted" href="/my-biddings">
+                            <a class="button is-success is-inverted header-button" href="/my-biddings">
                                 <span class="icon">
                                     <i class="fa fa-user"></i>
                                 </span>
                                 <span>My profile</span>
                             </a>
-                            <a class="button is-primary is-inverted" href="/logout">
+                            <a class="button is-success is-inverted header-button" href="/logout">
                                 <span class="icon">
                                     <i class="fa fa-lock"></i>
                                 </span>

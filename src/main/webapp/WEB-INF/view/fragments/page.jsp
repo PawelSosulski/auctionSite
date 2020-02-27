@@ -20,7 +20,7 @@
 
 
 </head>
-<body>
+<body class="has-background-white-ter">
 <div id="header">
     <tiles:insertAttribute name="header"/>
 </div>

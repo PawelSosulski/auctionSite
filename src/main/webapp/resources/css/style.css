@@ -1,39 +1,23 @@
-.category-menu {
-    background: #00d1b2;
-    padding: 0px;
-    margin: 0px;
-    width: 180px;
-}
-
-.category-menu ul {
-    padding: 0px;
-    margin: 0px;
-}
-
-.category-menu ul > li {
-    list-style-type: none;
-    display: block;
-    padding: 0px;
-}
-
-.category-menu ul > li > ol {
-    z-index: 1000;
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-    display: none;
-    position: absolute;
-    text-align: left;
-}
-
-.category-menu ul > li:hover > ol {
-    display: inline-block;
-    background: #00d1b2;
-    border: 1px solid #000000;
-}
-
 .view-more-button {
     margin-left: 200px;
     margin-bottom: 20px;
     margin-top: 20px;
 }
+
+.header-button {
+    margin: 10px;
+}
+
+.page-title {
+    padding-bottom: 60px;
+    text-align: center;
+}
+
+/*footer {*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    bottom: 0;*/
+/*    height: 100px;*/
+/*    width: 100%;*/
+/*}*/
+
