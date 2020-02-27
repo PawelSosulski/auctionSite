@@ -19,7 +19,7 @@
     <div id="accordion">
         <c:forEach items="${mainCategories}" var="category">
             <div class="card">
-                <button class="button is-primary" type="button" data-toggle="collapse"
+                <button class="button is-success" type="button" data-toggle="collapse"
                         data-target="#collapse-${category.id}"
                         aria-expanded="false" aria-controls="collapse-${category.id}">${category.name}
                 </button>
