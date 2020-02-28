@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public void editUser(LoggedUserDTO loggedUserDTO) {
-        UserAccount currentUser = userAccountRepository.findAllByUsername(loggedUserDTO.getLogin()).get(0);
+        UserAccount currentUser = userAccountRepository.getOneByLogin(loggedUserDTO.getLogin()).get();
         if (loggedUserDTO.getName() != null) {
             currentUser.setName(loggedUserDTO.getName());
             currentUser.setLastName(loggedUserDTO.getLastName());

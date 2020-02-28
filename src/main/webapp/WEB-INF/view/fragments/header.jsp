@@ -38,6 +38,7 @@
                         </span>
                         </sec:authorize>
                         <sec:authorize access="isAuthenticated()">
+                            <a class="navbar-item header-item" href="/auction-add">Add auction</a>
                           <span class="navbar-item">
                             <a class="button is-success is-inverted header-button" href="/my-biddings">
                                 <span class="icon">
