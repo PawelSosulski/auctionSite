@@ -140,7 +140,8 @@ public class TransactionService {
                 averageRateDTO.setSumOfRates(averageRateDTO.getSumOfRates() + a.getTransactionAssessment().getSellerRating());
             }
         });
-        Double average = ((double) averageRateDTO.getSumOfRates() / averageRateDTO.getNumberOfRates());
+
+        double average = ((double) averageRateDTO.getSumOfRates() / averageRateDTO.getNumberOfRates());
         BigDecimal bd = new BigDecimal(average).setScale(2, RoundingMode.UP);
         averageRateDTO.setAverageRate(bd);
 
