@@ -13,6 +13,25 @@
                 <div class="column"></div>
                 <div class="column">
                     <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            <input class="input" type="text" name="name" placeholder="Enter name">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Last name</label>
+                        <div class="control">
+                            <input class="input" type="text" name="lastName" placeholder="Enter last name">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" type="text" name="email" placeholder="Enter email">
+                            <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                        </div>
+                    </div>
+                    <div class="field">
                         <label class="label">Username</label>
                         <div class="control has-icons-left has-icons-right">
                             <input class="input" type="text" name="login" placeholder="Enter username">

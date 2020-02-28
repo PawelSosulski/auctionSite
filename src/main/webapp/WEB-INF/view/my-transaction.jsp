@@ -3,12 +3,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.auction.utils.enums.TransactionRole" %>
 
+
 <section class="section">
     <div class="container">
         <h1 class="title is-1 page-title">My transactions</h1>
 
         <div class="columns">
-
             <div class="column">
                 <div class="field">
                     <label class="label">Bought</label>

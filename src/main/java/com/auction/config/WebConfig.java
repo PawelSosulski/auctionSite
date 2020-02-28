@@ -48,6 +48,6 @@ public class WebConfig implements WebMvcConfigurer {
 
 /*    @Bean(name="uploadFolder")
     public String uploadFolder(){
-        return "D:\\auction\\";
+        return "C:\\auction\\";
     }*/
 }

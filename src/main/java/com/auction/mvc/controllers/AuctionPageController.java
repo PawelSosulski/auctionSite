@@ -80,8 +80,8 @@ public class AuctionPageController {
             if (auctionList.size() == 1) {
                 AuctionDTO auctionDTO = auctionList.get(0);
                 model.addAttribute("auction", auctionDTO);
-                LoggedUserDTO loggedUser = userService.getUserByLogin(SecurityContextHolder.getContext().getAuthentication().getName());
-                model.addAttribute("user", loggedUser);
+                Boolean isUserAuction = userService.isUserAuction(auctionId);
+                model.addAttribute("isUserAuction", isUserAuction);
                 CategoryDTO categories = categoryService.findCategoryWithParentName(auctionDTO.getCategoryId());
                 model.addAttribute("category", categories);
                 TransactionUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());

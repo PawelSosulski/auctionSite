@@ -7,13 +7,11 @@ import com.auction.data.repositories.UserAccountRepository;
 import com.auction.dto.*;
 
 import com.auction.utils.enums.AccountType;
-import com.auction.utils.enums.AuctionType;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -49,20 +47,22 @@ public class UserService {
         return true;
     }
 
-    public void editUser(LoggedUserDTO loggedUserDTO) {
-        UserAccount currentUser = userAccountRepository.getOneByLogin(loggedUserDTO.getLogin()).get();
-        if (loggedUserDTO.getName() != null) {
-            currentUser.setName(loggedUserDTO.getName());
-            currentUser.setLastName(loggedUserDTO.getLastName());
-            currentUser.setStreet(loggedUserDTO.getStreet());
-            currentUser.setStreetNumber(loggedUserDTO.getStreetNumber());
-            currentUser.setCity(loggedUserDTO.getCity());
-            currentUser.setZipCode(loggedUserDTO.getZipCode());
-            currentUser.setProvince(loggedUserDTO.getProvince());
-        } else {
-            currentUser.setType((loggedUserDTO.getType()));
+    public boolean editUser(LoggedUserDTO loggedUserDTO) {
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(getContext().getAuthentication().getName());
+        if (oneByLogin.isPresent()) {
+            UserAccount userAccount = oneByLogin.get();
+            userAccount.setName(loggedUserDTO.getName());
+            userAccount.setLastName(loggedUserDTO.getLastName());
+            userAccount.setStreet(loggedUserDTO.getStreet());
+            userAccount.setStreetNumber(loggedUserDTO.getStreetNumber());
+            userAccount.setCity(loggedUserDTO.getCity());
+            userAccount.setZipCode(loggedUserDTO.getZipCode());
+            userAccount.setProvince(loggedUserDTO.getProvince());
+            userAccount.setEmail(loggedUserDTO.getEmail());
+            userAccountRepository.save(userAccount);
+            return true;
         }
-        userAccountRepository.save(currentUser);
+        return false;
     }
 
     public boolean checkIfAlreadyExists(NewUserDTO newUserDTO) {
@@ -79,10 +79,10 @@ public class UserService {
             return new LoggedUserDTO();
     }
 
-    public LoggedUserDTO getUserByUsername(String username) {
-        List<UserAccount> allByUsername = userAccountRepository.findAllByUsername(username);
-        if (allByUsername.size() == 1)
-            return mapper.map(allByUsername.get(0), LoggedUserDTO.class);
+    public LoggedUserDTO getUserByUsername(String login) {
+        List<UserAccount> allByLogin = userAccountRepository.findAllByLogin(login);
+        if (allByLogin.size() == 1)
+            return mapper.map(allByLogin.get(0), LoggedUserDTO.class);
         else
             return new LoggedUserDTO();
     }
@@ -149,8 +149,8 @@ public class UserService {
         return 0L;
     }
 
-    public List<String> getAllUsernames() {
-        return userAccountRepository.findAll().stream().map(UserAccount::getUsername).collect(Collectors.toList());
+    public List<String> getAllLogins() {
+        return userAccountRepository.findAll().stream().map(UserAccount::getLogin).collect(Collectors.toList());
     }
 
     public Boolean isUserPromo() {
@@ -170,5 +170,20 @@ public class UserService {
             user.setType(AccountType.PREMIUM);
             userAccountRepository.save(user);
         });
+    }
+
+    public List<String> getAllEmails() {
+        return userAccountRepository.findAll().stream().map(UserAccount::getEmail).collect(Collectors.toList());
+    }
+
+    public Boolean isUserAuction(Long auctionId) {
+        String login = getContext().getAuthentication().getName();
+        if (login != null) {
+            Optional<Auction> oneById = auctionRepository.getOneById(auctionId);
+            if (oneById.isPresent()) {
+                return oneById.get().getSeller().getLogin().equalsIgnoreCase(login);
+            }
+        }
+        return false;
     }
 }
