@@ -51,6 +51,7 @@ public class AddAuctionController {
         prepareModel(model);
         AuctionDTO auctionDTO = new AuctionDTO();
         auctionDTO.setAuctionType(AuctionType.NORMAL);
+        model.addAttribute("isUserPromo", userService.isUserPromo());
         return new ModelAndView("add-auction", "newAuction", auctionDTO);
     }
 

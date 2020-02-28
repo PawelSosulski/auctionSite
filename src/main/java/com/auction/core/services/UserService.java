@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public void editUser(LoggedUserDTO loggedUserDTO) {
-        UserAccount currentUser = userAccountRepository.findAllByLogin(loggedUserDTO.getLogin()).get(0);
+        UserAccount currentUser = userAccountRepository.getOneByLogin(loggedUserDTO.getLogin()).get();
         if (loggedUserDTO.getName() != null) {
             currentUser.setName(loggedUserDTO.getName());
             currentUser.setLastName(loggedUserDTO.getLastName());
@@ -128,6 +128,17 @@ public class UserService {
 
     public Long getAvatarId() {
         String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount user = oneByLogin.get();
+            if (user.getAvatar()!=null) {
+                return user.getAvatar().getId();
+            }
+        }
+        return 0L;
+    }
+
+    public Long getAvatarIdByLogin(String login) {
         Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
         if (oneByLogin.isPresent()) {
             UserAccount user = oneByLogin.get();

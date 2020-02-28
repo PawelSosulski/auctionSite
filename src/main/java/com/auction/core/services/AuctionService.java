@@ -136,7 +136,7 @@ public class AuctionService {
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setActualPrice(auctionDTO.getStartPrice());
         auction.setStatus(AuctionStatus.PENDING);
-        auction.setAuctionType(AuctionType.NORMAL);
+        auction.setAuctionType(auctionDTO.getAuctionType());
         auction.setDateCreated(dateNow);
         auction.setDateEnded(dateNow.plusDays(auctionDays));
         String sellerLogin =

@@ -6,6 +6,14 @@
 <script src="/resources/js/timer.js"></script>
 
 <h1><b>${user.username}</b></h1>
+
+<c:if test="${avatarId!=0}">
+    <figure class="image">
+        <img style="image-orientation: from-image;width: 240px;object-fit: cover"
+             src="/my-account/img/${avatarId}" alt="Avatar">
+    </figure>
+</c:if>
+
 <br><br>
 <h2>Rating: ${averageRates.averageRate} from ${averageRates.numberOfRates} opinions</h2>
 <br><br>

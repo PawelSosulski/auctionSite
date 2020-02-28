@@ -46,13 +46,13 @@ public class MyAccountPageController {
     @PostMapping(params = {"uploadData"})
     public String editAccount(@Valid @ModelAttribute("myAccount") LoggedUserDTO loggedUserDTO) {
         userService.editUser(loggedUserDTO);
-        return "redirect:/my-account";
+        return "redirect:/my-account?save=success";
     }
 
     @PostMapping(params = {"getPremium"})
     public String getPremiumAccount() {
         userService.premiumUser();
-        return "redirect:/my-account";
+        return "redirect:/my-account?premium=success";
     }
 
     @PostMapping(params = {"uploadPhoto"})
