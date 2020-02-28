@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,8 +27,8 @@ private BiddingRepository biddingRepository;
         List<Bidding> allUserBiddings = biddingRepository
                 .findAllByBiddingUserLoginAndAuctionStatusOrderByAuctionId(
                         login, AuctionStatus.PENDING);
-        List<Auction> biddingsAuctions = allUserBiddings.stream()
-                .map(Bidding::getAuction).collect(Collectors.toList());
+        Set<Auction> biddingsAuctions = allUserBiddings.stream()
+                .map(Bidding::getAuction).collect(Collectors.toSet());
         List<MyBiddingsDTO> myBiddings = new ArrayList<>();
 
         biddingsAuctions.forEach(a -> {

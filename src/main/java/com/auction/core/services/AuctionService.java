@@ -136,7 +136,11 @@ public class AuctionService {
         Auction auction = mapper.map(auctionDTO, Auction.class);
         auction.setActualPrice(auctionDTO.getStartPrice());
         auction.setStatus(AuctionStatus.PENDING);
-        auction.setAuctionType(auctionDTO.getAuctionType());
+        if (auctionDTO.getAuctionType() == null) {
+            auction.setAuctionType(AuctionType.NORMAL);
+        } else {
+            auction.setAuctionType(auctionDTO.getAuctionType());
+        }
         auction.setDateCreated(dateNow);
         auction.setDateEnded(dateNow.plusDays(auctionDays));
         String sellerLogin =
@@ -360,6 +364,16 @@ public class AuctionService {
 
     public String getAuctionTitleFromPurchase(Long purchaseId) {
         return purchaseRepository.getOne(purchaseId).getAuction().getTitle();
+    }
+
+    public void removeMyObserveAuction(Long auctionId) {
+        String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount userAccount = oneByLogin.get();
+            userAccount.getObserveAuctions().remove(auctionRepository.getOne(auctionId));
+            userAccountRepository.save(userAccount);
+        }
     }
 }
 

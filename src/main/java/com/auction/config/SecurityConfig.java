@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/my-account").authenticated()
                 .antMatchers("/my-auction").authenticated()
                 .antMatchers("/my-transaction").authenticated()
-                .antMatchers("/my-observe-auctions").authenticated()
+                .antMatchers("/observe-auctions").authenticated()
                 .antMatchers("/my-biddings").authenticated()
                 .antMatchers("/bidAuction").authenticated()
                 .antMatchers("/buyAuction").authenticated()

@@ -45,8 +45,11 @@ public class MyAccountPageController {
 
     @PostMapping(params = {"uploadData"})
     public String editAccount(@Valid @ModelAttribute("myAccount") LoggedUserDTO loggedUserDTO) {
-        userService.editUser(loggedUserDTO);
-        return "redirect:/my-account?save=success";
+        if (userService.editUser(loggedUserDTO)) {
+            return "redirect:/my-account?save=success";
+        } else {
+            return "redirect:/my-account?save=error";
+        }
     }
 
     @PostMapping(params = {"getPremium"})
@@ -56,8 +59,12 @@ public class MyAccountPageController {
     }
 
     @PostMapping(params = {"uploadPhoto"})
-    public RedirectView uploadProfileFile(@RequestParam MultipartFile file, RedirectAttributes redir) throws IOException {
+    public RedirectView uploadProfileFile(MultipartFile file, RedirectAttributes redir) throws IOException {
         RedirectView redirectView = new RedirectView("/my-account", true);
+        if (file == null) {
+            redir.addFlashAttribute("error","Dont work");
+            return redirectView;
+        }
         FileDTO fileDTO = new FileDTO();
         fileDTO.setContentType(file.getContentType());
         fileDTO.setFileName(file.getOriginalFilename());

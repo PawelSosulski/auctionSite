@@ -33,9 +33,9 @@ public class UserViewController {
 
     @GetMapping
     @RequestMapping("/user/{username}")
-    public String userViewInit(@PathVariable("username") String username, Model model) {
-        if (userService.getAllUsernames().contains(username)) {
-            LoggedUserDTO user = userService.getUserByUsername(username);
+    public String userViewInit(@PathVariable("username") String login, Model model) {
+        if (userService.getAllLogins().contains(login)) {
+            LoggedUserDTO user = userService.getUserByUsername(login);
             model.addAttribute("user", user);
             List<AuctionDTO> userAuctions = auctionService.findAllByUsernameAndStatusWithCategorySortedByPromote(user.getId(), AuctionStatus.PENDING);
             model.addAttribute("userAuctions", userAuctions);

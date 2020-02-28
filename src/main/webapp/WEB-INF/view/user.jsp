@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <script src="/resources/js/timer.js"></script>
 
-<h1><b>${user.username}</b></h1>
+<h1><b>${user.login}</b></h1>
 
 <c:if test="${avatarId!=0}">
     <figure class="image">
@@ -61,12 +61,12 @@
         <c:when test="${purchases.size()>0}">
             <c:forEach items="${purchases}" var="purchase" varStatus="stat">
                 <c:url value="/auction/${purchase.auction.id}" var="auctionUrl"/>
-                <c:url value="/user/${purchase.sellerUser.username}" var="userUrl"/>
+                <c:url value="/user/${purchase.sellerUser.login}" var="userUrl"/>
                 <c:if test="${purchase.transactionAssessment.buyerNote != null}">
                     <tr>
                         <td><a href="${auctionUrl}">${purchase.auction.title}</a></td>
                         <td>Seller</td>
-                        <td><a href="${userUrl}">${purchase.sellerUser.username}</a></td>
+                        <td><a href="${userUrl}">${purchase.sellerUser.login}</a></td>
                         <td>${purchase.transactionAssessment.buyerNote}</td>
                         <td>${purchase.transactionAssessment.buyerRating}</td>
                     </tr>
@@ -84,12 +84,12 @@
         <c:when test="${sales.size()>0}">
             <c:forEach items="${sales}" var="sale" varStatus="stat">
                 <c:url value="/auction/${sale.auction.id}" var="auctionUrl"/>
-                <c:url value="/user/${sale.buyerUser.username}" var="userUrl"/>
+                <c:url value="/user/${sale.buyerUser.login}" var="userUrl"/>
                 <c:if test="${sale.transactionAssessment.buyerNote != null}">
                     <tr>
                         <td><a href="${auctionUrl}">${sale.auction.title}</a> </td>
                         <td>Buyer</td>
-                        <td><a href="${userUrl}">${sale.buyerUser.username}</a></td>
+                        <td><a href="${userUrl}">${sale.buyerUser.login}</a></td>
                         <td>${sale.transactionAssessment.sellerNote}</td>
                         <td>${sale.transactionAssessment.sellerRating}</td>
                     </tr>

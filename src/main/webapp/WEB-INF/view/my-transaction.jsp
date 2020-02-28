@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                     <td>
-                            ${purchase.sellerUser.username}<br>
+                            ${purchase.sellerUser.email}<br>
                             ${purchase.sellerUser.name} ${purchase.sellerUser.lastName}<br>
                             ${purchase.sellerUser.street} ${purchase.sellerUser.streetNumber}<br>
                             ${purchase.sellerUser.city} ${purchase.sellerUser.zipCode}<br>
@@ -77,7 +77,7 @@
                 </tr>
                 <tr>
                     <td>
-                            ${sale.buyerUser.username}<br>
+                            ${sale.buyerUser.email}<br>
                             ${sale.buyerUser.name} ${sale.buyerUser.lastName}<br>
                             ${sale.buyerUser.street} ${sale.buyerUser.streetNumber}<br>
                             ${sale.buyerUser.city} ${sale.buyerUser.zipCode}<br>
