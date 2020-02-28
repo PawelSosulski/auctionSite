@@ -22,6 +22,12 @@
                     </div>
                 </div>
 
+                <div class="field has-addons has-addons-centered">
+                    <div class="control">
+                        <p class="subtitle is-5">Rating: ${averageRates.averageRate} from ${averageRates.numberOfRates} opinions</p>
+                    </div>
+                </div>
+
                 <div style="margin-top: 60px" class="field">
                     <h2 class="title is is-primary panel">User auctions</h2>
                     <table class="table is-hoverable is-fullwidth">
@@ -100,10 +106,3 @@
         </div>
     </div>
 </section>
-
-
-<br><br>
-<h2>Rating: ${averageRates.averageRate} from ${averageRates.numberOfRates} opinions</h2>
-<br><br>
-
-

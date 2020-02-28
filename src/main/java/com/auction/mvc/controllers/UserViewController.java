@@ -43,8 +43,7 @@ public class UserViewController {
             model.addAttribute("purchases", purchases);
             List<TransactionDTO> sales = transactionService.findUserTransactionsByLogin(TransactionRole.Seller, user.getLogin());
             model.addAttribute("sales", sales);
-            AverageRateDTO averageRates = transactionService.getAverageRates(purchases, sales);
-            model.addAttribute("averageRates", averageRates);
+            model.addAttribute("averageRates", transactionService.getAverageRates(purchases, sales));
             model.addAttribute("avatarId", userService.getAvatarIdByLogin(user.getLogin()));
             return "user";
         }

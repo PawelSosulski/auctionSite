@@ -127,6 +127,7 @@ public class TransactionService {
         AverageRateDTO averageRateDTO = new AverageRateDTO();
         averageRateDTO.setNumberOfRates(0L);
         averageRateDTO.setSumOfRates(0L);
+        averageRateDTO.setAverageRate(new BigDecimal(25));
         purchases.forEach(a -> {
             if (a.getTransactionAssessment().getBuyerRating() != null) {
                 averageRateDTO.setNumberOfRates(averageRateDTO.getNumberOfRates() + 1L);
@@ -135,7 +136,7 @@ public class TransactionService {
         });
 
         sales.forEach(a -> {
-            if (a.getTransactionAssessment().getBuyerRating() != null) {
+            if (a.getTransactionAssessment().getSellerRating() != null) {
                 averageRateDTO.setNumberOfRates(averageRateDTO.getNumberOfRates() + 1L);
                 averageRateDTO.setSumOfRates(averageRateDTO.getSumOfRates() + a.getTransactionAssessment().getSellerRating());
             }
