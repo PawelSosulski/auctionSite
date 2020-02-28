@@ -13,6 +13,11 @@
     text-align: center;
 }
 
+.card+.card {
+    margin-top: 20px
+}
+
+
 /*footer {*/
 /*    position: absolute;*/
 /*    left: 0;*/
