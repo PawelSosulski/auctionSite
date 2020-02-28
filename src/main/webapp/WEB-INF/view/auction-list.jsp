@@ -9,55 +9,68 @@
 
 <section class="section">
     <div class="container">
+        <h1 class="title is-1 page-title">Auction list</h1>
+        <div class="columns">
 
-
-        <h1 class="title is-1 page-title">AUCTION LIST</h1>
-
-
-        <div class="columns is-desktop">
             <div class="column is-one-fifth-desktop">
-                <form:form method="post" action="/auction" modelAttribute="filter">
 
-                    <div>
-                        <select name="categoryId" onmousedown="if(this.options.length>8){this.size=8;}"
-                                onchange='this.size=0;'
-                                onblur="this.size=0;">
-                            <option hidden value="0">-- Select categories --</option>
-                            <option value="0">-- All categories --</option>
-                            <c:forEach items="${mainCategories}" var="category">
-                                <optgroup label="${category.name}">
-                                    <c:forEach items="${categories}" var="subCategory">
-                                        <c:if test="${category.id == subCategory.parentId}">
-                                            <option value="${subCategory.id}">${subCategory.name}</option>
-                                        </c:if>
+                <label class="label">Filter by</label>
+                <div class="field has-addons has-addons-centered">
+                    <form:form method="post" action="/auction" modelAttribute="filter">
+                        <div class="control" style="margin-top: 20px;">
+                            <div class="select">
+                                <select name="categoryId">
+                                    <option hidden value="0">-- Select categories --</option>
+                                    <option value="0">-- All categories --</option>
+                                    <c:forEach items="${mainCategories}" var="category">
+                                        <optgroup label="${category.name}">
+                                            <c:forEach items="${categories}" var="subCategory">
+                                                <c:if test="${category.id == subCategory.parentId}">
+                                                    <option value="${subCategory.id}">${subCategory.name}</option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </optgroup>
                                     </c:forEach>
-                                </optgroup>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <table>
-                        <tr>
-                            <td><form:radiobutton value="${SortOptions.priceASC}" path="sort"/> Cheapest</td>
-                            <td><form:radiobutton value="${SortOptions.priceDES}" path="sort"/> Expensive</td>
-                        </tr>
-                        <tr>
-                            <td><form:radiobutton value="${SortOptions.timeASC}" path="sort"/> Newest</td>
-                            <td><form:radiobutton value="${SortOptions.timeDES}" path="sort"/> Time to end</td>
-                        </tr>
-                    </table>
-                    <form:checkbox path="onlyBuyNow"/>Only buy now
-                    <br>
-                    <input type="submit" value="Filtr">
-                </form:form>
-                <span>
-        <form:form action="/auction-clear-filter" method="post">
-            <input type="submit" value="Clear">
-        </form:form>
-    </span>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control" style="margin-top: 20px;">
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.priceASC}" path="sort"/> Cheapest
+                            </label><br>
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.priceDES}" path="sort"/> Expensive
+                            </label><br>
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.timeASC}" path="sort"/> Newest
+                            </label><br>
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.timeDES}" path="sort"/> Time to end
+                            </label>
+                        </div>
+
+                        <div class="control" style="margin-top: 20px;">
+                            <div class="checkbox">
+                                <form:checkbox path="onlyBuyNow"/><span style="margin-left: 5px;">Only buy now</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 20px;" class="field is-grouped">
+                            <div class="control"><button class="button is-success" type="submit">Apply</button></div>
+                            <div class="control">
+                                <form action="/auction-clear-filter" method="POST">
+                                    <button class="button is-success" type="submit">Clear</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </form:form>
+                </div>
             </div>
+
             <div class="column is-four-fifths-desktop">
-                <table id="myTable" class="table table-striped">
-                    <thead>
+                <table class="table is-hoverable is-fullwidth">
                     <tr>
                         <th>Lp.</th>
                         <th>Title</th>
@@ -65,7 +78,6 @@
                         <th>Price</th>
                         <th>Time to end</th>
                     </tr>
-                    </thead>
                     <c:choose>
                         <c:when test="${auctions.size()>0}">
                             <c:forEach items="${auctions}" var="auction" varStatus="stat">
@@ -75,7 +87,7 @@
                                         <tr>
                                     </c:when>
                                     <c:otherwise>
-                                        <tr style="background-color: aquamarine">
+                                        <tr style="background-color: #48c774">
                                     </c:otherwise>
                                 </c:choose>
 
@@ -100,7 +112,6 @@
                                     Run(document.getElementById("timer-${auction.id}"), new Date("${auction.dateEnded}"));
                                 </script>
                             </c:forEach>
-
                         </c:when>
                         <c:otherwise>
                         </c:otherwise>
@@ -108,14 +119,6 @@
                 </table>
             </div>
         </div>
-        <div>
-            <sec:authorize access="isAuthenticated()">
-                <div>
-                    <a href="/auction-add" class="button is-primary is-light is-outlined">Add auction</a>
-                </div>
-            </sec:authorize>
-        </div>
-
     </div>
 </section>
 
