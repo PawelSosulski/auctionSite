@@ -12,7 +12,7 @@ public class LoggedUserDTO {
 
     private String login;
 
-    private String username;
+    private String email;
 
     private String city;
 

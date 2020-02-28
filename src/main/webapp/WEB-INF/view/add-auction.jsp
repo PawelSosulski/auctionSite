@@ -40,6 +40,10 @@
                             <form:errors path="buyNowPrice"/><br>
                         </div>
                     </div>
+
+                </div>
+
+                <div class="column">
                     <div class="field">
                         <label class="label">Days to end</label>
                         <div class="control">
@@ -50,9 +54,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="column">
                     <div class="field">
                         <label class="label">Category</label>
                         <div class="control">

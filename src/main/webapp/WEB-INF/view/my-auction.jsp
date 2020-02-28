@@ -24,7 +24,7 @@
             <c:forEach items="${ongoing}" var="auction" varStatus="stat">
                 <c:url value="auction/${auction.id}" var="auctionUrl"/>
                 <tr>
-                    <td>${stat.count} : ${auction.id}</td>
+                    <td>${stat.count}</td>
                     <td><a href="${auctionUrl}">${auction.title}</a></td>
                     <td>${auction.categoryName}</td>
                     <td>${auction.actualPrice}</td>

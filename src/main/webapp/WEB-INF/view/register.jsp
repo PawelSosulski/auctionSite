@@ -27,7 +27,7 @@
                     <div class="field">
                         <label class="label">Email</label>
                         <div class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" name="username" placeholder="Enter email">
+                            <input class="input" type="text" name="email" placeholder="Enter email">
                             <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
                         </div>
                     </div>

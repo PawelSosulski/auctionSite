@@ -15,10 +15,11 @@
             <th>Category</th>
             <th>Price</th>
             <th>Time to end</th>
-            <th>Usuń</th>
+            <th>Remove</th>
         </tr>
         <c:forEach items="${observeAuctions}" var="auction" varStatus="stat">
             <c:url value="/auction/${auction.id}" var="auctionUrl"/>
+
             <tr>
                 <td>${stat.index+1}</td>
                 <td><a href="${auctionUrl}">${auction.title}</a></td>
@@ -26,7 +27,10 @@
                 <td>${auction.categoryName}</td>
                 <td>${auction.buyNowPrice}</td>
                 <td><div id="timer-${auction.id}"></div></td>
-                <td>Usuń z obserwowanych</td>
+                <td><form method="post" action="/auction-remove">
+                    <input type="hidden" name="auctionId" value="${auction.id}">
+                    <input type="submit" value="Usuń z obserwowanych">
+                </form></td>
             </tr>
 
             <script>
