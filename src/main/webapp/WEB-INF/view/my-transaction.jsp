@@ -94,7 +94,7 @@
                         <c:when test="${sales.size()>0}">
                             <c:forEach items="${sales}" var="sale" varStatus="stat">
                                 <c:url value="/auction/${sale.auction.id}" var="auctionUrl"/>
-                                <div class="card is-fullwidth">
+                                <div class="card is-fullwidth is-success">
                                     <header class="card-header">
                                         <p class="card-header-title"><a
                                                 href="${auctionUrl}">${sale.auction.title}</a></p>
