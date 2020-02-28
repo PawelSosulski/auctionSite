@@ -221,7 +221,7 @@
                                             <div class="message-header"><p>BUY NOW PRICE: ${auction.buyNowPrice}</p>
                                             </div>
                                             <div class="message-body">
-                                                <button type="submit" class="button is-link is-danger">BUY NOW
+                                                <button disabled type="submit" class="button is-link is-danger">BUY NOW
                                                 </button>
                                             </div>
                                         </article>
