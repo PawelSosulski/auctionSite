@@ -8,7 +8,7 @@
 
 <section class="section">
     <div class="container">
-        <h2 class="title is-1 page-title">My account</h2>
+        <h1 class="title is-1 page-title">My account</h1>
 
         <c:if test="${param['save'] == 'success'}">
             <div class="notification is-success">
