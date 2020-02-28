@@ -7,7 +7,7 @@
 
 <section class="section">
     <div class="container">
-        <h1 class="title is-1 page-title">REGISTER</h1>
+        <h1 class="title is-1 page-title">Register</h1>
         <form action="/register" method="POST">
             <div class="columns">
                 <div class="column"></div>
@@ -52,8 +52,27 @@
                             <span class="icon is-small is-left"><i class="fas fa-key"></i></span>
                         </div>
                     </div>
+                    <div class="field">
+                        <label class="label">Email</label>
+                        <div class="control has-icons-left has-icons-right">
+                            <input class="input" type="email" name="username" placeholder="Enter email">
+                            <span class="icon is-small is-left"><i class="fas fa-envelope"></i></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="column">
+                    <div class="field">
+                        <label class="label">Name</label>
+                        <div class="control">
+                            <input class="input" type="text" name="name" placeholder="Enter name">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Last name</label>
+                        <div class="control">
+                            <input class="input" type="text" name="lastName" placeholder="Enter last name">
+                        </div>
+                    </div>
                     <div class="field">
                         <label class="label">City</label>
                         <div class="control">
