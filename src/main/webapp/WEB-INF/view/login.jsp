@@ -12,7 +12,7 @@
 
             <div class="column has-text-centered">
                 <div>
-                    <h1 class="title is-1 page-title">LOGIN</h1>
+                    <h1 class="title is-1 page-title">Login</h1>
                 </div>
 
                 <c:if test="${param['error'] != null}">

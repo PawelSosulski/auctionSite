@@ -7,7 +7,7 @@
 
 <section class="section">
     <div class="container">
-        <h1 class="title is-1 page-title">REGISTER</h1>
+        <h1 class="title is-1 page-title">Register</h1>
         <form action="/register" method="POST">
             <div class="columns">
                 <div class="column"></div>

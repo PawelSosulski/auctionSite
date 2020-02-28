@@ -3,41 +3,59 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="count" value="${[5,4,3,2,1]}"/>
 
-<div class="container">
-    <div class="form-horizontal">
-        <h3 class="title">Rate auction</h3>
-        <div class="panel-title">Auction: ${rate.auctionTitle}</div>
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1 page-title">Rate auction</h1>
+        <div class="columns">
+            <div class="column"></div>
+            <div class="column is-two-thirds">
+                <div class="field is-grouped">
+                    <div class="control"><label class="label">Auction</label></div>
+                    <div class="control"><p>${rate.auctionTitle}</p></div>
+                </div>
 
-        <form:form action="/rate-add" method="post" modelAttribute="rate">
-            <div class="field">
-                <div class="control has-icons-left">
-                    <span class="select is-focused">
-                        <label class="label" for="rateValue">Rate</label>
+                <form:form action="/rate-add" method="post" modelAttribute="rate">
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <label class="label" for="rateValue">Rate</label>
+                        </div>
+                        <div class="control">
+                        <span class="select is-focused">
                         <select id="rateValue" name="rateValue">
                             <c:forEach items="${count}" var="value">
                                 <option value="${value}">${value}</option>
                             </c:forEach>
                         </select>
                     </span>
-                    <span class="icon is is-small is-left">
-                        <i class="fa fa-star"></i>
-                    </span>
-                </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <spring:bind path="rate.rateDescription">
+                            <div class="form-group ${status.error ? 'has-error' : ''}">
+                                <label class="label" for="desc">Description</label><br>
+                                <form:textarea cssClass="textarea is-medium is-hovered has-fixed-size" id="desc"
+                                               cols="70"
+                                               rows="5"
+                                               path="rateDescription"/><br>
+                                <form:errors path="rateDescription"/>
+                            </div>
+                        </spring:bind>
+                    </div>
+                    <form:hidden path="auctionTitle"/>
+                    <form:hidden path="purchaseId"/>
+                    <form:hidden path="role"/>
+
+                    <div class="field">
+                        <p class="control has-text-centered">
+                            <button class="button is-success" type="submit">
+                                Rate!
+                            </button>
+                        </p>
+                    </div>
+                </form:form>
             </div>
-
-            <spring:bind path="rate.rateDescription">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <label class="label" for="desc">Description:</label><br>
-                    <form:textarea cssClass="textarea is-medium is-hovered has-fixed-size" id="desc" cols="70" rows="5"
-                                   path="rateDescription"/><br>
-                    <form:errors path="rateDescription"/>
-                </div>
-            </spring:bind>
-
-            <form:hidden path="auctionTitle"/>
-            <form:hidden path="purchaseId"/>
-            <form:hidden path="role"/>
-            <button class="button btn-primary" type="submit">Rate!</button>
-        </form:form>
+            <div class="column"></div>
+        </div>
     </div>
-</div>
+</section>

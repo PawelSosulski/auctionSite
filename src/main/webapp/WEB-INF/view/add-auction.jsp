@@ -22,7 +22,7 @@
                     <div class="field">
                         <label class="label">Description</label>
                         <div class="control">
-                            <form:textarea cssClass="textarea" id="description" path="description"/>
+                            <form:textarea cssClass="textarea has-fixed-size" id="description" path="description"/>
                             <form:errors path="description"/><br>
                         </div>
                     </div>
