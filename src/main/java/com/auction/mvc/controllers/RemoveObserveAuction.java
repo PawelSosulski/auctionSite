@@ -19,6 +19,6 @@ public class RemoveObserveAuction {
     @PostMapping
     public String removeObserveAuction(Long auctionId){
         auctionService.removeMyObserveAuction(auctionId);
-    return "redirect:/my-observe";
+    return "redirect:/observe-auctions";
 }
 }

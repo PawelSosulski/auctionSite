@@ -127,7 +127,7 @@ public class TransactionService {
         AverageRateDTO averageRateDTO = new AverageRateDTO();
         averageRateDTO.setNumberOfRates(0L);
         averageRateDTO.setSumOfRates(0L);
-        averageRateDTO.setAverageRate(new BigDecimal(25));
+        averageRateDTO.setAverageRate(new BigDecimal(0));
         purchases.forEach(a -> {
             if (a.getTransactionAssessment().getBuyerRating() != null) {
                 averageRateDTO.setNumberOfRates(averageRateDTO.getNumberOfRates() + 1L);
@@ -142,9 +142,11 @@ public class TransactionService {
             }
         });
 
-        double average = ((double) averageRateDTO.getSumOfRates() / averageRateDTO.getNumberOfRates());
-        BigDecimal bd = new BigDecimal(average).setScale(2, RoundingMode.UP);
-        averageRateDTO.setAverageRate(bd);
+        if (averageRateDTO.getSumOfRates() != 0) {
+            Double average = ((double) averageRateDTO.getSumOfRates() / averageRateDTO.getNumberOfRates());
+            BigDecimal bd = new BigDecimal(average).setScale(2, RoundingMode.UP);
+            averageRateDTO.setAverageRate(bd);
+        }
 
         return averageRateDTO;
     }

@@ -30,7 +30,7 @@
                                                 <div class="column">
                                                     <p><b>Price:</b> ${purchase.amount}</p>
                                                     <p><b>Seller:</b> <a
-                                                            href="/user/${purchase.sellerUser.username}">${purchase.sellerUser.username}</a>
+                                                            href="/user/${purchase.sellerUser.login}">${purchase.sellerUser.login}</a>
                                                     </p>
                                                     <p>${purchase.sellerUser.name} ${purchase.sellerUser.lastName}<br>
                                                             ${purchase.sellerUser.street} ${purchase.sellerUser.streetNumber}<br>
@@ -108,7 +108,7 @@
                                                 <div class="column">
                                                     <p><b>Price:</b> ${sale.amount}</p>
                                                     <p><b>Buyer:</b> <a
-                                                            href="/user/${sale.buyerUser.username}">${sale.buyerUser.username}</a>
+                                                            href="/user/${sale.buyerUser.login}">${sale.buyerUser.login}</a>
                                                     </p>
                                                     <p>${sale.buyerUser.name} ${sale.buyerUser.lastName}<br>
                                                             ${sale.buyerUser.street} ${sale.buyerUser.streetNumber}<br>
