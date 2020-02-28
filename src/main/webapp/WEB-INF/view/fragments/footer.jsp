@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer is-light">
     <div class="content has-text-centered">
         <p>
             <strong>Auction Site</strong> by <a href="https://github.com/PawelSosulski/">PawelSosulski</a> &

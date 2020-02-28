@@ -57,7 +57,9 @@
                         </div>
 
                         <div style="margin-top: 20px;" class="field is-grouped">
-                            <div class="control"><button class="button is-success" type="submit">Apply</button></div>
+                            <div class="control">
+                                <button class="button is-success" type="submit">Apply</button>
+                            </div>
                             <div class="control">
                                 <form action="/auction-clear-filter" method="POST">
                                     <button class="button is-success" type="submit">Clear</button>
@@ -70,16 +72,17 @@
             </div>
 
             <div class="column is-four-fifths-desktop">
-                <table class="table is-hoverable is-fullwidth">
-                    <tr>
-                        <th>Lp.</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Time to end</th>
-                    </tr>
-                    <c:choose>
-                        <c:when test="${auctions.size()>0}">
+                <c:choose>
+                    <c:when test="${auctions.size()>0}">
+                        <table class="table is-hoverable is-fullwidth">
+                            <tr>
+                                <th>Lp.</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Time to end</th>
+                            </tr>
+
                             <c:forEach items="${auctions}" var="auction" varStatus="stat">
                                 <c:url value="auction/${auction.id}" var="auctionUrl"/>
                                 <c:choose>
@@ -112,11 +115,15 @@
                                     Run(document.getElementById("timer-${auction.id}"), new Date("${auction.dateEnded}"));
                                 </script>
                             </c:forEach>
-                        </c:when>
-                        <c:otherwise>
-                        </c:otherwise>
-                    </c:choose>
-                </table>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="field has-addons has-addons-centered">
+                            <p class="subtitle is-5">There is no auctions now.</p>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
             </div>
         </div>
     </div>
