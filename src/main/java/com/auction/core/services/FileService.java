@@ -1,7 +1,9 @@
 package com.auction.core.services;
 
+import com.auction.data.model.Auction;
 import com.auction.data.model.FileEntity;
 import com.auction.data.model.UserAccount;
+import com.auction.data.repositories.AuctionRepository;
 import com.auction.data.repositories.FileRepository;
 import com.auction.data.repositories.UserAccountRepository;
 import com.auction.dto.FileDTO;
@@ -22,15 +24,21 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 @Service
 @Transactional
 public class FileService {
-    @Autowired
-    private FileRepository fileRepository;
-    @Autowired
-    private UserAccountRepository userAccountRepository;
 
+    private FileRepository fileRepository;
+    private UserAccountRepository userAccountRepository;
+    private AuctionRepository auctionRepository;
+    private Random random;
     private static String uploadFolder = "C:\\auction\\";
 
+    public FileService(FileRepository fileRepository, UserAccountRepository userAccountRepository, AuctionRepository auctionRepository) {
+        this.fileRepository = fileRepository;
+        this.userAccountRepository = userAccountRepository;
+        this.auctionRepository=auctionRepository;
+        random = new Random();
+    }
+
     public boolean saveFileToUser(FileDTO fileDTO) throws IOException {
-        Random random = new Random();
         String fileDst = Integer.toHexString(random.nextInt(256))
                 + "\\" + Integer.toHexString(random.nextInt(256)) + "\\";
         if (writeBytesToFile(fileDTO.getData(), uploadFolder + fileDst, fileDTO.getFileName())) {
@@ -55,6 +63,24 @@ public class FileService {
         }
         return false;
     }
+
+    public boolean saveFileToAuction(FileDTO fileDTO, Long auctionId) throws IOException {
+        String fileDst = Integer.toHexString(random.nextInt(256))
+                + "\\" + Integer.toHexString(random.nextInt(256)) + "\\";
+        if (writeBytesToFile(fileDTO.getDataAsString().getBytes(), uploadFolder + fileDst, fileDTO.getFileName())) {
+            FileEntity file = new FileEntity();
+            file.setFileType(fileDTO.getContentType());
+            file.setPath(fileDst + fileDTO.getFileName());
+            Optional<Auction> oneByIdOpt = auctionRepository.getOneById(auctionId);
+            if (oneByIdOpt.isPresent()) {
+                Auction auction = oneByIdOpt.get();
+                fileRepository.save(file);
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     private boolean writeBytesToFile(byte[] byteData, String fileDst, String fileName) throws IOException {
         File dir = new File(fileDst);

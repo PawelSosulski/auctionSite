@@ -51,5 +51,5 @@ public class AuctionDTO {
 
     private AuctionType auctionType;
 
-   // private FileDTO photo;
+   private FileDTO photo;
 }

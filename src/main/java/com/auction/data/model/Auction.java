@@ -65,6 +65,9 @@ public class Auction {
     @OneToMany(mappedBy = "auction")
     List<Bidding> biddingList;
 
+    @OneToOne
+    private FileEntity photo;
+
 
     @Override
     public String toString() {
