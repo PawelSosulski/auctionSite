@@ -60,6 +60,7 @@
                             <div class="control">
                                 <button class="button is-success" type="submit">Apply</button>
                             </div>
+                            </form:form>
                             <div class="control">
                                 <form action="/auction-clear-filter" method="POST">
                                     <button class="button is-success" type="submit">Clear</button>
@@ -67,7 +68,7 @@
                             </div>
                         </div>
 
-                    </form:form>
+
                 </div>
             </div>
 

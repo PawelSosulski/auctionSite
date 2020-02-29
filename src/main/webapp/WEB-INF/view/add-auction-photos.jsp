@@ -67,19 +67,22 @@
             <form:hidden path="startPrice"/>
             <form:hidden path="buyNowPrice"/>
             <form:hidden path="categoryId"/>
-            <%--<form:hidden path="photo"/>--%>
+            <form:hidden path="photo.contentType"/>
+            <form:hidden path="photo.fileName"/>
+            <form:hidden path="photo.dataAsString"/>
         </form:form>
 
     </div>
     <div class="column">
         <%--TODO --%>
         <form enctype="multipart/form-data" method="post">
-            <input type="hidden" name="title" value="${newAction.title}"/>
-            <input type="hidden" name="description" value="${newAction.description}"/>
-            <input type="hidden" name="days" value="${newAction.days}"/>
-            <input type="hidden" name="startPrice" value="${newAction.startPrice}"/>
-            <input type="hidden" name="buyNowPrice" value="${newAction.buyNowPrice}"/>
-            <input type="hidden" name="categoryId" value="${newAction.categoryId}"/>
+            <input type="hidden" name="title" value="${newAuction.title}"/>
+            <input type="hidden" name="description" value="${newAuction.description}"/>
+            <input type="hidden" name="days" value="${newAuction.days}"/>
+            <input type="hidden" name="startPrice" value="${newAuction.startPrice}"/>
+            <input type="hidden" name="buyNowPrice" value="${newAuction.buyNowPrice}"/>
+            <input type="hidden" name="categoryId" value="${newAuction.categoryId}"/>
+            <input type="hidden" name="auctionType" value="${newAuction.auctionType}"/>
 
             <div class="field">
                 <div class="label" for="file">Add photo</div>
@@ -102,7 +105,7 @@
                 <div class="field is-grouped">
                     <div class="control">
                         <button class="button is-primary" name="uploadPhoto" type="submit">
-                            Change
+                            Add
                         </button>
                     </div>
                 </div>

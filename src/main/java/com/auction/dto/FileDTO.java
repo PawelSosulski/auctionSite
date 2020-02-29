@@ -11,4 +11,6 @@ public class FileDTO {
 
     private byte[] data;
 
+    private String dataAsString;
+
 }

@@ -10,7 +10,11 @@ import com.auction.dto.LoggedUserDTO;
 import com.auction.utils.ValidList;
 import com.auction.utils.enums.AuctionType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,15 +51,13 @@ public class AddAuctionController {
 
     @GetMapping
     public ModelAndView addAuctionInitPage(Model model) {
-
         prepareModel(model);
         AuctionDTO auctionDTO = new AuctionDTO();
         auctionDTO.setAuctionType(AuctionType.NORMAL);
-        model.addAttribute("isUserPromo", userService.isUserPromo());
         return new ModelAndView("add-auction", "newAuction", auctionDTO);
     }
 
-    @PostMapping(params = {"next"})
+/*    @PostMapping(params = {"next"})
     public String nextPageNewAuction(@Valid @ModelAttribute("newAuction") AuctionDTO auctionDTO,
                                      BindingResult result, Model model) {
         auctionValidator.validate(auctionDTO, result);
@@ -64,46 +66,44 @@ public class AddAuctionController {
             return "add-auction";
         }
         model.addAttribute("newAuction", auctionDTO);
-        Boolean isUserPromo = userService.isUserPromo();
-        model.addAttribute("isUserPromo", isUserPromo);
         return "add-auction-photos";
-    }
+    }*/
 
-    @PostMapping(params = {"edit"})
+/*    @PostMapping(params = {"edit"})
     public String editNewAuction(@Param(value = "newAuction") AuctionDTO auctionDTO,
                                  Model model) {
         prepareModel(model);
         model.addAttribute("newAuction", auctionDTO);
         return "add-auction";
-    }
+    }*/
 
     @PostMapping(params = {"uploadPhoto"})
-    public String addPhoto(@RequestParam MultipartFile file,
-                           @Param(value = "newAuction") AuctionDTO auctionDTO,
+    public String addPhoto(AuctionDTO auctionDTO,
+                           @RequestParam("file") MultipartFile file,
                            Model model) throws IOException {
         FileDTO fileDTO = new FileDTO();
         fileDTO.setContentType(file.getContentType());
         fileDTO.setFileName(file.getOriginalFilename());
-        fileDTO.setData(file.getBytes());
-        //auctionDTO.setPhoto(fileDTO);
+        fileDTO.setDataAsString(new String(file.getBytes()));
+        auctionDTO.setPhoto(fileDTO);
+        prepareModel(model);
         model.addAttribute("newAuction", auctionDTO);
-        return "add-auction-photos";
+        return "add-auction";
     }
 
     @PostMapping(params = {"save"})
-    public String saveNewAuction(@Param(value = "newAuction") AuctionDTO auctionDTO) {
+    public String saveNewAuction(@Valid @ModelAttribute("newAuction") AuctionDTO auctionDTO,
+                                 BindingResult result, Model model) throws IOException {
+        auctionValidator.validate(auctionDTO, result);
+        if (result.hasErrors()) {
+            prepareModel(model);
+            return "add-auction";
+        }
         return "redirect:/auction/" + auctionService.addAuction(auctionDTO);
     }
 
-
-
-
-
-
-
-
-
     private void prepareModel(Model model) {
+        model.addAttribute("isUserPromo", userService.isUserPromo());
         model.addAttribute("categories", categoryService.findAllCategory());
         model.addAttribute("mainCategories", categoryService.findMainCategories());
         model.addAttribute("daysList", getDaysList(7));

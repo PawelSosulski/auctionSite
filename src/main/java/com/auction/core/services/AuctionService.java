@@ -8,6 +8,7 @@ import com.auction.utils.enums.AuctionStatus;
 import com.auction.utils.enums.AuctionType;
 import com.auction.utils.enums.TransactionRole;
 import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -34,6 +37,8 @@ public class AuctionService {
     private Mapper mapper;
     private PurchaseRepository purchaseRepository;
     private UserService userService;
+    @Autowired
+    private FileService fileService;
 
     public AuctionService(BiddingRepository biddingRepository, TransactionAssessmentRepository transactionAssessmentRepository, UserAccountRepository userAccountRepository, AuctionRepository auctionRepository, CategoryRepository categoryRepository, Mapper mapper, PurchaseRepository purchaseRepository, UserService userService) {
         this.biddingRepository = biddingRepository;
@@ -130,10 +135,11 @@ public class AuctionService {
     }
 
 
-    public String addAuction(AuctionDTO auctionDTO) {
+    public String addAuction(AuctionDTO auctionDTO) throws IOException {
         LocalDateTime dateNow = LocalDateTime.now();
         Integer auctionDays = auctionDTO.getDays();
         Auction auction = mapper.map(auctionDTO, Auction.class);
+        auction.setPhoto(null);
         auction.setActualPrice(auctionDTO.getStartPrice());
         auction.setStatus(AuctionStatus.PENDING);
         if (auctionDTO.getAuctionType() == null) {
