@@ -159,12 +159,7 @@ public class AuctionService {
         if (allUsersByUsername.size() == 1) {
             user = allUsersByUsername.get(0);
             auction.setSeller(user);
-
-            if (auctionDTO.getPhoto()!=null) {
-                FileDTO photo = auctionDTO.getPhoto();
-                if (fileService.saveFileToAuction(photo)){}
-
-            }
+            
             return String.valueOf(auctionRepository.save(auction).getId());
         }
         return "";
