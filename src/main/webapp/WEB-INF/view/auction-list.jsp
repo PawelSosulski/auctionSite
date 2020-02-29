@@ -18,7 +18,7 @@
                 <div class="field has-addons has-addons-centered">
                     <form:form method="post" action="/auction" modelAttribute="filter">
                         <div class="control" style="margin-top: 20px;">
-                            <div class="select">
+                            <div class="select" style="width: 80%;">
                                 <select name="categoryId">
                                     <option hidden value="0">-- Select categories --</option>
                                     <option value="0">-- All categories --</option>

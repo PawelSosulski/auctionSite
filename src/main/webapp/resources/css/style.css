@@ -22,6 +22,25 @@
     align-items: center;
 }
 
+.card {
+    background-color: #48c774;
+}
+
+.card p > a {
+    color: white;
+}
+
+.card p > a:hover {
+    color: black;
+}
+
+.card-content .content > a {
+    color: white;
+}
+
+.card-content .content > a:hover {
+    color: black;
+}
 
 /*footer {*/
 /*    position: absolute;*/
