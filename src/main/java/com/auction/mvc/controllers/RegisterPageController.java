@@ -44,7 +44,7 @@ public class RegisterPageController {
         newUserDTO.setCreatedAt(LocalDateTime.now());
         userService.addNewUser(newUserDTO);
 
-        return "redirect:/";
+        return "redirect:/login?register=success";
     }
 
 }

@@ -1,7 +1,9 @@
 package com.auction.data.model;
 
 
+import com.auction.utils.enums.AccountType;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.AuctionType;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,6 +48,9 @@ public class Auction {
     @Column(name = "date_ended")
     private LocalDateTime dateEnded;
 
+    @Column(nullable = false)
+    private AuctionType auctionType;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
@@ -60,12 +65,15 @@ public class Auction {
     @OneToMany(mappedBy = "auction")
     List<Bidding> biddingList;
 
+    @OneToOne
+    private FileEntity photo;
+
 
     @Override
     public String toString() {
         return "Auction{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
+                ", auctionTitle='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", startPrice=" + startPrice +
                 ", buyNowPrice=" + buyNowPrice +

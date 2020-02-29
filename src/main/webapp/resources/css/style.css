@@ -1,37 +1,51 @@
-body {
-    margin: 30px;
+.view-more-button {
+    margin-left: 200px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.category-menu {
-    background: #9d9d9d;
-    padding: 0px;
-    margin: 0px;
-    width: 180px;
+.header-button {
+    margin: 10px;
 }
 
-.category-menu ul {
-    padding: 0px;
-    margin: 0px;
+.page-title {
+    padding-bottom: 60px;
+    text-align: center;
 }
 
-.category-menu ul > li {
-    list-style-type: none;
-    display: block;
-    padding: 0px;
+.card+.card {
+    margin-top: 20px
 }
 
-.category-menu ul > li > ol {
-    z-index: 1000;
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-    display: none;
-    position: absolute;
-    text-align: left;
+.is-vertical-center {
+    display: flex;
+    align-items: center;
 }
 
-.category-menu ul > li:hover > ol {
-    display: inline-block;
-    background: #9d9d9d;
-    border: 1px solid #000000;
+.card {
+    background-color: #48c774;
 }
+
+.card p > a {
+    color: white;
+}
+
+.card p > a:hover {
+    color: black;
+}
+
+.card-content .content > a {
+    color: white;
+}
+
+.card-content .content > a:hover {
+    color: black;
+}
+
+/*footer {*/
+/*    position: absolute;*/
+/*    bottom: 0;*/
+/*    height: 100px;*/
+/*    width: 100%;*/
+/*}*/
+

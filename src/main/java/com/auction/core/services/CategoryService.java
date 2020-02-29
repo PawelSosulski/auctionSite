@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,6 +35,7 @@ public class CategoryService {
         return categoryDTOList;
     }
 
+
     public List<CategoryDTO> findMainCategories() {
         Long mainId = 0L;
         List<CategoryDTO> categoryDTOList = new ArrayList<>();
@@ -53,11 +53,49 @@ public class CategoryService {
             return mapper.map(allById.get(0),CategoryDTO.class);
         }
         return new CategoryDTO();
+    }
 
+    public List<CategoryDTO> findCategoryByParentId(Long id) {
+        List<CategoryDTO> allByParentId = new ArrayList<>();
+        categoryRepository.findAllByParentId(id).forEach(a -> {
+            CategoryDTO categoryDTO = mapper.map(a, CategoryDTO.class);
+            allByParentId.add(categoryDTO);
+        });
+
+        return allByParentId;
+    }
+
+    public CategoryDTO findCategoryWithParentName(Long id) {
+        List<Category> allById = categoryRepository.findAllById(id);
+        if (allById.size()==1) {
+            CategoryDTO categoryDTO = mapper.map(allById.get(0),CategoryDTO.class);
+            if (categoryDTO.getParentId() != 0) {
+                categoryDTO.setParentName(getParentName(categoryDTO.getParentId()));
+                return categoryDTO;
+            }
+        }
+        return new CategoryDTO();
     }
 
     public Map<Long, String> getCategoriesMap() {
         List<Category> allMainCategories = categoryRepository.findAllByParentId(0L);
         return allMainCategories.stream().collect(Collectors.toMap(Category::getId, Category::getName));
+    }
+
+    public List<CategoryDTO> getCategoriesByParentId(Long id) {
+        List<CategoryDTO> categoryDTOList = new ArrayList<>();
+        categoryRepository.findAllByParentId(id).forEach(a -> {
+            CategoryDTO categoryDTO = mapper.map(a, CategoryDTO.class);
+            categoryDTOList.add(categoryDTO);
+        });
+        return categoryDTOList;
+    }
+
+
+    private String getParentName(Long parentId) {
+        List<Category> categoryList= categoryRepository.findAllById(parentId);
+        Category category = categoryList.get(0);
+        String parentName = category.getName();
+        return parentName;
     }
 }

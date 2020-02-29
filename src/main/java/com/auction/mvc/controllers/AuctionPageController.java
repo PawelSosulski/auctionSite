@@ -5,13 +5,12 @@ import com.auction.core.services.CategoryService;
 import com.auction.core.services.UserService;
 import com.auction.dto.*;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.SortOptions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,15 +33,31 @@ public class AuctionPageController {
     }
 
     @GetMapping
-    public String auctionPageInit(Model model) {
-        List<AuctionDTO> allAuctions = auctionService
-                .findAllByStatusWithCategory(AuctionStatus.PENDING);
-        model.addAttribute("auctions", allAuctions);
-        Map<Long, String> categories = new HashMap<>();
-        categories.put(0L, "All");
-        categories.putAll(categoryService.getCategoriesMap());
-        model.addAttribute("categories", categories);
-        model.addAttribute("filter", new FilterAuctionDTO());
+    public String auctionPageInit(Model model, @RequestParam(value = "id", required = false) String id) {
+        FilterAuctionDTO filterAuctionDTO = new FilterAuctionDTO();
+
+        if (id != null) {
+            List<CategoryDTO> subCategories = categoryService.findCategoryByParentId(Long.valueOf(id));
+            List<Long> categoryId = new ArrayList<>();
+            categoryId.add(Long.valueOf(id));
+            if (subCategories.size() != 0) {
+                for (int i = 0; i < subCategories.size(); i++) {
+                    categoryId.add(subCategories.get(i).getId());
+                }
+            }
+            filterAuctionDTO.setSort(SortOptions.timeASC);
+            filterAuctionDTO.setOnlyBuyNow(false);
+            filterAuctionDTO.setCategoryId(categoryId);
+            List<AuctionDTO> filteredAuction = auctionService.doPendingAuctionFilter(filterAuctionDTO);
+            model.addAttribute("auctions", filteredAuction);
+        } else {
+            List<AuctionDTO> allAuctions = auctionService.findAllByStatusWithCategorySortedByPromote(AuctionStatus.PENDING);
+            model.addAttribute("auctions", allAuctions);
+        }
+
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("mainCategories", categoryService.findMainCategories());
+        model.addAttribute("filter", filterAuctionDTO);
         return "auction-list";
     }
 
@@ -51,10 +66,8 @@ public class AuctionPageController {
     public String auctionFilter(FilterAuctionDTO filter, Model model) {
         List<AuctionDTO> filteredAuction = auctionService.doPendingAuctionFilter(filter);
         model.addAttribute("auctions", filteredAuction);
-        Map<Long, String> categories = new HashMap<>();
-        categories.put(0L, "All");
-        categories.putAll(categoryService.getCategoriesMap());
-        model.addAttribute("categories", categories);
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("mainCategories", categoryService.findMainCategories());
         model.addAttribute("filter", filter);
         return "auction-list";
     }
@@ -67,8 +80,10 @@ public class AuctionPageController {
             if (auctionList.size() == 1) {
                 AuctionDTO auctionDTO = auctionList.get(0);
                 model.addAttribute("auction", auctionDTO);
-                CategoryDTO category = categoryService.findCategoryById(auctionDTO.getCategoryId());
-                model.addAttribute("category", category);
+                Boolean isUserAuction = userService.isUserAuction(auctionId);
+                model.addAttribute("isUserAuction", isUserAuction);
+                CategoryDTO categories = categoryService.findCategoryWithParentName(auctionDTO.getCategoryId());
+                model.addAttribute("category", categories);
                 TransactionUserDTO seller = userService.getUserDTOById(auctionDTO.getSellerId());
                 model.addAttribute("seller", seller);
                 BidDTO bid = new BidDTO();
@@ -81,9 +96,8 @@ public class AuctionPageController {
                 return "auction";
             }
         }
-        return "redirect:auction";
+        return "redirect:../auction";
     }
-
 
 
     @PostMapping("/observe-auction")

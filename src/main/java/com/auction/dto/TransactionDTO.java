@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 @Data
 public class TransactionDTO {
 
+    private Long purchaseId;
+
     private AuctionDTO auction;
 
     private TransactionUserDTO sellerUser;

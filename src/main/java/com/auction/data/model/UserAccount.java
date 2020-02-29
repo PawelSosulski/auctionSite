@@ -32,7 +32,7 @@ public class UserAccount {
     private String password;
 
     @Column(unique = true, nullable = false)
-    private String username;
+    private String email;
 
     @Column(nullable = false)
     private String city;
@@ -77,13 +77,15 @@ public class UserAccount {
     @OneToMany(mappedBy = "seller")
     private Set<Auction> myAuctions = new HashSet<>();
 
+    @OneToOne
+    private FileEntity avatar;
 
     @Override
     public String toString() {
         return "UserAccount{" +
                 "id=" + id +
                 ", login='" + login + '\'' +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", city='" + city + '\'' +
                 ", street='" + street + '\'' +
                 ", streetNumber=" + streetNumber +

@@ -6,6 +6,7 @@ import com.auction.data.repositories.AuctionRepository;
 import com.auction.data.repositories.UserAccountRepository;
 import com.auction.dto.*;
 
+import com.auction.utils.enums.AccountType;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,9 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 @Service
 @Transactional
 public class UserService {
+
+
+    private static String uploadFolder = "D:\\auction\\";
 
     @Autowired
     private AuctionRepository auctionRepository;
@@ -43,16 +47,22 @@ public class UserService {
         return true;
     }
 
-    public void editUser(LoggedUserDTO loggedUserDTO) {
-        UserAccount currentUser = userAccountRepository.findAllByLogin(loggedUserDTO.getLogin()).get(0);
-        currentUser.setName(loggedUserDTO.getName());
-        currentUser.setLastName(loggedUserDTO.getLastName());
-        currentUser.setStreet(loggedUserDTO.getStreet());
-        currentUser.setStreetNumber(loggedUserDTO.getStreetNumber());
-        currentUser.setCity(loggedUserDTO.getCity());
-        currentUser.setZipCode(loggedUserDTO.getZipCode());
-        currentUser.setProvince(loggedUserDTO.getProvince());
-        userAccountRepository.save(currentUser);
+    public boolean editUser(LoggedUserDTO loggedUserDTO) {
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(getContext().getAuthentication().getName());
+        if (oneByLogin.isPresent()) {
+            UserAccount userAccount = oneByLogin.get();
+            userAccount.setName(loggedUserDTO.getName());
+            userAccount.setLastName(loggedUserDTO.getLastName());
+            userAccount.setStreet(loggedUserDTO.getStreet());
+            userAccount.setStreetNumber(loggedUserDTO.getStreetNumber());
+            userAccount.setCity(loggedUserDTO.getCity());
+            userAccount.setZipCode(loggedUserDTO.getZipCode());
+            userAccount.setProvince(loggedUserDTO.getProvince());
+            userAccount.setEmail(loggedUserDTO.getEmail());
+            userAccountRepository.save(userAccount);
+            return true;
+        }
+        return false;
     }
 
     public boolean checkIfAlreadyExists(NewUserDTO newUserDTO) {
@@ -67,8 +77,14 @@ public class UserService {
             return mapper.map(allByLogin.get(0), LoggedUserDTO.class);
         else
             return new LoggedUserDTO();
+    }
 
-
+    public LoggedUserDTO getUserByUsername(String login) {
+        List<UserAccount> allByLogin = userAccountRepository.findAllByLogin(login);
+        if (allByLogin.size() == 1)
+            return mapper.map(allByLogin.get(0), LoggedUserDTO.class);
+        else
+            return new LoggedUserDTO();
     }
 
     public TransactionUserDTO getUserDTOById(Long sellerId) {
@@ -106,6 +122,67 @@ public class UserService {
                     .map(Auction::getId)
                     .collect(Collectors.toList());
             return collect.contains(auctionId);
+        }
+        return false;
+    }
+
+    public Long getAvatarId() {
+        String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount user = oneByLogin.get();
+            if (user.getAvatar()!=null) {
+                return user.getAvatar().getId();
+            }
+        }
+        return 0L;
+    }
+
+    public Long getAvatarIdByLogin(String login) {
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount user = oneByLogin.get();
+            if (user.getAvatar()!=null) {
+                return user.getAvatar().getId();
+            }
+        }
+        return 0L;
+    }
+
+    public List<String> getAllLogins() {
+        return userAccountRepository.findAll().stream().map(UserAccount::getLogin).collect(Collectors.toList());
+    }
+
+    public Boolean isUserPromo() {
+        String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        if (oneByLogin.isPresent()) {
+            UserAccount userAccount = oneByLogin.get();
+            return userAccount.getType()== AccountType.PREMIUM;
+        }
+        return false;
+    }
+
+    public void premiumUser() {
+        String login = getContext().getAuthentication().getName();
+        Optional<UserAccount> oneByLogin = userAccountRepository.getOneByLogin(login);
+        oneByLogin.ifPresent(user -> {
+            user.setType(AccountType.PREMIUM);
+            userAccountRepository.save(user);
+        });
+    }
+
+    public List<String> getAllEmails() {
+        return userAccountRepository.findAll().stream().map(UserAccount::getEmail).collect(Collectors.toList());
+    }
+
+    public Boolean isUserAuction(Long auctionId) {
+        String login = getContext().getAuthentication().getName();
+        if (login != null) {
+            Optional<Auction> oneById = auctionRepository.getOneById(auctionId);
+            if (oneById.isPresent()) {
+                return oneById.get().getSeller().getLogin().equalsIgnoreCase(login);
+            }
         }
         return false;
     }

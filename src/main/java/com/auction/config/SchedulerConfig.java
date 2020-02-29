@@ -15,8 +15,12 @@ import java.time.LocalDateTime;
 @Configuration
 public class SchedulerConfig implements SchedulingConfigurer {
 
-    @Autowired
 private ScheduledTask scheduledTask;
+
+@Autowired
+    public SchedulerConfig(ScheduledTask scheduledTask) {
+        this.scheduledTask = scheduledTask;
+    }
 
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {

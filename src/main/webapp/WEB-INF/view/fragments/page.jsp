@@ -13,12 +13,16 @@
     <meta name="author" content="">
     <title>Auction site</title>
 
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/common.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link href="/resources/css/style.css" rel="stylesheet">
+
+
+
 
 </head>
-<body>
+<body class="has-background-light">
 <div id="header">
     <tiles:insertAttribute name="header"/>
 </div>

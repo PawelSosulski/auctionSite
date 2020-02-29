@@ -5,105 +5,129 @@
 <%@ page import="com.auction.utils.enums.SortOptions" %>
 <%@ page isELIgnored="false" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<script src="/resources/js/timer.js"></script>
 
-<sec:authorize access="isAuthenticated()">
-    <div>
-        <a href="/auction-add">Add auction</a>
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1 page-title">Auction list</h1>
+        <div class="columns">
+
+            <div class="column is-one-fifth-desktop">
+
+                <label class="label">Filter by</label>
+                <div class="field has-addons has-addons-centered">
+                    <form:form method="post" action="/auction" modelAttribute="filter">
+                        <div class="control" style="margin-top: 20px;">
+                            <div class="select" style="width: 80%;">
+                                <select name="categoryId">
+                                    <option hidden value="0">-- Select categories --</option>
+                                    <option value="0">-- All categories --</option>
+                                    <c:forEach items="${mainCategories}" var="category">
+                                        <optgroup label="${category.name}">
+                                            <c:forEach items="${categories}" var="subCategory">
+                                                <c:if test="${category.id == subCategory.parentId}">
+                                                    <option value="${subCategory.id}">${subCategory.name}</option>
+                                                </c:if>
+                                            </c:forEach>
+                                        </optgroup>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="control" style="margin-top: 20px;">
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.priceASC}" path="sort"/> Cheapest
+                            </label><br>
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.priceDES}" path="sort"/> Expensive
+                            </label><br>
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.timeASC}" path="sort"/> Newest
+                            </label><br>
+                            <label class="radio">
+                                <form:radiobutton value="${SortOptions.timeDES}" path="sort"/> Time to end
+                            </label>
+                        </div>
+
+                        <div class="control" style="margin-top: 20px;">
+                            <div class="checkbox">
+                                <form:checkbox path="onlyBuyNow"/><span style="margin-left: 5px;">Only buy now</span>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 20px;" class="field is-grouped">
+                            <div class="control">
+                                <button class="button is-success" type="submit">Apply</button>
+                            </div>
+                            </form:form>
+                            <div class="control">
+                                <form action="/auction-clear-filter" method="POST">
+                                    <button class="button is-success" type="submit">Clear</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                </div>
+            </div>
+
+            <div class="column is-four-fifths-desktop">
+                <c:choose>
+                    <c:when test="${auctions.size()>0}">
+                        <table class="table is-hoverable is-fullwidth">
+                            <tr>
+                                <th>Lp.</th>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Time to end</th>
+                            </tr>
+
+                            <c:forEach items="${auctions}" var="auction" varStatus="stat">
+                                <c:url value="auction/${auction.id}" var="auctionUrl"/>
+                                <c:choose>
+                                    <c:when test="${auction.auctionType == 'NORMAL'}">
+                                        <tr>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <tr style="background-color: #48c774">
+                                    </c:otherwise>
+                                </c:choose>
+
+                                <td>${stat.index+1}</td>
+                                <td><a href="${auctionUrl}">${auction.title}</a></td>
+                                <td>${auction.categoryName}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${auction.bidsNumber>0}">
+                                            Current price: ${auction.actualPrice}
+                                        </c:when>
+                                        <c:otherwise>
+                                            Buy now: ${auction.buyNowPrice}
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <div id="timer-${auction.id}"></div>
+                                </td>
+                                </tr>
+                                <script>
+                                    Run(document.getElementById("timer-${auction.id}"), new Date("${auction.dateEnded}"));
+                                </script>
+                            </c:forEach>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="field has-addons has-addons-centered">
+                            <p class="subtitle is-5">There is no auctions now.</p>
+                        </div>
+                    </c:otherwise>
+                </c:choose>
+
+            </div>
+        </div>
     </div>
-</sec:authorize>
-
-<h2>Auction list</h2>
-<div>
-    <h3>Filter</h3>
-    <form:form method="post" action="/auction" modelAttribute="filter">
-        <fieldset>
-            <form:select multiple="true" path="categoryId">
-                <form:options items="${categories}"/>
-            </form:select>
-            <table>
-                <tr>
-                    <td><form:radiobutton value="${SortOptions.priceASC}" path="sort"/> Cheapest</td>
-                    <td><form:radiobutton value="${SortOptions.priceDES}" path="sort"/> Expensive</td>
-                </tr>
-                <tr>
-                    <td><form:radiobutton value="${SortOptions.timeASC}" path="sort"/> Newest</td>
-                    <td><form:radiobutton value="${SortOptions.priceDES}" path="sort"/> Time to end</td>
-                </tr>
-            </table>
-            <form:checkbox path="onlyBuyNow"/>Only buy now
-            <br>
-            <input type="submit" value="Filtr">
-        </fieldset>
-    </form:form>
-    <span>
-        <form:form action="/auction-clear-filter" method="post">
-            <input type="submit" value="Clear">
-        </form:form>
-    </span>
-</div>
-<br>
-<c:choose>
-    <c:when test="${auctions.size()>0}">
-        <table border="yes">
-            <tr>
-                <th>Lp.</th>
-                <th>Title</th>
-                <th>Category</th>
-                <th></th>
-                <th>Time to end</th>
-            </tr>
-            <c:forEach items="${auctions}" var="auction" varStatus="stat">
-                <c:url value="auction/${auction.id}" var="auctionUrl"/>
-                <tr>
-                    <td>${stat.index+1}</td>
-                    <td><a href="${auctionUrl}">${auction.title}</a></td>
-                    <td>${auction.categoryName}</td>
-                    <td>
-                        <c:choose>
-                            <c:when test="${auction.bidsNumber>0}">
-                                Current price: ${auction.actualPrice}
-                            </c:when>
-                            <c:otherwise>
-                                Buy now: ${auction.buyNowPrice}
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                    <td>
-                        <div id="timer-${auction.id}"></div>
-                    </td>
-                </tr>
-                <script>
-                    function Run(div) {
-                        let countDown = new Date("${auction.dateEnded}").getTime();
-                        let x = setInterval(function () {
-                            let now = new Date().getTime();
-                            let distance = countDown - now;
-                            let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                            if (days !== 0) {
-                                div.innerHTML = days + "d " + hours + "h "
-                                    + minutes + "m " + seconds + "s ";
-                            } else {
-                                div.innerHTML = hours + "h "
-                                    + minutes + "m " + seconds + "s ";
-                            }
-                            if (distance < 0) {
-                                clearInterval(x);
-                                div.innerHTML = "ENDED";
-                            }
-                        }, 1000);
-                    }
-
-                    Run(document.getElementById("timer-${auction.id}"));
-                </script>
-            </c:forEach>
-        </table>
-    </c:when>
-    <c:otherwise>
-        <div>There is nothing to show.</div>
-    </c:otherwise>
-</c:choose>
+</section>
 
 

@@ -15,7 +15,7 @@ public class NewUserDTO {
 
     private String passwordConfirm;
 
-    private String username;
+    private String email;
 
     private String city;
 

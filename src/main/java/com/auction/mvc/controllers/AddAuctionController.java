@@ -5,17 +5,28 @@ import com.auction.core.services.CategoryService;
 import com.auction.core.services.UserService;
 import com.auction.core.validators.AuctionAddValidator;
 import com.auction.dto.AuctionDTO;
+import com.auction.dto.FileDTO;
 import com.auction.dto.LoggedUserDTO;
+import com.auction.utils.ValidList;
+import com.auction.utils.enums.AuctionType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -40,22 +51,62 @@ public class AddAuctionController {
 
     @GetMapping
     public ModelAndView addAuctionInitPage(Model model) {
-
-        model.addAttribute("categories", categoryService.getCategoriesMap());
-        model.addAttribute("daysList", getDaysList(7));
-        return new ModelAndView("add-auction", "newAuction", new AuctionDTO());
+        prepareModel(model);
+        AuctionDTO auctionDTO = new AuctionDTO();
+        auctionDTO.setAuctionType(AuctionType.NORMAL);
+        return new ModelAndView("add-auction", "newAuction", auctionDTO);
     }
 
-    @PostMapping
-    public String addNewAuction(@Valid @ModelAttribute("newAuction") AuctionDTO auctionDTO,
-                                BindingResult result, Model model) {
-        auctionValidator.validate(auctionDTO,result);
+/*    @PostMapping(params = {"next"})
+    public String nextPageNewAuction(@Valid @ModelAttribute("newAuction") AuctionDTO auctionDTO,
+                                     BindingResult result, Model model) {
+        auctionValidator.validate(auctionDTO, result);
         if (result.hasErrors()) {
-            model.addAttribute("categories", categoryService.getCategoriesMap());
+            prepareModel(model);
             return "add-auction";
         }
+        model.addAttribute("newAuction", auctionDTO);
+        return "add-auction-photos";
+    }*/
 
+/*    @PostMapping(params = {"edit"})
+    public String editNewAuction(@Param(value = "newAuction") AuctionDTO auctionDTO,
+                                 Model model) {
+        prepareModel(model);
+        model.addAttribute("newAuction", auctionDTO);
+        return "add-auction";
+    }*/
+
+    @PostMapping(params = {"uploadPhoto"})
+    public String addPhoto(AuctionDTO auctionDTO,
+                           @RequestParam("file") MultipartFile file,
+                           Model model) throws IOException {
+        FileDTO fileDTO = new FileDTO();
+        fileDTO.setContentType(file.getContentType());
+        fileDTO.setFileName(file.getOriginalFilename());
+        fileDTO.setDataAsString(new String(file.getBytes()));
+        auctionDTO.setPhoto(fileDTO);
+        prepareModel(model);
+        model.addAttribute("newAuction", auctionDTO);
+        return "add-auction";
+    }
+
+    @PostMapping(params = {"save"})
+    public String saveNewAuction(@Valid @ModelAttribute("newAuction") AuctionDTO auctionDTO,
+                                 BindingResult result, Model model) throws IOException {
+        auctionValidator.validate(auctionDTO, result);
+        if (result.hasErrors()) {
+            prepareModel(model);
+            return "add-auction";
+        }
         return "redirect:/auction/" + auctionService.addAuction(auctionDTO);
+    }
+
+    private void prepareModel(Model model) {
+        model.addAttribute("isUserPromo", userService.isUserPromo());
+        model.addAttribute("categories", categoryService.findAllCategory());
+        model.addAttribute("mainCategories", categoryService.findMainCategories());
+        model.addAttribute("daysList", getDaysList(7));
     }
 
     private List<Integer> getDaysList(Integer days) {

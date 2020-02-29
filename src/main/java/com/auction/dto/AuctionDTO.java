@@ -2,13 +2,17 @@ package com.auction.dto;
 
 import com.auction.data.model.Category;
 import com.auction.data.model.UserAccount;
+import com.auction.utils.ValidList;
 import com.auction.utils.enums.AuctionStatus;
+import com.auction.utils.enums.AuctionType;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import javax.validation.valueextraction.UnwrapByDefault;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -44,4 +48,8 @@ public class AuctionDTO {
     private Integer days;
 
     private Integer bidsNumber;
+
+    private AuctionType auctionType;
+
+   private FileDTO photo;
 }

@@ -1,17 +1,15 @@
-package com.auction.mvc.controllers;
+package com.auction.mvc.controllers.my;
 
 import com.auction.core.services.AuctionService;
 import com.auction.core.services.UserService;
-import com.auction.data.model.Auction;
 import com.auction.dto.AuctionDTO;
-import com.auction.dto.LoggedUserDTO;
 import com.auction.utils.enums.AuctionStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,9 +18,12 @@ import java.util.List;
 public class MyAuctionPageController {
 
     private AuctionService auctionService;
+    private UserService userService;
 
-    public MyAuctionPageController(AuctionService auctionService) {
+    @Autowired
+    public MyAuctionPageController(AuctionService auctionService, UserService userService) {
         this.auctionService = auctionService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -35,6 +36,21 @@ public class MyAuctionPageController {
                 .findAllByUserLoginAndStatus(myUsername,
                         AuctionStatus.SOLD,AuctionStatus.CLOSE);
         model.addAttribute("finished", auctionsFinished);
+        model.addAttribute("auctionActions", new AuctionDTO());
+        model.addAttribute("isPremiumUser",userService.isUserPromo());
         return "my-auction";
     }
+
+    @PostMapping(params = {"end"})
+    public String AuctionsButton(Long auctionId) {
+        auctionService.finishedAuction(auctionId);
+        return "redirect:/my-auction";
+    }
+
+    @PostMapping(params = {"promote"})
+    public String promoteAuctionButton(Long auctionId) {
+        auctionService.promoteAuction(auctionId);
+        return "redirect:/my-auction";
+    }
+
 }
