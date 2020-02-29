@@ -64,7 +64,9 @@
                                     <optgroup label="${category.name}">
                                         <c:forEach items="${categories}" var="subCategory">
                                             <c:if test="${category.id == subCategory.parentId}">
-                                                <option value="${subCategory.id}">${subCategory.name}</option>
+                                                <option value="${subCategory.id}"
+                                                        <c:if test="${newAuction.categoryId==subCategory.id}">selected</c:if>
+                                                >${subCategory.name}</option>
                                             </c:if>
                                         </c:forEach>
                                     </optgroup>
@@ -83,16 +85,14 @@
                         </button>
                     </div>
                 </div>
-                <c:if test="${photo.dataAsString.lenght()>0}">
-                    <div class="field image">
-
-                        <figure class="image">
-                            <img class="image is-rounded"
-                                 style="image-orientation: from-image;width: 240px;object-fit: cover"
-                                 src="data:${photo.contentType}:base64, ${photo.dataAsString.getBytes()}" alt="Photo">
-                        </figure>
-                    </div>
-                </c:if>
+                <div class="field image">
+                    Place photo:
+                    <figure class="image">
+                        <img class="image"
+                             style="image-orientation: from-image;width: 240px;object-fit: cover"
+                             src="data:${photo.contentType};base64, ${photo.dataAsString.getBytes()}" alt="image">
+                    </figure>
+                </div>
             </div>
 
             <div class="column">

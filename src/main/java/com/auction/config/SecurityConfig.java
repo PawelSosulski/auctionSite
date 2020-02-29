@@ -76,7 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
                 .antMatchers("/webjars/", "/webjars/**")
-                .antMatchers("/media/**")
-                .antMatchers("/h2-console", "h2-console/**");
+                .antMatchers("/media/**");
     }
 }

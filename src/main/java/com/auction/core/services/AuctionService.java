@@ -139,6 +139,7 @@ public class AuctionService {
         LocalDateTime dateNow = LocalDateTime.now();
         Integer auctionDays = auctionDTO.getDays();
         Auction auction = mapper.map(auctionDTO, Auction.class);
+        auction.setPhoto(null);
         auction.setActualPrice(auctionDTO.getStartPrice());
         auction.setStatus(AuctionStatus.PENDING);
         if (auctionDTO.getAuctionType() == null) {
@@ -159,7 +160,6 @@ public class AuctionService {
         if (allUsersByUsername.size() == 1) {
             user = allUsersByUsername.get(0);
             auction.setSeller(user);
-            
             return String.valueOf(auctionRepository.save(auction).getId());
         }
         return "";

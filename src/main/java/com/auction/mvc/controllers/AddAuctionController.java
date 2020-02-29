@@ -66,8 +66,6 @@ public class AddAuctionController {
             return "add-auction";
         }
         model.addAttribute("newAuction", auctionDTO);
-        Boolean isUserPromo = userService.isUserPromo();
-        model.addAttribute("isUserPromo", isUserPromo);
         return "add-auction-photos";
     }*/
 
@@ -87,13 +85,20 @@ public class AddAuctionController {
         fileDTO.setContentType(file.getContentType());
         fileDTO.setFileName(file.getOriginalFilename());
         fileDTO.setDataAsString(new String(file.getBytes()));
+        auctionDTO.setPhoto(fileDTO);
         prepareModel(model);
         model.addAttribute("newAuction", auctionDTO);
         return "add-auction";
     }
 
     @PostMapping(params = {"save"})
-    public String saveNewAuction(@Param(value = "newAuction") AuctionDTO auctionDTO) throws IOException {
+    public String saveNewAuction(@Valid @ModelAttribute("newAuction") AuctionDTO auctionDTO,
+                                 BindingResult result, Model model) throws IOException {
+        auctionValidator.validate(auctionDTO, result);
+        if (result.hasErrors()) {
+            prepareModel(model);
+            return "add-auction";
+        }
         return "redirect:/auction/" + auctionService.addAuction(auctionDTO);
     }
 
